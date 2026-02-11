@@ -12,7 +12,7 @@ Zoom 4096:
 - Zoom: 2
 - Edge: 3
 - Scale: 4096
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -36,7 +36,7 @@ Land 2048:
 - Zoom: 1
 - Edge: 2
 - Scale: 2048
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 2048
 - Second Parent: None
 
@@ -76,7 +76,7 @@ Zoom 256:
 - Zoom: 2
 - Edge: 3
 - Scale: 256
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Land 512
 - Second Parent: None
 
@@ -164,7 +164,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -204,7 +204,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -212,7 +212,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -220,7 +220,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -252,7 +252,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -271,7 +271,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -295,7 +295,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -303,7 +303,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -343,7 +343,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -423,7 +423,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -463,7 +463,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -471,7 +471,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -479,7 +479,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -511,7 +511,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -530,7 +530,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -554,7 +554,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -562,7 +562,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -602,7 +602,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -714,7 +714,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -754,7 +754,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -762,7 +762,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -770,7 +770,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -802,7 +802,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -821,7 +821,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -845,7 +845,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -853,7 +853,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -893,7 +893,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -1005,7 +1005,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -1045,7 +1045,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -1053,7 +1053,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -1061,7 +1061,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -1093,7 +1093,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -1112,7 +1112,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -1136,7 +1136,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -1144,7 +1144,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -1184,7 +1184,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -1296,7 +1296,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -1336,7 +1336,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -1344,7 +1344,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -1352,7 +1352,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -1384,7 +1384,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -1403,7 +1403,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 8192
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -1427,7 +1427,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -1435,7 +1435,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -1475,7 +1475,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -1587,7 +1587,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -1627,7 +1627,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 64
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -1635,7 +1635,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 32
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -1643,7 +1643,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -1675,7 +1675,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -1683,7 +1683,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -1691,7 +1691,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -1707,7 +1707,7 @@ Zoom Large Biomes River B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 16575735620379675141
+- Layer Salt: -1871008453329876475
 - First Parent: Zoom Large Biomes River A
 - Second Parent: None
 
@@ -1726,7 +1726,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -1750,7 +1750,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -1758,7 +1758,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -1798,7 +1798,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -1910,7 +1910,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -1950,7 +1950,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -1958,7 +1958,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -1966,7 +1966,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -1998,7 +1998,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -2017,7 +2017,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 8192
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -2041,7 +2041,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -2049,7 +2049,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -2089,7 +2089,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -2201,7 +2201,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -2241,7 +2241,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 64
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -2249,7 +2249,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 32
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -2257,7 +2257,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -2289,7 +2289,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -2297,7 +2297,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -2305,7 +2305,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -2321,7 +2321,7 @@ Zoom Large Biomes River B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 16575735620379675141
+- Layer Salt: -1871008453329876475
 - First Parent: Zoom Large Biomes River A
 - Second Parent: None
 
@@ -2340,7 +2340,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -2364,7 +2364,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -2372,7 +2372,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -2412,7 +2412,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -2524,7 +2524,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -2564,7 +2564,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -2572,7 +2572,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -2580,7 +2580,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -2612,7 +2612,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -2631,7 +2631,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 8192
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -2655,7 +2655,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -2663,7 +2663,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -2703,7 +2703,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -2815,7 +2815,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -2855,7 +2855,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 64
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -2863,7 +2863,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 32
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -2871,7 +2871,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -2903,7 +2903,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -2911,7 +2911,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -2919,7 +2919,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -2935,7 +2935,7 @@ Zoom Large Biomes River B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 16575735620379675141
+- Layer Salt: -1871008453329876475
 - First Parent: Zoom Large Biomes River A
 - Second Parent: None
 
@@ -2954,7 +2954,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -2978,7 +2978,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -2986,7 +2986,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -3026,7 +3026,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -3138,7 +3138,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -3178,7 +3178,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -3186,7 +3186,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -3194,7 +3194,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -3226,7 +3226,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -3245,7 +3245,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 8192
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -3269,7 +3269,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -3277,7 +3277,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -3317,7 +3317,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -3429,7 +3429,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -3469,7 +3469,7 @@ Zoom 16 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 64
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 32 River
 - Second Parent: None
 
@@ -3477,7 +3477,7 @@ Zoom 8 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 32
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 16 River
 - Second Parent: None
 
@@ -3485,7 +3485,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -3517,7 +3517,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -3525,7 +3525,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -3533,7 +3533,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -3549,7 +3549,7 @@ Zoom Large Biomes River B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 16575735620379675141
+- Layer Salt: -1871008453329876475
 - First Parent: Zoom Large Biomes River A
 - Second Parent: None
 
@@ -3568,7 +3568,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -3592,7 +3592,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -3600,7 +3600,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -3616,7 +3616,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -3624,7 +3624,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -3640,7 +3640,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -3648,7 +3648,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -3688,7 +3688,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -3816,7 +3816,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -3872,7 +3872,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -3904,7 +3904,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -3923,7 +3923,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 8192
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -3947,7 +3947,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -3955,7 +3955,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -3971,7 +3971,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -3979,7 +3979,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -3995,7 +3995,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -4003,7 +4003,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 4096
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -4043,7 +4043,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -4171,7 +4171,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -4227,7 +4227,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -4259,7 +4259,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -4267,7 +4267,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -4275,7 +4275,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -4283,7 +4283,7 @@ Zoom Large Biomes River A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4 River
 - Second Parent: None
 
@@ -4291,7 +4291,7 @@ Zoom Large Biomes River B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes River A
 - Second Parent: None
 
@@ -4310,7 +4310,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -4334,7 +4334,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -4342,7 +4342,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -4358,7 +4358,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -4366,7 +4366,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -4382,7 +4382,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -4390,7 +4390,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -4430,7 +4430,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -4558,7 +4558,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -4614,7 +4614,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -4646,7 +4646,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -4665,7 +4665,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -4689,7 +4689,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -4697,7 +4697,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -4713,7 +4713,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -4721,7 +4721,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -4737,7 +4737,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -4745,7 +4745,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -4785,7 +4785,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -4913,7 +4913,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -4969,7 +4969,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -5001,7 +5001,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -5009,7 +5009,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -5017,7 +5017,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -5036,7 +5036,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -5060,7 +5060,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -5068,7 +5068,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -5084,7 +5084,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -5092,7 +5092,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -5108,7 +5108,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -5116,7 +5116,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -5156,7 +5156,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -5284,7 +5284,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -5340,7 +5340,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -5372,7 +5372,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -5391,7 +5391,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -5415,7 +5415,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -5423,7 +5423,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -5439,7 +5439,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -5447,7 +5447,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -5463,7 +5463,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -5471,7 +5471,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -5511,7 +5511,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -5639,7 +5639,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -5695,7 +5695,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -5727,7 +5727,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -5735,7 +5735,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -5743,7 +5743,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -5762,7 +5762,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -5786,7 +5786,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -5794,7 +5794,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -5810,7 +5810,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -5818,7 +5818,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -5834,7 +5834,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -5842,7 +5842,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -5882,7 +5882,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -6010,7 +6010,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -6066,7 +6066,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -6098,7 +6098,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -6117,7 +6117,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -6141,7 +6141,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -6149,7 +6149,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -6165,7 +6165,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -6173,7 +6173,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -6189,7 +6189,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -6197,7 +6197,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -6237,7 +6237,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -6365,7 +6365,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -6421,7 +6421,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -6453,7 +6453,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -6461,7 +6461,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -6469,7 +6469,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -6488,7 +6488,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -6512,7 +6512,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -6520,7 +6520,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -6536,7 +6536,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -6544,7 +6544,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -6560,7 +6560,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -6568,7 +6568,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -6608,7 +6608,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -6736,7 +6736,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -6792,7 +6792,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -6824,7 +6824,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -6843,7 +6843,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -6867,7 +6867,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -6875,7 +6875,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -6891,7 +6891,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -6899,7 +6899,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -6915,7 +6915,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -6923,7 +6923,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -6963,7 +6963,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -7091,7 +7091,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -7147,7 +7147,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -7179,7 +7179,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -7187,7 +7187,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -7195,7 +7195,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -7214,7 +7214,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -7238,7 +7238,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -7246,7 +7246,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -7262,7 +7262,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -7270,7 +7270,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -7286,7 +7286,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -7294,7 +7294,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -7334,7 +7334,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -7462,7 +7462,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -7518,7 +7518,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -7550,7 +7550,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -7569,7 +7569,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -7593,7 +7593,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -7601,7 +7601,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -7617,7 +7617,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -7625,7 +7625,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -7641,7 +7641,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -7649,7 +7649,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -7689,7 +7689,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -7817,7 +7817,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -7873,7 +7873,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -7905,7 +7905,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: River Mix 4
 - Second Parent: None
 
@@ -7913,7 +7913,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -7921,7 +7921,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -7940,7 +7940,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -7964,7 +7964,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -7972,7 +7972,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -7988,7 +7988,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -7996,7 +7996,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -8012,7 +8012,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -8020,7 +8020,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -8060,7 +8060,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -8188,7 +8188,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -8244,7 +8244,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -8276,7 +8276,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -8308,7 +8308,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -8324,7 +8324,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -8340,7 +8340,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -8359,7 +8359,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -8383,7 +8383,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -8391,7 +8391,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -8407,7 +8407,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -8415,7 +8415,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -8431,7 +8431,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -8439,7 +8439,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -8479,7 +8479,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -8607,7 +8607,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -8663,7 +8663,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -8695,7 +8695,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -8727,7 +8727,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -8743,7 +8743,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -8759,7 +8759,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -8767,7 +8767,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -8775,7 +8775,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -8794,7 +8794,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -8818,7 +8818,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -8826,7 +8826,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -8842,7 +8842,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -8850,7 +8850,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -8866,7 +8866,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -8874,7 +8874,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -8914,7 +8914,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -9050,7 +9050,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -9106,7 +9106,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -9138,7 +9138,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -9170,7 +9170,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -9186,7 +9186,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -9202,7 +9202,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -9221,7 +9221,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -9245,7 +9245,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -9253,7 +9253,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -9269,7 +9269,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -9277,7 +9277,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -9293,7 +9293,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -9301,7 +9301,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -9341,7 +9341,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -9477,7 +9477,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -9533,7 +9533,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -9565,7 +9565,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -9597,7 +9597,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -9613,7 +9613,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -9629,7 +9629,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 9708272982936210392
+- Layer Salt: -8738471090773341224
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -9637,7 +9637,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -9645,7 +9645,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -9664,7 +9664,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -9688,7 +9688,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -9696,7 +9696,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -9712,7 +9712,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -9720,7 +9720,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -9736,7 +9736,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -9744,7 +9744,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -9784,7 +9784,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -9920,7 +9920,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -9976,7 +9976,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -10008,7 +10008,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -10040,7 +10040,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -10056,7 +10056,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -10072,7 +10072,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 18446744073709551615
+- Layer Salt: -1
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -10091,7 +10091,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -10115,7 +10115,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -10123,7 +10123,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -10139,7 +10139,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -10147,7 +10147,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -10163,7 +10163,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -10171,7 +10171,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -10211,7 +10211,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -10347,7 +10347,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -10403,7 +10403,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -10435,7 +10435,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -10467,7 +10467,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -10483,7 +10483,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -10499,7 +10499,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 18446744073709551615
+- Layer Salt: -1
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -10507,7 +10507,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -10515,7 +10515,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -10534,7 +10534,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -10558,7 +10558,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -10566,7 +10566,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -10582,7 +10582,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -10590,7 +10590,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -10606,7 +10606,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -10614,7 +10614,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -10654,7 +10654,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -10790,7 +10790,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -10846,7 +10846,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -10878,7 +10878,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -10910,7 +10910,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -10926,7 +10926,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -10942,7 +10942,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 18446744073709551615
+- Layer Salt: -1
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -10961,7 +10961,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -10985,7 +10985,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -10993,7 +10993,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -11009,7 +11009,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -11017,7 +11017,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -11033,7 +11033,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -11041,7 +11041,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -11081,7 +11081,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -11217,7 +11217,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -11273,7 +11273,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -11305,7 +11305,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -11337,7 +11337,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -11353,7 +11353,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -11369,7 +11369,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 18446744073709551615
+- Layer Salt: -1
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -11377,7 +11377,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -11385,7 +11385,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -11404,7 +11404,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -11428,7 +11428,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -11436,7 +11436,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -11452,7 +11452,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -11460,7 +11460,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -11476,7 +11476,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -11484,7 +11484,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -11524,7 +11524,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -11660,7 +11660,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -11716,7 +11716,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -11748,7 +11748,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -11780,7 +11780,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -11796,7 +11796,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -11812,7 +11812,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 18446744073709551615
+- Layer Salt: -1
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -11831,7 +11831,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -11855,7 +11855,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -11863,7 +11863,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -11879,7 +11879,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -11887,7 +11887,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -11903,7 +11903,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -11911,7 +11911,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -11951,7 +11951,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -12087,7 +12087,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -12143,7 +12143,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -12175,7 +12175,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -12207,7 +12207,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -12223,7 +12223,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -12239,7 +12239,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 18446744073709551615
+- Layer Salt: -1
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -12247,7 +12247,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -12255,7 +12255,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
@@ -12274,7 +12274,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -12298,7 +12298,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -12306,7 +12306,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -12322,7 +12322,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -12330,7 +12330,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -12346,7 +12346,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -12354,7 +12354,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -12394,7 +12394,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -12530,7 +12530,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -12586,7 +12586,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -12618,7 +12618,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -12650,7 +12650,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -12666,7 +12666,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -12682,7 +12682,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 18446744073709551615
+- Layer Salt: -1
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -12701,7 +12701,7 @@ Zoom 2048:
 - Zoom: 2
 - Edge: 3
 - Scale: 2048
-- Layer Salt: 9672642253349399552
+- Layer Salt: -8774101820360152064
 - First Parent: Continent 4096
 - Second Parent: None
 
@@ -12725,7 +12725,7 @@ Land 1024 A:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Zoom 1024
 - Second Parent: None
 
@@ -12733,7 +12733,7 @@ Land 1024 B:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 16973349028156721880
+- Layer Salt: -1473395045552829736
 - First Parent: Land 1024 A
 - Second Parent: None
 
@@ -12749,7 +12749,7 @@ Island 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 C
 - Second Parent: None
 
@@ -12757,7 +12757,7 @@ Snow 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Island 1024
 - Second Parent: None
 
@@ -12773,7 +12773,7 @@ Cool 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Land 1024 D
 - Second Parent: None
 
@@ -12781,7 +12781,7 @@ Heat 1024:
 - Zoom: 1
 - Edge: 2
 - Scale: 1024
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: Cool 1024
 - Second Parent: None
 
@@ -12821,7 +12821,7 @@ Mushroom 256:
 - Zoom: 1
 - Edge: 2
 - Scale: 256
-- Layer Salt: 10967462438749070293
+- Layer Salt: -7479281634960481323
 - First Parent: Land 256
 - Second Parent: None
 
@@ -12957,7 +12957,7 @@ Zoom 4:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8
 - Second Parent: None
 
@@ -13013,7 +13013,7 @@ Zoom 4 River:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 14406777830260091477
+- Layer Salt: -4039966243449460139
 - First Parent: Zoom 8 River
 - Second Parent: None
 
@@ -13045,7 +13045,7 @@ Ocean Temperature 256:
 - Zoom: 1
 - Edge: 0
 - Scale: 256
-- Layer Salt: 13432066074785117656
+- Layer Salt: -5014677998924433960
 - First Parent: None
 - Second Parent: None
 
@@ -13077,7 +13077,7 @@ Zoom 16 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 16
-- Layer Salt: 17944835642018066080
+- Layer Salt: -501908431691485536
 - First Parent: Zoom 32 Ocean
 - Second Parent: None
 
@@ -13093,7 +13093,7 @@ Zoom 4 Ocean:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 10938390704639815544
+- Layer Salt: -7508353369069736072
 - First Parent: Zoom 8 Ocean
 - Second Parent: None
 
@@ -13109,7 +13109,7 @@ Voronoi 1:
 - Zoom: 4
 - Edge: 3
 - Scale: 1
-- Layer Salt: 18446744073709551615
+- Layer Salt: -1
 - First Parent: Ocean Mix 4
 - Second Parent: None
 
@@ -13117,7 +13117,7 @@ Zoom Large Biomes A:
 - Zoom: 2
 - Edge: 3
 - Scale: 8
-- Layer Salt: 16630052651815956128
+- Layer Salt: -1816691421893595488
 - First Parent: Zoom 4
 - Second Parent: None
 
@@ -13125,7 +13125,7 @@ Zoom Large Biomes B:
 - Zoom: 2
 - Edge: 3
 - Scale: 4
-- Layer Salt: 12314713599595444213
+- Layer Salt: -6132030474114107403
 - First Parent: Zoom Large Biomes A
 - Second Parent: None
 
