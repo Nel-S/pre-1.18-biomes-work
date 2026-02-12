@@ -1,6 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
-#include "cubiomes/generator.h"
+#include "cubiomes/finders.h"
 #include "cubiomes/util.h"
 
 // Coefficients used in mcStepSeed.
@@ -89,12 +89,40 @@ bool printLayerStatistics(const char *const filepath) {
 			fprintf(file, "%s%s\n---------------------------\n", mc2str(version), largeBiomes ? " Large Biomes" : "");
 			// Initialize Cubiomes' layer stack
 			setupLayerStack(&layerStack, version, largeBiomes);
-			for (size_t i = 0; i < sizeof(layerStack.layers)/sizeof(*layerStack.layers); ++i) {
+			for (size_t layerID = 0; layerID < sizeof(layerStack.layers)/sizeof(*layerStack.layers); ++layerID) {
 				// Cubiomes initially zero-fills all layers, so any uninitalized (and thus unused) layers will have all attributes still set to 0
-				Layer *layer = &layerStack.layers[i];
+				Layer *layer = &layerStack.layers[layerID];
 				if (!layer->mc) continue;
 				// Print all relevant attributes for the current layer
-				fprintf(file, "%s:\n- Zoom: %" PRId8 "\n- Edge: %" PRId8 "\n- Scale: %d\n- Layer Salt: %" PRId64 "\n- First Parent: %s\n- Second Parent: %s\n\n", layer2str(i), layer->zoom, layer->edge, layer->scale, layer->layerSalt, layer2str(layer->p - layerStack.layers), layer2str(layer->p2 - layerStack.layers));
+				fprintf(file, "%s:\n- Zoom: %" PRId8 "\n- Edge: %" PRId8 "\n- Scale: %d\n- Layer Salt: %" PRId64 "\n- First Parent: %s\n- Second Parent: %s\n", layer2str(layerID), layer->zoom, layer->edge, layer->scale, layer->layerSalt, layer2str(layer->p - layerStack.layers), layer2str(layer->p2 - layerStack.layers));
+
+				// For supported layers:
+				switch (layerID) {
+					case L_BIOME_256:
+					case L_BAMBOO_256:
+					case L_BIOME_EDGE_64:
+					case L_HILLS_64:
+					case L_SUNFLOWER_64:
+					case L_SHORE_16:
+					case L_RIVER_MIX_4:
+					case L_OCEAN_MIX_4:
+					case L_VORONOI_1:
+						fprintf(file, "- Dependent biomes:\n");
+						for (size_t biomeID = 0; biomeID < 256; ++biomeID) {
+							uint64_t possibleBiomes = 0, possibleModifiedBiomes = 0;
+							genPotential(&possibleBiomes, &possibleModifiedBiomes, layerID, version, 0, biomeID);
+							if (possibleBiomes || possibleModifiedBiomes) {
+								fprintf(file, "  - %s:\n", biome2str(version, biomeID));
+								for (size_t dependentBiomeIndex = 0; dependentBiomeIndex < 64; ++dependentBiomeIndex) {
+									if (possibleBiomes & (UINT64_C(1) << dependentBiomeIndex)) fprintf(file, "    - %s\n", biome2str(version, dependentBiomeIndex));
+								}
+								for (size_t dependentModifiedBiomeIndex = 0; dependentModifiedBiomeIndex < 64; ++dependentModifiedBiomeIndex) {
+									if (possibleModifiedBiomes & (UINT64_C(1) << dependentModifiedBiomeIndex)) fprintf(file, "    - %s\n", biome2str(version, dependentModifiedBiomeIndex+128));
+								}
+							}
+						}
+				}
+				fprintf(file, "\n");
 			}
 			fprintf(file, "---------------------------\n");
 		}
@@ -160,29 +188,28 @@ bool testReverseMcStepSeed(uint64_t output, uint64_t salt) {
 }
 
 int main() {
-	const uint64_t LAYER_SALT = 3107951898966440229;
-	// printLayerStatistics(".\\Layer Statistics.txt");
-	uint64_t state = 8675309;
-	for (size_t i = 0; i < 3; ++i) state = mcStepSeed(state, LAYER_SALT);
+	// const uint64_t LAYER_SALT = 3107951898966440229;
+	printLayerStatistics(".\\Layer Statistics.txt");
+	// uint64_t state = 8675309;
+	// for (size_t i = 0; i < 3; ++i) state = mcStepSeed(state, LAYER_SALT);
 
-	uint64_t states[(UINT64_C(1) << (3 + 1)) - 1];
-	states[0] = state;
-	for (size_t i = 0; i < (UINT64_C(1) << 3) - 1; ++i) {
-		if ((LAYER_SALT & 1) == (states[i] & 1)) {
-			states[2*i + 1] = getOddSolution(A, B, LAYER_SALT - states[i]);
-			printf("% 20" PRId64 " = % 20" PRId64 " <- (% 20" PRId64 ", % 20" PRId64 ")\n", states[i], mcStepSeed(states[2*i + 1], LAYER_SALT), states[2*i + 1], LAYER_SALT);
-			states[2*i + 2] = getEvenSolution(A, B, LAYER_SALT - states[i]);
-			printf("% 20" PRId64 " = % 20" PRId64 " <- (% 20" PRId64 ", % 20" PRId64 ")\n", states[i], mcStepSeed(states[2*i + 2], LAYER_SALT), states[2*i + 2], LAYER_SALT);
-		} else {
-			states[2*i + 1] = !(LAYER_SALT & 1);
-			states[2*i + 2] = !(LAYER_SALT & 1);
-		}
-	}
-	for (size_t i = (UINT64_C(1) << 3) - 1; i < sizeof(states)/sizeof(*states); ++i) {
-		// printf("% 20" PRId64 " -> % 20" PRId64 " -> % 20" PRId64 " -> % 20" PRId64 "\n", states[i], states[(i - 1)/2], states[((i - 1)/2 - 1)/2], states[(((i - 1)/2 - 1)/2 - 1)/2]);
-		printf("% 20" PRId64 " -> % 20" PRId64 ", % 20" PRId64 "\n", states[i], getStartSalt(states[i], LAYER_SALT), getStartSeed(states[i], LAYER_SALT));
-	}
-
+	// uint64_t states[(UINT64_C(1) << (3 + 1)) - 1];
+	// states[0] = state;
+	// for (size_t i = 0; i < (UINT64_C(1) << 3) - 1; ++i) {
+	// 	if ((LAYER_SALT & 1) == (states[i] & 1)) {
+	// 		states[2*i + 1] = getOddSolution(A, B, LAYER_SALT - states[i]);
+	// 		printf("% 20" PRId64 " = % 20" PRId64 " <- (% 20" PRId64 ", % 20" PRId64 ")\n", states[i], mcStepSeed(states[2*i + 1], LAYER_SALT), states[2*i + 1], LAYER_SALT);
+	// 		states[2*i + 2] = getEvenSolution(A, B, LAYER_SALT - states[i]);
+	// 		printf("% 20" PRId64 " = % 20" PRId64 " <- (% 20" PRId64 ", % 20" PRId64 ")\n", states[i], mcStepSeed(states[2*i + 2], LAYER_SALT), states[2*i + 2], LAYER_SALT);
+	// 	} else {
+	// 		states[2*i + 1] = !(LAYER_SALT & 1);
+	// 		states[2*i + 2] = !(LAYER_SALT & 1);
+	// 	}
+	// }
+	// for (size_t i = (UINT64_C(1) << 3) - 1; i < sizeof(states)/sizeof(*states); ++i) {
+	// 	// printf("% 20" PRId64 " -> % 20" PRId64 " -> % 20" PRId64 " -> % 20" PRId64 "\n", states[i], states[(i - 1)/2], states[((i - 1)/2 - 1)/2], states[(((i - 1)/2 - 1)/2 - 1)/2]);
+	// 	printf("% 20" PRId64 " -> % 20" PRId64 ", % 20" PRId64 "\n", states[i], getStartSalt(states[i], LAYER_SALT), getStartSeed(states[i], LAYER_SALT));
+	// }
 	
 
 	// testMcStepSeed(8675309, LAYER_SALT);
