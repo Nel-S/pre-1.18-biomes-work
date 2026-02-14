@@ -13,6 +13,9 @@ The worldseed is then used alongside the layer salt to generate the layer's star
 The layer's start seed is `Next(start salt, 0)`. This will always be even, but only a multiple of `2^(n + 1)` if the start salt is a multiple of `2^n`.
 - Layers with identical layer salts should have identical start salts, start seeds, and subsequent PRNG streams.
 
+## Versions where Biomes Changed:
+Beta 1.8, 1.0, 1.1-1.6.4, 1.7-1.12.2, 1.7-1.7.9 Large Biomes, 1.13-1.13.2, 1.14-1.14.4, 1.15-1.17.1
+
 ## Duplicate 1.16.1 Layer Salts (Unsigned):
 - 229918546094678885   (2001): Zoom 1024, Zoom 128 Ocean
 - 558114146894579477   (2005): Zoom 8 Ocean

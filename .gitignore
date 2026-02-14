@@ -1090,3 +1090,5 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/c,c++,cmake,cuda,eclipse,emacs,gradle,groovy,intellij,java,jupyternotebooks,linux,macos,python,rust,vim,visualstudio,visualstudiocode,windows
 
 ~noU*
+*.ppm
+*.png
