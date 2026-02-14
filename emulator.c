@@ -1,10 +1,11 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "cubiomes/biomes.h"
 #include "cubiomes/generator.h"
-#include "cubiomes/layers.h"
 #include "cubiomes/util.h"
+#include "layerutil.h"
+
+const uint64_t SUPPORTED_LAYERS = (UINT64_C(1) << L_CONTINENT_4096) | (UINT64_C(1) << L_ZOOM_4096) | (UINT64_C(1) << L_ZOOM_2048);
 
 STRUCT(Configuration) {
 	int version;
@@ -163,6 +164,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	if (!configuration) return 1;
 	if (!biomes) return 2;
 	if (configuration->startingLayerID >= L_NUM) return 3;
+	if (biomesCapacity < (size_t)configuration->width * (size_t)configuration->height) return 4;
 
 	int *const tempBuffer = (int *const)calloc(configuration->width * configuration->height, sizeof(*tempBuffer));
 
@@ -183,7 +185,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	free(tempBuffer);
-	return 4;
+	return 5;
 }
 
 int getTrueBiomes(const Configuration *const configuration, int *const biomes, size_t biomesCapacity) {
@@ -203,49 +205,80 @@ int getTrueBiomes(const Configuration *const configuration, int *const biomes, s
 }
 
 int main() {
-	const Configuration configuration = {
-		MC_1_0,
+	Configuration configuration = {
+		0,
 		8675309,
 		false,
 		-100, -100, 100, 100, 201, 201,
-		L_CONTINENT_4096
+		0
 	};
-	Generator g;
-	setupGenerator(&g, configuration.version, configuration.largeBiomes);
-	applySeed(&g, DIM_OVERWORLD, configuration.worldseed);
-	int scale = g.ls.layers[configuration.startingLayerID].scale;
-	if (scale > 256) scale = 256;
-	size_t cacheSize = getMinCacheSize(&g, scale, configuration.width, 1, configuration.height);
-	int *const emulatedBiomes = (int *const)calloc(cacheSize, sizeof(*emulatedBiomes));
-	int *const trueBiomes = (int *const)calloc(cacheSize, sizeof(*trueBiomes));
+	// For each version:
+	for (int version = MC_B1_8; version <= MC_1_17; ++version) {
+		configuration.version = version;
+		// For both normal and large biomes (for supported versions):
+		for (int largeBiomes = 0; largeBiomes <= (version >= MC_1_3); ++largeBiomes) {
+			configuration.largeBiomes = largeBiomes;
+			// Obtain list of valid layers for that version+mode
+			Generator g;
+			setupGenerator(&g, configuration.version, configuration.largeBiomes);
+			applySeed(&g, DIM_OVERWORLD, configuration.worldseed);
+			// For each layer that was initialized:
+			for (size_t startingLayerID = 0; startingLayerID < L_NUM; ++startingLayerID) {
+				if (!(SUPPORTED_LAYERS & (UINT64_C(1) << startingLayerID))) continue;
+				if (!g.ls.layers[startingLayerID].mc) continue;
+				configuration.startingLayerID = startingLayerID;
+				// Initialize arrays
+				int scale = g.ls.layers[configuration.startingLayerID].scale;
+				if (scale > 256) scale = 256;
+				size_t cacheSize = getMinCacheSize(&g, scale, configuration.width, 1, configuration.height);
+				int *const emulatedBiomes = (int *const)calloc(cacheSize, sizeof(*emulatedBiomes));
+				int *const trueBiomes = (int *const)calloc(cacheSize, sizeof(*trueBiomes));
 
-	int errorCode;
-	errorCode = emulateBiomes(&configuration, emulatedBiomes, cacheSize);
-	if (errorCode) {
-		printf("Error: emulateBiomes() returned nonzero error code %d.\n", errorCode);
-		return 1;
+				// Fill emulated array
+				int errorCode;
+				errorCode = emulateBiomes(&configuration, emulatedBiomes, cacheSize);
+				if (errorCode) {
+					printf("Error: emulateBiomes() under %s%s, layer %s returned nonzero error code %d.\n", mc2str(version), largeBiomes ? " Large Biomes" : "", layer2str(startingLayerID), errorCode);
+					free(emulatedBiomes);
+					free(trueBiomes);
+					continue;
+				}
+				// Fill true array
+				errorCode = getTrueBiomes(&configuration, trueBiomes, cacheSize);
+				if (errorCode) {
+					printf("Error: getTrueBiomes() under %s%s, layer %s returned nonzero error code %d.\n", mc2str(version), largeBiomes ? " Large Biomes" : "", layer2str(startingLayerID), errorCode);
+					free(emulatedBiomes);
+					free(trueBiomes);
+					continue;
+				}
+				// Ensure the two match.
+				if (!memcmp(trueBiomes, emulatedBiomes, configuration.width*configuration.height*sizeof(*emulatedBiomes))) {
+					free(emulatedBiomes);
+					free(trueBiomes);
+					continue;
+				}
+				// If they don't match, print warning
+				printf("%s%s, layer %s: Emulated biomes DO NOT match true biomes.\n", mc2str(version), largeBiomes ? " Large Biomes" : "", layer2str(startingLayerID));
+				char filepath[500];
+				// Save emulated biomes as image
+				snprintf(filepath, sizeof(filepath)/sizeof(*filepath), "./Emulation Maps/%s%s %s Emulated Biomes.ppm", mc2str(version), largeBiomes ? " Large Biomes" : "", layer2str(startingLayerID));
+				errorCode = saveAsImage(&configuration, emulatedBiomes, filepath);
+				if (errorCode) printf("Error: saveAsImage(emulatedBiomes) returned non-zero error code %d.\n", errorCode);
+				// Save true biomes as image
+				snprintf(filepath, sizeof(filepath)/sizeof(*filepath), "./Emulation Maps/%s%s %s True Biomes.ppm", mc2str(version), largeBiomes ? " Large Biomes" : "", layer2str(startingLayerID));
+				errorCode = saveAsImage(&configuration, trueBiomes, filepath);
+				if (errorCode) printf("Error: saveAsImage(trueBiomes) returned non-zero error code %d.\n", errorCode);
+				// Save difference as image
+				for (size_t i = 0; i < cacheSize; ++i) emulatedBiomes[i] = (emulatedBiomes[i] == trueBiomes[i]);
+				snprintf(filepath, sizeof(filepath)/sizeof(*filepath), "./Emulation Maps/%s%s %s Difference.ppm", mc2str(version), largeBiomes ? " Large Biomes" : "", layer2str(startingLayerID));
+				errorCode = saveAsImage(&configuration, emulatedBiomes, filepath);
+				if (errorCode) printf("Error: saveAsImage(Difference) returned non-zero error code %d.\n", errorCode);
+
+				free(emulatedBiomes);
+				free(trueBiomes);
+				continue;
+			}
+		}
 	}
-	errorCode = getTrueBiomes(&configuration, trueBiomes, cacheSize);
-	if (errorCode) {
-		printf("Error: getTrueBiomes() returned nonzero error code %d.\n", errorCode);
-		return 1;
-	}
-	if (!memcmp(trueBiomes, emulatedBiomes, configuration.width*configuration.height*sizeof(*emulatedBiomes))) {
-		printf("Emulated biomes match true biomes.\n");
-	} else {
-		printf("Emulated biomes DO NOT match true biomes.\n");
-	}
-
-	errorCode = saveAsImage(&configuration, emulatedBiomes, "./Emulated Biomes.ppm");
-	if (errorCode) printf("Error: saveAsImage(emulatedBiomes) returned non-zero error code %d.\n", errorCode);
-	errorCode = saveAsImage(&configuration, trueBiomes, "./True Biomes.ppm");
-	if (errorCode) printf("Error: saveAsImage(trueBiomes) returned non-zero error code %d.\n", errorCode);
-
-	for (size_t i = 0; i < cacheSize; ++i) emulatedBiomes[i] -= trueBiomes[i];
-	errorCode = saveAsImage(&configuration, emulatedBiomes, "./Difference.ppm");
-	if (errorCode) printf("Error: saveAsImage(Difference) returned non-zero error code %d.\n", errorCode);
-
-	free(emulatedBiomes);
-	free(trueBiomes);
 	return 0;
 }
