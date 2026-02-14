@@ -71,4 +71,15 @@ static const char *layer2str(ptrdiff_t layer) {
 	}
 }
 
+static inline int quadraticNextInt(uint64_t *random, uint64_t salt, int bound) {
+	int value = mcFirstInt(*random, bound);
+	*random = mcStepSeed(*random, salt);
+	return value;
+}
+
+static inline bool shallowOceanCheck(int biome, int version) {
+	if (version <= MC_1_6) return biome == ocean;
+	return isShallowOcean(biome);
+}
+
 #endif
