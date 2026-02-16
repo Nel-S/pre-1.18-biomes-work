@@ -1,10 +1,27 @@
 #ifndef LAYERUTIL_H
 #define LAYERUTIL_H
 
+#include <stdbool.h>
 #include "cubiomes/layers.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+STRUCT(Configuration) {
+	int version;
+	uint64_t worldseed;
+	bool largeBiomes;
+	int minimumX, minimumZ, maximumX, maximumZ, width, height;
+	size_t startingLayerID;
+};
+
+static inline int64_t flatten(int x, int z, const Configuration *const configuration) {
+	return (z - configuration->minimumZ)*(int64_t)configuration->width + (x - configuration->minimumX);
+}
+
 // Maps a layer enum to its corresponding name string.
-static const char *layer2str(ptrdiff_t layer) {
+static inline const char *layer2str(ptrdiff_t layer) {
 	switch (layer) {
 		case L_CONTINENT_4096: return "Continent 4096";
 		case L_ZOOM_4096: return "Zoom 4096";
@@ -81,5 +98,16 @@ static inline bool shallowOceanCheck(int biome, int version) {
 	if (version <= MC_1_6) return biome == ocean;
 	return isShallowOcean(biome);
 }
+
+
+void islandLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
+void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t salt, const Configuration *const configuration);
+void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
+void removeTooMuchOceanLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
+void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
