@@ -105,6 +105,9 @@ void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t sa
 void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
 void removeTooMuchOceanLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
 void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
+void addEdgeLayerCoolWarm(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
+void addEdgeLayerHeatIce(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
+void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Configuration *const configuration);
 
 #ifdef __cplusplus
 }

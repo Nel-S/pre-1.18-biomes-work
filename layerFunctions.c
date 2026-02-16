@@ -1,8 +1,10 @@
 #include <string.h>
 #include "layerFunctions.h"
-#include "cubiomes/biomes.h"
-#include "cubiomes/layers.h"
-#include "cubiomes/rng.h"
+
+// From Cubiomes
+static inline int isAny4(int biomeID, int a, int b, int c, int d) {
+    return biomeID == a || biomeID == b || biomeID == c || biomeID == d;
+}
 
 void islandLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
@@ -20,7 +22,7 @@ void islandLayer(int *const biomes, uint64_t salt, const Configuration *const co
 			// Otherwise we roll a 1/10 chance
 			else {
 				uint64_t random = getChunkSeed(startSeed, x, z);
-				*entry = !quadraticNextInt(&random, 0, 10); // Since only one call is ever done, the start salt does not matter
+				*entry = !quadraticNextInt(&random, 0, 10); // Last call, so start salt does not matter
 			}
 		}
 	}
@@ -108,7 +110,7 @@ void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t sa
 				}
 			}
 			// Otherwise, choose randomly
-			switch (quadraticNextInt(&random, startSalt, 4)) {
+			switch (quadraticNextInt(&random, 0, 4)) { // Last call, so start salt does not matter
 				case 0:
 					*entry = northwestValue;
 					continue;
@@ -151,7 +153,7 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 				uint64_t random = getChunkSeed(startSeed, x, z);
 				// For Beta 1.8, roll 2/3rd chance to preserve ocean, otherwise change to land
 				if (configuration->version == MC_B1_8) {
-					*entry = (quadraticNextInt(&random, startSalt, 3) == 2);
+					*entry = (quadraticNextInt(&random, 0, 3) == 2); // Last call, so start salt does not matter
 					continue;
 				}
 				// Otherwise randomly choose a land corner to potentially replace it
@@ -161,7 +163,7 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 				if (!shallowOceanCheck(southwestValue, configuration->version) && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = southwestValue;
 				if (!shallowOceanCheck(southeastValue, configuration->version) && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = southeastValue;
 				// Roll a 1/3 chance to replace it
-				if (!quadraticNextInt(&random, startSalt, 3)) {
+				if (!quadraticNextInt(&random, 0, 3)) { // Last call, so start salt does not matter
 					*entry = potentialReplacement;
 					continue;
 				}
@@ -183,11 +185,11 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 				uint64_t random = getChunkSeed(startSeed, x, z);
 				// For Beta 1.8, roll 4/5th chance to preserve land, otherwise change to ocean
 				if (configuration->version == MC_B1_8) {
-					*entry = (quadraticNextInt(&random, startSalt, 5) != 4);
+					*entry = (quadraticNextInt(&random, 0, 5) != 4); // Last call, so start salt does not matter
 					continue;
 				}
 				// Otherwise (1.0+), roll 4/5 chance to ignore rest
-				if (quadraticNextInt(&random, startSalt, 5)) {
+				if (quadraticNextInt(&random, 0, 5)) { // Last call, so start salt does not matter
 					*entry = centerValue;
 					continue;
 				}
@@ -251,7 +253,7 @@ void removeTooMuchOceanLayer(int *const biomes, int *const tempBuffer, uint64_t 
             }
             // Otherwise replace with non-ocean with 1/2 chance (otherwise leave alone)
             uint64_t random = getChunkSeed(startSeed, x, z);
-            if (!quadraticNextInt(&random, 0, 2)) *entry = Warm; // Since only one call is ever done, the start salt does not matter
+            if (!quadraticNextInt(&random, 0, 2)) *entry = Warm; // Last call, so start salt does not matter
             else *entry = centerValue;
 		}
 	}
@@ -276,11 +278,11 @@ void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const c
             uint64_t random = getChunkSeed(startSeed, x, z);
             if (configuration->version <= MC_1_6) {
                 // In 1.0-1.6, 1/5 chance is rolled
-                if (!quadraticNextInt(&random, 0, 5)) *entry = snowy_tundra; // Since only one call is ever done, the start salt does not matter
+                if (!quadraticNextInt(&random, 0, 5)) *entry = snowy_tundra; // Last call, so start salt does not matter
                 else *entry = plains;
             } else {
                 // In 1.7+, 1/6 chance to set to Freezing, 1/6 chance to set to Cold; rest remain Warm
-                switch (quadraticNextInt(&random, 0, 6)) { // Since only one call is ever done, the start salt does not matter
+                switch (quadraticNextInt(&random, 0, 6)) { // Last call, so start salt does not matter
                     case 0:
                         *entry = Freezing;
                         continue;
@@ -294,4 +296,78 @@ void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const c
             }
         }
     }			
+}
+
+void addEdgeLayerCoolWarm(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
+
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 1; z <= configuration->maximumZ - 1; ++z) {
+		for (int64_t x = configuration->minimumX + 1; x <= configuration->maximumX - 1; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int northValue = biomes[flatten(x, z - 1, configuration)];
+			int eastValue = biomes[flatten(x + 1, z, configuration)];
+			int southValue = biomes[flatten(x, z + 1, configuration)];
+			int westValue = biomes[flatten(x - 1, z, configuration)];
+			int centerValue = biomes[flatten(x, z, configuration)];
+			
+			// If the coordinate is Warm, and orthagonally bordered by any Cold or Freezing, switch to Lush. Otherwise leave alone
+			if (centerValue == Warm && (isAny4(Cold, eastValue, westValue, southValue, northValue) || isAny4(Freezing, northValue, eastValue, westValue, southValue))) {
+                *entry = Lush;
+                continue;
+            } else *entry = centerValue;
+		}
+	}
+	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
+
+void addEdgeLayerHeatIce(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
+
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 1; z <= configuration->maximumZ - 1; ++z) {
+		for (int64_t x = configuration->minimumX + 1; x <= configuration->maximumX - 1; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int northValue = biomes[flatten(x, z - 1, configuration)];
+			int eastValue = biomes[flatten(x + 1, z, configuration)];
+			int southValue = biomes[flatten(x, z + 1, configuration)];
+			int westValue = biomes[flatten(x - 1, z, configuration)];
+			int centerValue = biomes[flatten(x, z, configuration)];
+			
+			// If the coordinate is Freezing, and orthagonally bordered by any Warm or Lush, switch to Cold. Otherwise leave alone
+			if (centerValue == Freezing && (isAny4(Warm, northValue, eastValue, westValue, southValue) || isAny4(Lush, northValue, eastValue, westValue, southValue))) {
+                *entry = Cold;
+                continue;
+            } else *entry = centerValue;
+		}
+	}
+	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
+
+void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Configuration *const configuration) {
+    // Initialization
+    // --------------
+    uint64_t layerSalt = getLayerSalt(salt);
+    uint64_t startSalt = getStartSalt(configuration->worldseed, layerSalt);
+	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
+		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &biomes[flatten(x, z, configuration)];
+            // Oceans are left alone
+            if (isShallowOcean(*entry)) continue;
+
+            // 12/13 chance of doing nothing
+            uint64_t random = getChunkSeed(startSeed, x, z);
+            if (quadraticNextInt(&random, startSalt, 13)) continue;
+            
+            *entry |= (256*(1 + quadraticNextInt(&random, startSalt, 15))) & 0xf00; // Last call, so start salt does not matter
+			
+		}
+	}
 }

@@ -15,7 +15,11 @@ const uint64_t SUPPORTED_LAYERS = (UINT64_C(1) << L_CONTINENT_4096)
 	| (UINT64_C(1) << L_LAND_1024_B)
 	| (UINT64_C(1) << L_LAND_1024_C)
 	| (UINT64_C(1) << L_ISLAND_1024)
-	| (UINT64_C(1) << L_SNOW_1024);
+	| (UINT64_C(1) << L_SNOW_1024)
+	| (UINT64_C(1) << L_LAND_1024_D)
+	| (UINT64_C(1) << L_COOL_1024)
+	| (UINT64_C(1) << L_HEAT_1024)
+	| (UINT64_C(1) << L_SPECIAL_1024);
 
 int saveAsImage(const Configuration *const configuration, const int *const biomes, const char *filepath) {
 	if (!configuration) return 1;
@@ -122,13 +126,59 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_0) {
 		// 1:1024
-		// Required margin = 1 for 1.0-1.6, 4 for 1.17+
+		// Required margin = 1 for 1.0-1.6, 4 for 1.7+
 		// 1.6-: 0 = ocean, 1 = plains, 12 = snowy tundra
 		// 		Allows 1 -> 12
 		// 1.7+: 0 = ocean, 1 = Warm, 3 = Cold, 4 = Freezing
 		// 		Allows 1 -> 3, 1 -> 4
 		addSnowLayer(biomes, 2, configuration);
 		if (configuration->startingLayerID == L_SNOW_1024) {
+			free(tempBuffer);
+			return 0;
+		}
+	}
+
+	if (configuration->version >= MC_1_7) {
+		// 1:1024
+		// Required margin = 5
+		// 0 = ocean, 1 = Warm, 3 = Cold, 4 = Freezing
+		// 		Allows 0 -> 1, 0 -> 3, 0 -> 4, 1 -> 0, 3 -> 0
+		addIslandLayer(biomes, tempBuffer, 3, configuration);
+		if (configuration->startingLayerID == L_LAND_1024_D) {
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:1024
+		// Required margin = 6
+		// 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing
+		// 		Allows 1 -> 2
+		addEdgeLayerCoolWarm(biomes, tempBuffer, configuration);
+		if (configuration->startingLayerID == L_COOL_1024) {
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:1024
+		// Required margin = 7
+		// 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing
+		// 		Allows 4 -> 3
+		addEdgeLayerHeatIce(biomes, tempBuffer, configuration);
+		if (configuration->startingLayerID == L_HEAT_1024) {
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:1024
+		// Required margin = 7
+		// 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing,
+		// [257, 513, 769, 1025, 1281, 1537, 1793, 2049, 2305, 2561, 2817, 3073, 3329, 3585, 3841] = Warm Special,
+		// [258, 514, 770, 1026, 1282, 1538, 1794, 2050, 2306, 2562, 2818, 3074, 3330, 3586, 3842] = Lush Special,
+		// [259, 515, 771, 1027, 1283, 1539, 1795, 2051, 2307, 2563, 2819, 3075, 3331, 3587, 3843] = Cold Special,
+		// [260, 516, 772, 1028, 1284, 1540, 1796, 2052, 2308, 2564, 2820, 3076, 3332, 3588, 3844] = Freezing Special,
+		// 		Allows 1 -> [257, 513, 769, 1025, 1281, 1537, 1793, 2049, 2305, 2561, 2817, 3073, 3329, 3585, 3841], 2 -> [258, 514, 770, 1026, 1282, 1538, 1794, 2050, 2306, 2562, 2818, 3074, 3330, 3586, 3842], 3 -> [259, 515, 771, 1027, 1283, 1539, 1795, 2051, 2307, 2563, 2819, 3075, 3331, 3587, 3843], 4 -> [260, 516, 772, 1028, 1284, 1540, 1796, 2052, 2308, 2564, 2820, 3076, 3332, 3588, 3844]
+		addEdgeLayerIntroduceSpecial(biomes, 3, configuration);
+		if (configuration->startingLayerID == L_SPECIAL_1024) {
 			free(tempBuffer);
 			return 0;
 		}
@@ -158,6 +208,7 @@ int main() {
 	Configuration configuration = {
 		0,
 		8675309,
+		// -246117,
 		false,
 		-100, -100, 100, 100, 201, 201,
 		0
@@ -205,7 +256,7 @@ int main() {
 				bool identical = true;
 				const int MARGIN = configuration.version == MC_B1_8 ? 1 :
 								   configuration.version <= MC_1_6  ? 1 :
-																	  4;
+																	  7;
 				// NOTE: Temporary workaround to handle fact that AddIslandLayer requires coordinates outside desired region
 				for (int z = configuration.minimumZ + MARGIN; z <= configuration.maximumZ - MARGIN; ++z) {
 					for (int x = configuration.minimumX + MARGIN; x <= configuration.maximumX - MARGIN; ++x) {
