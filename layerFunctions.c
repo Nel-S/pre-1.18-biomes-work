@@ -3,7 +3,7 @@
 
 // From Cubiomes
 static inline int isAny4(int biomeID, int a, int b, int c, int d) {
-    return biomeID == a || biomeID == b || biomeID == c || biomeID == d;
+	return biomeID == a || biomeID == b || biomeID == c || biomeID == d;
 }
 
 void islandLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
@@ -248,20 +248,20 @@ void removeTooMuchOceanLayer(int *const biomes, int *const tempBuffer, uint64_t 
 			
 			// If the coordinate is not ocean surrounded on all orthagonal sides by ocean, leave alone
 			if (!shallowOceanCheck(centerValue, configuration->version) || !shallowOceanCheck(northValue, configuration->version) || !shallowOceanCheck(eastValue, configuration->version) || !shallowOceanCheck(westValue, configuration->version) || !shallowOceanCheck(southValue, configuration->version)) {
-                *entry = centerValue;
-                continue;
-            }
-            // Otherwise replace with non-ocean with 1/2 chance (otherwise leave alone)
-            uint64_t random = getChunkSeed(startSeed, x, z);
-            if (!quadraticNextInt(&random, 0, 2)) *entry = Warm; // Last call, so start salt does not matter
-            else *entry = centerValue;
+				*entry = centerValue;
+				continue;
+			}
+			// Otherwise replace with non-ocean with 1/2 chance (otherwise leave alone)
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			if (!quadraticNextInt(&random, 0, 2)) *entry = Warm; // Last call, so start salt does not matter
+			else *entry = centerValue;
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
 void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
-    // Initialization
+	// Initialization
 	// --------------
 	uint64_t layerSalt = getLayerSalt(salt);
 	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
@@ -273,29 +273,29 @@ void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const c
 			// --------
 			int *const entry = &biomes[flatten(x, z, configuration)];
 
-            // Oceans are preserved
-            if (shallowOceanCheck(*entry, configuration->version)) continue;
-            uint64_t random = getChunkSeed(startSeed, x, z);
-            if (configuration->version <= MC_1_6) {
-                // In 1.0-1.6, 1/5 chance is rolled
-                if (!quadraticNextInt(&random, 0, 5)) *entry = snowy_tundra; // Last call, so start salt does not matter
-                else *entry = plains;
-            } else {
-                // In 1.7+, 1/6 chance to set to Freezing, 1/6 chance to set to Cold; rest remain Warm
-                switch (quadraticNextInt(&random, 0, 6)) { // Last call, so start salt does not matter
-                    case 0:
-                        *entry = Freezing;
-                        continue;
-                    case 1:
-                        *entry = Cold;
-                        continue;
-                    default:
-                        *entry = Warm;
-                        continue;
-                }
-            }
-        }
-    }			
+			// Oceans are preserved
+			if (shallowOceanCheck(*entry, configuration->version)) continue;
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			if (configuration->version <= MC_1_6) {
+				// In 1.0-1.6, 1/5 chance is rolled
+				if (!quadraticNextInt(&random, 0, 5)) *entry = snowy_tundra; // Last call, so start salt does not matter
+				else *entry = plains;
+			} else {
+				// In 1.7+, 1/6 chance to set to Freezing, 1/6 chance to set to Cold; rest remain Warm
+				switch (quadraticNextInt(&random, 0, 6)) { // Last call, so start salt does not matter
+					case 0:
+						*entry = Freezing;
+						continue;
+					case 1:
+						*entry = Cold;
+						continue;
+					default:
+						*entry = Warm;
+						continue;
+				}
+			}
+		}
+	}			
 }
 
 void addEdgeLayerCoolWarm(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
@@ -314,9 +314,9 @@ void addEdgeLayerCoolWarm(int *const biomes, int *const tempBuffer, const Config
 			
 			// If the coordinate is Warm, and orthagonally bordered by any Cold or Freezing, switch to Lush. Otherwise leave alone
 			if (centerValue == Warm && (isAny4(Cold, eastValue, westValue, southValue, northValue) || isAny4(Freezing, northValue, eastValue, westValue, southValue))) {
-                *entry = Lush;
-                continue;
-            } else *entry = centerValue;
+				*entry = Lush;
+				continue;
+			} else *entry = centerValue;
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
@@ -338,19 +338,19 @@ void addEdgeLayerHeatIce(int *const biomes, int *const tempBuffer, const Configu
 			
 			// If the coordinate is Freezing, and orthagonally bordered by any Warm or Lush, switch to Cold. Otherwise leave alone
 			if (centerValue == Freezing && (isAny4(Warm, northValue, eastValue, westValue, southValue) || isAny4(Lush, northValue, eastValue, westValue, southValue))) {
-                *entry = Cold;
-                continue;
-            } else *entry = centerValue;
+				*entry = Cold;
+				continue;
+			} else *entry = centerValue;
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
 void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Configuration *const configuration) {
-    // Initialization
-    // --------------
-    uint64_t layerSalt = getLayerSalt(salt);
-    uint64_t startSalt = getStartSalt(configuration->worldseed, layerSalt);
+	// Initialization
+	// --------------
+	uint64_t layerSalt = getLayerSalt(salt);
+	uint64_t startSalt = getStartSalt(configuration->worldseed, layerSalt);
 	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
 
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -359,15 +359,119 @@ void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Config
 			// Sampling
 			// --------
 			int *const entry = &biomes[flatten(x, z, configuration)];
-            // Oceans are left alone
-            if (isShallowOcean(*entry)) continue;
+			// Oceans are left alone
+			if (shallowOceanCheck(*entry, configuration->version)) continue;
 
-            // 12/13 chance of doing nothing
-            uint64_t random = getChunkSeed(startSeed, x, z);
-            if (quadraticNextInt(&random, startSalt, 13)) continue;
-            
-            *entry |= (256*(1 + quadraticNextInt(&random, startSalt, 15))) & 0xf00; // Last call, so start salt does not matter
+			// 12/13 chance of doing nothing
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			if (quadraticNextInt(&random, startSalt, 13)) continue;
 			
+			*entry |= (256*(1 + quadraticNextInt(&random, startSalt, 15))) & 0xf00; // Last call, so start salt does not matter
+			
+		}
+	}
+}
+
+void addMushroomIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
+	// Initialization
+	// --------------
+	uint64_t layerSalt = getLayerSalt(salt);
+	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+	
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 1; z <= configuration->maximumZ - 1; ++z) {
+		for (int64_t x = configuration->minimumX + 1; x <= configuration->maximumX - 1; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int southwestValue = biomes[flatten(x - 1, z + 1, configuration)];
+			int southeastValue = biomes[flatten(x + 1, z + 1, configuration)];
+			int northeastValue = biomes[flatten(x + 1, z - 1, configuration)];
+			int northwestValue = biomes[flatten(x - 1, z - 1, configuration)];
+			int centerValue = biomes[flatten(x, z, configuration)];
+			
+			// If the center value, or any of the immediate diagonals, are not shallow ocean, preserve center value
+			if (!shallowOceanCheck(centerValue, configuration->version) || !shallowOceanCheck(southwestValue, configuration->version) || !shallowOceanCheck(southeastValue, configuration->version) || !shallowOceanCheck(northwestValue, configuration->version) || !shallowOceanCheck(northeastValue, configuration->version)) {
+				*entry = centerValue;
+				continue;
+			}
+			// Roll 1/100 chance of replacement
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			if (!quadraticNextInt(&random, 0, 100)) { // Last call, so start salt does not matter
+				*entry = mushroom_fields;
+				continue;
+			}
+			// Otherwise keep the center value unchanged
+			*entry = centerValue;
+			continue;
+		}
+	}
+	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
+
+void addDeepOceanLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
+	
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 1; z <= configuration->maximumZ - 1; ++z) {
+		for (int64_t x = configuration->minimumX + 1; x <= configuration->maximumX - 1; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int northValue = biomes[flatten(x, z - 1, configuration)];
+			int eastValue = biomes[flatten(x + 1, z, configuration)];
+			int southValue = biomes[flatten(x, z + 1, configuration)];
+			int westValue = biomes[flatten(x - 1, z, configuration)];
+			int centerValue = biomes[flatten(x, z, configuration)];
+			
+			// If the coordinate is not shallow ocean orthagonally bordered by shallow oceans on all sides, preserve its value
+			if (!shallowOceanCheck(centerValue, configuration->version) || !shallowOceanCheck(northValue, configuration->version) || !shallowOceanCheck(eastValue, configuration->version) || !shallowOceanCheck(westValue, configuration->version) || !shallowOceanCheck(southValue, configuration->version)) {
+				*entry = centerValue;
+				continue;
+			}
+
+			// Otherwise replace ocean with deep equivalent
+			switch (centerValue) {
+				case warm_ocean:
+					*entry = deep_warm_ocean;
+					continue;
+				case lukewarm_ocean:
+					*entry = deep_lukewarm_ocean;
+					continue;
+				case cold_ocean:
+					*entry = deep_cold_ocean;
+					continue;
+				case frozen_ocean:
+					*entry = deep_frozen_ocean;
+					continue;
+				default:
+					*entry = deep_ocean;
+					continue;
+			}
+		}
+	}
+	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
+
+void riverInitLayer(int *const rivers, uint64_t salt, const Configuration *const configuration) {
+	// Initialization
+	// --------------
+	uint64_t layerSalt = getLayerSalt(salt);
+	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
+		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &rivers[flatten(x, z, configuration)];
+			// Oceans are left alone
+			if (shallowOceanCheck(*entry, configuration->version)) continue;
+
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			// 1.6- rolls a 1/2 chance
+			if (configuration->version <= MC_1_6) *entry = 2 + quadraticNextInt(&random, 0, 2); // Last call, so start salt does not matter
+			// 1.7+ instead rolls a... 1/299999 chance?
+			else *entry = 2 + quadraticNextInt(&random, 0, 299999); // Last call, so start salt does not matter
 		}
 	}
 }

@@ -108,6 +108,9 @@ void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const c
 void addEdgeLayerCoolWarm(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
 void addEdgeLayerHeatIce(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
 void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Configuration *const configuration);
+void addMushroomIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
+void addDeepOceanLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
+void riverInitLayer(int *const rivers, uint64_t salt, const Configuration *const configuration);
 
 #ifdef __cplusplus
 }
