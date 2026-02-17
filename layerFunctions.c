@@ -266,7 +266,6 @@ void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const c
 	uint64_t layerSalt = getLayerSalt(salt);
 	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
 	
-	// TODO: Figure out how to support coordinates outside the desired region
 	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
 		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
 			// Sampling
@@ -353,7 +352,6 @@ void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Config
 	uint64_t startSalt = getStartSalt(configuration->worldseed, layerSalt);
 	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
 
-	// TODO: Figure out how to support coordinates outside the desired region
 	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
 		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
 			// Sampling
@@ -366,6 +364,7 @@ void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Config
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			if (quadraticNextInt(&random, startSalt, 13)) continue;
 			
+			// TODO: The exact nextInt value may actually be unnecessary
 			*entry |= (256*(1 + quadraticNextInt(&random, startSalt, 15))) & 0xf00; // Last call, so start salt does not matter
 			
 		}
@@ -452,13 +451,155 @@ void addDeepOceanLayer(int *const biomes, int *const tempBuffer, const Configura
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
+void biomeInitLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
+	// Initialization
+	// --------------
+	uint64_t layerSalt = getLayerSalt(salt);
+	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+
+	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
+		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &biomes[flatten(x, z, configuration)];
+			// Normal oceans in 1.6-, all oceans in 1.7+, and mushroom fields are left alone
+			if (configuration->version <= MC_1_6 ? *entry == ocean : isOceanic(*entry)) continue;
+			if (*entry == mushroom_fields) continue;
+			
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			// Depending on the biome temperature:
+			switch (*entry & ~0xf00) {
+				case Warm:
+					// Warm special biomes (1.7+ only) are 1/3 badlands plateau, 2/3 wooded badlands plateau
+					if (*entry & 0xf00) {
+						if (!quadraticNextInt(&random, 0, 3)) *entry = badlands_plateau; // Last call, so start salt does not matter
+						else *entry = wooded_badlands_plateau;
+						continue;
+					}
+					// Beta 1.8 has all biomes here, 1.0-1.6 all non-freezing biomes, 1.7+ all warm normal biomes.
+					switch (quadraticNextInt(&random, 0, 6 + (configuration->version >= MC_1_2 && configuration->version <= MC_1_6))) {
+						case 0:
+							*entry = desert;
+							continue;
+						case 1:
+							if (configuration->version <= MC_1_6) *entry = forest;
+							else *entry = desert;
+							continue;
+						case 2:
+							if (configuration->version <= MC_1_6) *entry = mountains;
+							else *entry = desert;
+							continue;
+						case 3:
+							if (configuration->version <= MC_1_6) *entry = swamp;
+							else *entry = savanna;
+							continue;
+						case 4:
+							if (configuration->version <= MC_1_6) *entry = plains;
+							else *entry = savanna;
+							continue;
+						case 5:
+							if (configuration->version <= MC_1_6) *entry = taiga;
+							else *entry = plains;
+							continue;
+						default:
+							*entry = jungle;
+							continue;	
+					}
+				case Lush: // 1.7+
+					// Lush special biomes biomes are jungles
+					if (*entry & 0xf00) {
+						*entry = jungle;
+						continue;
+					}
+					switch (quadraticNextInt(&random, 0, 6)) { // Last call, so start salt does not matter
+						case 0:
+							*entry = forest;
+							continue;
+						case 1:
+							*entry = dark_forest;
+							continue;
+						case 2:
+							*entry = mountains;
+							continue;
+						case 3:
+							*entry = plains;
+							continue;
+						case 4:
+							*entry = birch_forest;
+							continue;
+						default:
+							*entry = swamp;
+							continue;
+					}
+				case Cold: // 1.7+
+					// All cold special biomes are giant tree taigas
+					if (*entry & 0xf00) {
+						*entry = giant_tree_taiga;
+						continue;
+					}
+					switch (quadraticNextInt(&random, 0, 4)) { // Last call, so start salt does not matter
+						case 0:
+							*entry = forest;
+							continue;
+						case 1:
+							*entry = mountains;
+							continue;
+						case 2:
+							*entry = taiga;
+							continue;
+						default:
+							*entry = plains;
+							continue;
+					}
+				default: // These are IDs 10 (frozen ocean) or 12 (snowy tundra) for 1.6-, or ID 4 (Freezing) for 1.7+.
+					// 1.3-1.6 has 1/7th chance of placing taigas
+					if (configuration->version >= MC_1_3 && configuration->version <= MC_1_6 && quadraticNextInt(&random, 0, 7) == 5) { // Last call, so start salt does not matter
+						*entry = taiga;
+						continue;
+					}
+					// 1.7+ has 1/4th chance of placing snowy taigas
+					if (configuration->version >= MC_1_7 && quadraticNextInt(&random, 0, 4) == 3) { // Last call, so start salt does not matter
+						*entry = snowy_taiga;
+						continue;
+					}
+					// All others are snowy tundras
+					*entry = snowy_tundra;
+					continue;
+			}
+		}
+	}
+}
+
+void addBambooLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
+	// Initialization
+	// --------------
+	uint64_t layerSalt = getLayerSalt(salt);
+	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+
+	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
+		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &biomes[flatten(x, z, configuration)];
+			// Everything besides jungles are left alone
+			if (*entry != jungle) continue;
+
+			// 9/10ths chance of doing nothing
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			if (quadraticNextInt(&random, 0, 10)) continue; // Last call, so start salt does not matter
+
+			// Otherwise replace with bamboo jungle
+			*entry = bamboo_jungle;	
+		}
+	}
+}
+
 void riverInitLayer(int *const rivers, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
 	uint64_t layerSalt = getLayerSalt(salt);
 	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
 
-	// TODO: Figure out how to support coordinates outside the desired region
 	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
 		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
 			// Sampling

@@ -28,6 +28,8 @@ const uint64_t SUPPORTED_LAYERS = (UINT64_C(1) << L_CONTINENT_4096)
 	| (UINT64_C(1) << L_MUSHROOM_256)
 	| (UINT64_C(1) << L_DEEP_OCEAN_256)
 	| (UINT64_C(1) << L_NOISE_256)
+	| (UINT64_C(1) << L_BIOME_256)
+	| (UINT64_C(1) << L_BAMBOO_256)
 ;
 
 int saveAsImage(const Configuration *const configuration, const int *const biomes, const char *filepath) {
@@ -95,7 +97,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:2048 for Beta 1.8, 1:1024 for 1.0+
-	// Required margin = 1
 	// 0 = ocean, 1 = non-ocean
 	// Allows 0 -> 1, 1 -> 0
 	if (requiredMargin) *requiredMargin += 1;
@@ -107,7 +108,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_7) {
 		// 1:1024
-		// Required margin = 2
 		// 0 = ocean, 1 = non-ocean
 		// Allows 0 -> 1, 1 -> 0
 		if (requiredMargin) *requiredMargin += 1;
@@ -118,7 +118,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024
-		// Required margin = 3
 		// 0 = ocean, 1 = non-ocean
 		// Allows 0 -> 1, 1 -> 0
 		if (requiredMargin) *requiredMargin += 1;
@@ -129,7 +128,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024
-		// Required margin = 4
 		// 0 = ocean, 1 = non-ocean
 		// Allows 0 -> 1
 		if (requiredMargin) *requiredMargin += 1;
@@ -142,7 +140,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_0) {
 		// 1:1024
-		// Required margin = 1 for 1.0-1.6, 4 for 1.7+
 		// 1.6-: 0 = ocean, 1 = plains, 12 = snowy tundra
 		// 		Allows 1 -> 12
 		// 1.7+: 0 = ocean, 1 = Warm, 3 = Cold, 4 = Freezing
@@ -156,7 +153,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_7) {
 		// 1:1024
-		// Required margin = 5
 		// 0 = ocean, 1 = Warm, 3 = Cold, 4 = Freezing
 		// 		Allows 0 -> 1, 0 -> 3, 0 -> 4, 1 -> 0, 3 -> 0
 		if (requiredMargin) *requiredMargin += 1;
@@ -167,7 +163,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024
-		// Required margin = 6
 		// 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing
 		// 		Allows 1 -> 2
 		if (requiredMargin) *requiredMargin += 1;
@@ -178,7 +173,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024
-		// Required margin = 7
 		// 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing
 		// 		Allows 4 -> 3
 		if (requiredMargin) *requiredMargin += 1;
@@ -189,7 +183,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024
-		// Required margin = 7
 		// 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing,
 		// [257, 513, 769, 1025, 1281, 1537, 1793, 2049, 2305, 2561, 2817, 3073, 3329, 3585, 3841] = Warm Special,
 		// [258, 514, 770, 1026, 1282, 1538, 1794, 2050, 2306, 2562, 2818, 3074, 3330, 3586, 3842] = Lush Special,
@@ -204,7 +197,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:1024 for Beta 1.8, 1:512 for 1.0+
-	// Required margin = 4(?)
 	// Beta 1.8: 0 = ocean, 1 = plains
 	//		Allows 0 -> 1, 1 -> 0 (on coordinates odd on 1+ axes)
 	// 1.0-1.6: 0 = ocean, 1 = plains, 12 = snowy tundra
@@ -224,7 +216,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version <= MC_1_6) {
 		// 1:1024 for Beta 1.8, 1:512 for 1.0+
-		// Required margin = 5(?)
 		// Beta 1.8: 0 = ocean, 1 = plains
 		//		Allows 0 -> 1, 1 -> 0
 		// 1.0-1.6: 0 = ocean, 1 = plains, 10 = frozen ocean, 12 = snowy tundra
@@ -238,7 +229,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:512 for Beta 1.8, 1:256 for 1.0+
-	// Required margin = 3(?)
 	// Beta 1.8: 0 = ocean, 1 = plains
 	//		Allows 0 -> 1, 1 -> 0 (on coordinates odd on 1+ axes)
 	// 1.0-1.6: 0 = ocean, 1 = plains, 10 = frozen ocean, 12 = snowy tundra
@@ -258,7 +248,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version == MC_B1_8) {
 		// 1:512
-		// Required margin = 4(?)
 		// 0 = ocean, 1 = plains
 		//		Allows 0 -> 1, 1 -> 0
 		if (requiredMargin) *requiredMargin += 1;
@@ -269,7 +258,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:256
-		// Required margin = 2(?)
 		// 0 = ocean, 1 = plains
 		//		Allows 0 -> 1, 1 -> 0 (on coordinates odd on 1+ axes)
 		if (requiredMargin) *requiredMargin = ceil(*requiredMargin/2.);
@@ -281,7 +269,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:256
-	// Required margin = 3(?) for Beta 1.8, 4(?) for 1.0+
 	if (requiredMargin) *requiredMargin += 1;
 	addIslandLayer(biomes, tempBuffer, configuration->version == MC_B1_8 ? 3 : 4, configuration);
 	if (configuration->startingLayerID == L_LAND_256) {
@@ -291,7 +278,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_0) {
 		// 1:256
-		// Required margin = 5(?)
 		if (requiredMargin) *requiredMargin += 1;
 		addMushroomIslandLayer(biomes, tempBuffer, 5, configuration);
 		if (configuration->startingLayerID == L_MUSHROOM_256) {
@@ -302,7 +288,6 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_7) {
 		// 1:256
-		// Required margin = 6(?)
 		if (requiredMargin) *requiredMargin += 1;
 		addDeepOceanLayer(biomes, tempBuffer, configuration);
 		if (configuration->startingLayerID == L_DEEP_OCEAN_256) {
@@ -314,13 +299,30 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	int *const rivers = (int *const)calloc(configuration->width * configuration->height, sizeof(*rivers));
 	memcpy(rivers, biomes, configuration->width*configuration->height*sizeof(*biomes));
 	// 1:256
-	// Required margin = 3(?) for Beta 1.8, 4(?) for 1.0-1.6, 6(?) for 1.7+
 	riverInitLayer(rivers, 100, configuration);
 	if (configuration->startingLayerID == L_NOISE_256) {
 		memcpy(biomes, rivers, configuration->width*configuration->height*sizeof(*rivers));
 		free(rivers);
 		free(tempBuffer);
 		return 0;
+	}
+
+	// 1:256
+	biomeInitLayer(biomes, 200, configuration);
+	if (configuration->startingLayerID == L_BIOME_256) {
+		free(rivers);
+		free(tempBuffer);
+		return 0;
+	}
+
+	if (configuration->version >= MC_1_14) {
+		// 1:256
+		addBambooLayer(biomes, 1001, configuration);
+		if (configuration->startingLayerID == L_BAMBOO_256) {
+			free(rivers);
+			free(tempBuffer);
+			return 0;
+		}
 	}
 
 	free(rivers);
@@ -349,6 +351,7 @@ int main() {
 		0,
 		8675309,
 		// -246117,
+		// 111111111111111111,
 		false,
 		-100, -100, 100, 100, 201, 201,
 		0
