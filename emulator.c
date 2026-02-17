@@ -30,6 +30,8 @@ const uint64_t SUPPORTED_LAYERS = (UINT64_C(1) << L_CONTINENT_4096)
 	| (UINT64_C(1) << L_NOISE_256)
 	| (UINT64_C(1) << L_BIOME_256)
 	| (UINT64_C(1) << L_BAMBOO_256)
+	| (UINT64_C(1) << L_ZOOM_128)
+	| (UINT64_C(1) << L_ZOOM_64)
 ;
 
 int saveAsImage(const Configuration *const configuration, const int *const biomes, const char *filepath) {
@@ -325,6 +327,24 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 	}
 
+	// 1:128
+	if (requiredMargin) *requiredMargin = ceil(*requiredMargin/2.);
+	zoomLayer(biomes, tempBuffer, false, 1000, configuration);
+	if (configuration->startingLayerID == L_ZOOM_128) {
+		free(rivers);
+		free(tempBuffer);
+		return 0;
+	}
+
+	// 1:64
+	if (requiredMargin) *requiredMargin = ceil(*requiredMargin/2.);
+	zoomLayer(biomes, tempBuffer, false, 1001, configuration);
+	if (configuration->startingLayerID == L_ZOOM_64) {
+		free(rivers);
+		free(tempBuffer);
+		return 0;
+	}
+
 	free(rivers);
 	free(tempBuffer);
 	return 5;
@@ -338,7 +358,11 @@ int getTrueBiomes(const Configuration *const configuration, int *const biomes, s
 	setupGenerator(&g, configuration->version, configuration->largeBiomes);
 	applySeed(&g, DIM_OVERWORLD, configuration->worldseed);
 	int scale = g.ls.layers[configuration->startingLayerID].scale;
-	if (scale > 256) scale = 256;
+	if (scale >= 256) scale = 256;
+	else if (scale >= 64) scale = 64;
+	else if (scale >= 16) scale = 16;
+	else if (scale >= 4) scale = 4;
+	else scale = 1;
 	if (!scale) return 4;
 	if (biomesCapacity < getMinCacheSize(&g, scale, configuration->width, 1, configuration->height)) return 5;
 
@@ -373,7 +397,11 @@ int main() {
 				configuration.startingLayerID = startingLayerID;
 				// Initialize arrays
 				int scale = g.ls.layers[configuration.startingLayerID].scale;
-				if (scale > 256) scale = 256;
+				if (scale >= 256) scale = 256;
+				else if (scale >= 64) scale = 64;
+				else if (scale >= 15) scale = 16;
+				else if (scale >= 4) scale = 4;
+				else scale = 1;
 				size_t cacheSize = getMinCacheSize(&g, scale, configuration.width, 1, configuration.height);
 				int *const emulatedBiomes = (int *const)calloc(cacheSize, sizeof(*emulatedBiomes));
 				int *const trueBiomes = (int *const)calloc(cacheSize, sizeof(*trueBiomes));
