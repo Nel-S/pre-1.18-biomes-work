@@ -1,4 +1,3 @@
-// #include <stdio.h>
 #include <string.h>
 #include "layerFunctions.h"
 
@@ -743,7 +742,7 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 					continue;
 				}
 				// Otherwise fall-through and check replacements
-				mutateIfReplacementDiffers = true;
+				else mutateIfReplacementDiffers = !noise;
 			}
 
 			int replacement = centerValue;
@@ -857,7 +856,8 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 						break;
 					case birch_forest_hills:
 						if (configuration->version <= MC_1_8 || configuration->version >= MC_1_11) replacement = tall_birch_hills;
-						break; // Unchanged in 1.9-1.10
+						else replacement = centerValue;
+						break;
 					case dark_forest:
 						replacement = dark_forest_hills;
 						break;
@@ -888,12 +888,17 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 					case badlands_plateau:
 						replacement = modified_badlands_plateau;
 						break;
+					default:
+						replacement = centerValue;
 				}
+			}
+			if (guaranteeMutation) {
+				*entry = replacement;
+				continue;
 			}
 
 			if (centerValue != replacement) {
 				int similarNeighborsCount = (int)similarLayerCheck(northValue, centerValue, configuration->version) + (int)similarLayerCheck(eastValue, centerValue, configuration->version) + (int)similarLayerCheck(westValue, centerValue, configuration->version) + (int)similarLayerCheck(southValue, centerValue, configuration->version);
-				// if (configuration->version == MC_1_1 && x == -85 && z == -72) printf("\t\t[%d %d, (%d %d %d %d | %d) = %d]\n", centerValue, replacement, northValue, eastValue, westValue, southValue, centerValue, similarNeighborsCount);
 				if (similarNeighborsCount >= (configuration->version <= MC_1_6 ? 4 : 3) ) {
 					*entry = replacement;
 					continue;
