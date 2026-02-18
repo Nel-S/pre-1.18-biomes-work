@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "cubiomes/finders.h"
 #include "cubiomes/util.h"
-#include "layerutil.h"
+#include "layerFunctions.h"
 
 // Coefficients used in mcStepSeed.
 const uint64_t A = UINT64_C(6364136223846793005);
@@ -62,10 +62,6 @@ bool printLayerStatistics(const char *const filepath) {
 	}
 	return !fclose(file);
 }
-
-
-
-
 
 bool testMcStepSeed(uint64_t internalState, uint64_t salt) {
 	printf("(%" PRIu64 ", %" PRIu64 ") -> %" PRIu64 "\n", internalState, salt, mcStepSeed(internalState, salt));

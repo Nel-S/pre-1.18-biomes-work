@@ -99,6 +99,10 @@ static inline bool shallowOceanCheck(int biome, int version) {
 	return isShallowOcean(biome);
 }
 
+static inline bool similarLayerCheck(int biome1, int biome2, int version) {
+	if (version <= MC_1_6) return biome1 == biome2;
+	return areSimilar(version, biome1, biome2);
+}
 
 void islandLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
 void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t salt, const Configuration *const configuration);
@@ -112,7 +116,10 @@ void addMushroomIslandLayer(int *const biomes, int *const tempBuffer, uint64_t s
 void addDeepOceanLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
 void biomeInitLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
 void addBambooLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
-void riverInitLayer(int *const rivers, uint64_t salt, const Configuration *const configuration);
+void biomeEdgeLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
+
+void riverInitLayer(int *const riversAndHills, uint64_t salt, const Configuration *const configuration);
+void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
 
 #ifdef __cplusplus
 }

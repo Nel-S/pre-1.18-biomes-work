@@ -1,3 +1,4 @@
+// #include <stdio.h>
 #include <string.h>
 #include "layerFunctions.h"
 
@@ -6,6 +7,8 @@ static inline int isAny4(int biomeID, int a, int b, int c, int d) {
 	return biomeID == a || biomeID == b || biomeID == c || biomeID == d;
 }
 
+// All versions
+// One-to-one
 void islandLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -28,12 +31,15 @@ void islandLayer(int *const biomes, uint64_t salt, const Configuration *const co
 	}
 }
 
+// 1.1-1.12 1:64 and 1:128 Hills; all other versions/layers
+// Halves
 void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
 	uint64_t layerSalt = getLayerSalt(salt);
-	uint64_t startSalt = getStartSalt(configuration->worldseed, layerSalt);
-	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+	// Worldseed-independent for 1.1-1.12- 1:128 and 1:64 Hills...
+	uint64_t startSalt = salt ? getStartSalt(configuration->worldseed, layerSalt) : 0;
+	uint64_t startSeed = salt ? getStartSeed(configuration->worldseed, layerSalt) : 0;
 	
 	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
 		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
@@ -129,6 +135,8 @@ void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t sa
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
+// Beta 1.8; 1.0-1.6; 1.7+
+// Bishop
 void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -228,6 +236,8 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
+// 1.7+
+// Castle
 void removeTooMuchOceanLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -260,6 +270,8 @@ void removeTooMuchOceanLayer(int *const biomes, int *const tempBuffer, uint64_t 
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
+// 1.0-1.6; 1.7+
+// One-to-one
 void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -297,6 +309,8 @@ void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const c
 	}			
 }
 
+// 1.7+
+// Castle
 void addEdgeLayerCoolWarm(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
 
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -321,6 +335,8 @@ void addEdgeLayerCoolWarm(int *const biomes, int *const tempBuffer, const Config
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
+// 1.7+
+// Castle
 void addEdgeLayerHeatIce(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
 
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -345,6 +361,8 @@ void addEdgeLayerHeatIce(int *const biomes, int *const tempBuffer, const Configu
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
+// 1.7+
+// One-to-one
 void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -364,13 +382,13 @@ void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Config
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			if (quadraticNextInt(&random, startSalt, 13)) continue;
 			
-			// TODO: The exact nextInt value may actually be unnecessary
-			*entry |= (256*(1 + quadraticNextInt(&random, startSalt, 15))) & 0xf00; // Last call, so start salt does not matter
-			
+			*entry |= (256*(1 + quadraticNextInt(&random, 0, 15))) & 0xf00; // Last call, so start salt does not matter
 		}
 	}
 }
 
+// 1.0+
+// Bishop
 void addMushroomIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -408,6 +426,8 @@ void addMushroomIslandLayer(int *const biomes, int *const tempBuffer, uint64_t s
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
+// 1.7+
+// Castle
 void addDeepOceanLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
 	
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -451,6 +471,8 @@ void addDeepOceanLayer(int *const biomes, int *const tempBuffer, const Configura
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
+// Beta 1.8 - 1.1; 1.2; 1.3-1.6; 1.7+
+// One-to-one
 void biomeInitLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -570,6 +592,8 @@ void biomeInitLayer(int *const biomes, uint64_t salt, const Configuration *const
 	}
 }
 
+// 1.14+
+// One-to-one
 void addBambooLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -594,7 +618,70 @@ void addBambooLayer(int *const biomes, uint64_t salt, const Configuration *const
 	}
 }
 
-void riverInitLayer(int *const rivers, uint64_t salt, const Configuration *const configuration) {
+// 1.7+
+// Castle
+void biomeEdgeLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
+	
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 1; z <= configuration->maximumZ - 1; ++z) {
+		for (int64_t x = configuration->minimumX + 1; x <= configuration->maximumX - 1; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int northValue = biomes[flatten(x, z - 1, configuration)];
+			int eastValue = biomes[flatten(x + 1, z, configuration)];
+			int southValue = biomes[flatten(x, z + 1, configuration)];
+			int westValue = biomes[flatten(x - 1, z, configuration)];
+			int centerValue = biomes[flatten(x, z, configuration)];
+			
+			// If the coordinate is a badlands plateau/wooded badlands plateau that's not orthagonally surrounded by badlands plateaus/wooded badlands plateaus, replace with badlands
+			if ((centerValue == badlands_plateau || centerValue == wooded_badlands_plateau) && (
+				(northValue != badlands_plateau && northValue != wooded_badlands_plateau) ||
+				(eastValue  != badlands_plateau && eastValue  != wooded_badlands_plateau) ||
+				(westValue  != badlands_plateau && westValue  != wooded_badlands_plateau) ||
+				(southValue != badlands_plateau && southValue != wooded_badlands_plateau)
+			)) {
+				*entry = badlands;
+				continue;
+			}
+			// If the coordinate is a giant tree taiga that's not orthagonally surrounded by taiga-category biomes, replace with taiga
+			if (centerValue == giant_tree_taiga && (
+				getCategory(configuration->version, northValue) != taiga ||
+				getCategory(configuration->version, eastValue ) != taiga ||
+				getCategory(configuration->version, westValue ) != taiga ||
+				getCategory(configuration->version, southValue) != taiga
+			)) {
+				*entry = taiga;
+				continue;
+			}
+			// If the coordinate is a desert orthagonally bordering a snowy tundra, replace with wooded mountains
+			if (centerValue == desert && isAny4(snowy_tundra, northValue, eastValue, westValue, southValue)) {
+				*entry = wooded_mountains;
+				continue;
+			}
+			// If the coordinate is a swamp...
+			if (centerValue == swamp) {
+				// ...orthagonally bordering a desert, snowy taiga, or snowy tundra, replace with plains
+				if (isAny4(desert, northValue, eastValue, westValue, southValue) || isAny4(snowy_taiga, northValue, eastValue, westValue, southValue) || isAny4(snowy_tundra, northValue, eastValue, westValue, southValue)) {
+					*entry = plains;
+					continue;
+				}
+				// ...orthagonally bordering a jungle or bamboo jungle, replace with jungle edge
+				if (isAny4(jungle, northValue, southValue, eastValue, westValue) || isAny4(bamboo_jungle, northValue, southValue, eastValue, westValue)) {
+					*entry = jungle_edge;
+					continue;
+				} 
+			}
+			// Otherwise preserve the original value
+			*entry = centerValue;
+		}
+	}
+	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
+
+// Beta 1.8 - 1.6; 1.7+
+// One-to-one
+void riverInitLayer(int *const riversAndHills, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
 	uint64_t layerSalt = getLayerSalt(salt);
@@ -604,7 +691,7 @@ void riverInitLayer(int *const rivers, uint64_t salt, const Configuration *const
 		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
 			// Sampling
 			// --------
-			int *const entry = &rivers[flatten(x, z, configuration)];
+			int *const entry = &riversAndHills[flatten(x, z, configuration)];
 			// Oceans are left alone
 			if (shallowOceanCheck(*entry, configuration->version)) continue;
 
@@ -615,4 +702,207 @@ void riverInitLayer(int *const rivers, uint64_t salt, const Configuration *const
 			else *entry = 2 + quadraticNextInt(&random, 0, 299999); // Last call, so start salt does not matter
 		}
 	}
+}
+
+// 1.1-1.6 (riversAndHills unused); 1.7-1.8/1.11+; 1.9-1.10
+// Castle
+void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
+	// Initialization
+	// --------------
+	uint64_t layerSalt = getLayerSalt(salt);
+	uint64_t startSalt = getStartSalt(configuration->worldseed, layerSalt);
+	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 1; z <= configuration->maximumZ - 1; ++z) {
+		for (int64_t x = configuration->minimumX + 1; x <= configuration->maximumX - 1; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int northValue = biomes[flatten(x, z - 1, configuration)];
+			int eastValue = biomes[flatten(x + 1, z, configuration)];
+			int southValue = biomes[flatten(x, z + 1, configuration)];
+			int westValue = biomes[flatten(x - 1, z, configuration)];
+			int centerValue = biomes[flatten(x, z, configuration)];
+
+			bool guaranteeMutation = false, mutateIfReplacementDiffers = false;
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			// 1.6- has 2/3rds chance of doing nothing
+			if (configuration->version <= MC_1_6 && quadraticNextInt(&random, 0, 3)) { // Last call (for 1.6-), so start salt does not matter
+				*entry = centerValue;
+				continue;
+			}
+			// In 1.7+, sample HillsAndRiver noise
+			if (configuration->version >= MC_1_7) {
+				int noise = (riversAndHills[flatten(x, z, configuration)] - 2) % 29;
+				// 1/29 chance non-shallow-ocean biomes will later be mutated
+				if (!shallowOceanCheck(centerValue, configuration->version) && noise == 1) guaranteeMutation = true;
+				// Otherwise 2/3 + 27/29 chance of doing nothing
+				else if (quadraticNextInt(&random, startSalt, 3) && noise) {
+					*entry = centerValue;
+					continue;
+				}
+				// Otherwise fall-through and check replacements
+				mutateIfReplacementDiffers = true;
+			}
+
+			int replacement = centerValue;
+			// If not already guaranteed, choose a potential replacement
+			if (!guaranteeMutation) {
+				switch (centerValue) {
+					case desert:
+						replacement = desert_hills;
+						break;
+					case forest:
+						replacement = wooded_hills;
+						break;
+					case taiga:
+						replacement = taiga_hills;
+						break;
+					case plains:
+						// 1.7+ has 1/3 chance of replacing with wooded hills
+						if (configuration->version >= MC_1_7 && !quadraticNextInt(&random, startSalt, 3)) replacement = wooded_hills;
+						else replacement = forest;
+						break;
+					case snowy_tundra:
+						replacement = snowy_mountains;
+						break;
+					case jungle:
+						replacement = jungle_hills;
+						break;
+					case birch_forest:
+						replacement = birch_forest_hills;
+						break;
+					case dark_forest:
+						replacement = plains;
+						break;
+					case giant_tree_taiga:
+						replacement = giant_tree_taiga_hills;
+						break;
+					case snowy_taiga:
+						replacement = snowy_taiga_hills;
+						break;
+					case bamboo_jungle:
+						replacement = bamboo_jungle_hills;
+						break;
+					case ocean:
+						if (configuration->version >= MC_1_7) replacement = deep_ocean;
+						break;
+					case lukewarm_ocean:
+						replacement = deep_lukewarm_ocean;
+						break;
+					case cold_ocean:
+						replacement = deep_cold_ocean;
+						break;
+					case frozen_ocean:
+						if (configuration->version >= MC_1_7) replacement = deep_frozen_ocean;
+						break;
+					case mountains:
+						if (configuration->version >= MC_1_7) replacement = wooded_mountains;
+						break;
+					case savanna:
+						replacement = savanna_plateau;
+						break;
+					case badlands_plateau:
+					case wooded_badlands_plateau:
+						replacement = badlands;
+						break;
+					case deep_ocean:
+					case deep_lukewarm_ocean:
+					case deep_cold_ocean:
+					case deep_frozen_ocean:
+						// 2/3 chance of doing nothing
+						if (quadraticNextInt(&random, startSalt, 3)) break;
+						// 1/2 chance of replacing with plains
+						if (!quadraticNextInt(&random, startSalt, 2)) replacement = plains;
+						// Otherwise replace with forest
+						else replacement = forest;
+						break;
+				}
+			}
+
+			// If a mutation is guaranteed, or it's guaranteed if the replacement differs and the replacement, er, differs
+			if (guaranteeMutation || (mutateIfReplacementDiffers && centerValue != replacement)) {
+				switch (replacement) {
+					case plains:
+						replacement = sunflower_plains;
+						break;
+					case desert:
+						replacement = desert_lakes;
+						break;
+					case mountains:
+						replacement = gravelly_mountains;
+						break;
+					case forest:
+						replacement = flower_forest;
+						break;
+					case taiga:
+						replacement = taiga_mountains;
+						break;
+					case swamp:
+						replacement = swamp_hills;
+						break;
+					case snowy_tundra:
+						replacement = ice_spikes;
+						break;
+					case jungle:
+						replacement = modified_jungle;
+						break;
+					case jungle_edge:
+						replacement = modified_jungle_edge;
+						break;
+					case birch_forest:
+						if (configuration->version >= MC_1_9 && configuration->version <= MC_1_10) replacement = tall_birch_hills;
+						else replacement = tall_birch_forest;
+						break;
+					case birch_forest_hills:
+						if (configuration->version <= MC_1_8 || configuration->version >= MC_1_11) replacement = tall_birch_hills;
+						break; // Unchanged in 1.9-1.10
+					case dark_forest:
+						replacement = dark_forest_hills;
+						break;
+					case snowy_taiga:
+						replacement = snowy_taiga_mountains;
+						break;
+					case giant_tree_taiga:
+						replacement = giant_spruce_taiga;
+						break;
+					case giant_tree_taiga_hills:
+						replacement = giant_spruce_taiga_hills;
+						break;
+					case wooded_mountains:
+						replacement = modified_gravelly_mountains;
+						break;
+					case savanna:
+						replacement = shattered_savanna;
+						break;
+					case savanna_plateau:
+						replacement = shattered_savanna_plateau;
+						break;
+					case badlands:
+						replacement = eroded_badlands;
+						break;
+					case wooded_badlands_plateau:
+						replacement = modified_wooded_badlands_plateau;
+						break;
+					case badlands_plateau:
+						replacement = modified_badlands_plateau;
+						break;
+				}
+			}
+
+			if (centerValue != replacement) {
+				int similarNeighborsCount = (int)similarLayerCheck(northValue, centerValue, configuration->version) + (int)similarLayerCheck(eastValue, centerValue, configuration->version) + (int)similarLayerCheck(westValue, centerValue, configuration->version) + (int)similarLayerCheck(southValue, centerValue, configuration->version);
+				// if (configuration->version == MC_1_1 && x == -85 && z == -72) printf("\t\t[%d %d, (%d %d %d %d | %d) = %d]\n", centerValue, replacement, northValue, eastValue, westValue, southValue, centerValue, similarNeighborsCount);
+				if (similarNeighborsCount >= (configuration->version <= MC_1_6 ? 4 : 3) ) {
+					*entry = replacement;
+					continue;
+				}
+			}
+
+			// Otherwise, preserve the original value
+			*entry = centerValue;
+		}
+	}
+	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }

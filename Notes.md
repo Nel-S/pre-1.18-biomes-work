@@ -19,8 +19,10 @@ The layer's start seed is `Next(start salt, 0)`. This will always be even, but o
 - 1.1
 - 1.2.1 - 1.2.5
 - 1.3.1 - 1.6.4
-- 1.7.2 - 1.12.2
+- 1.7.2 - 1.8.9
 - 1.7.2 - 1.7.10 Large Biomes
+- 1.9 - 1.10.2
+- 1.11 - 1.12.2
 - 1.13 - 1.13.2
 - 1.14 - 1.14.4
 - 1.15 - 1.17.1
@@ -75,7 +77,7 @@ The layer's start seed is `Next(start salt, 0)`. This will always be even, but o
   - Land 1024 C: Next(1-4) Next(3) for ocean diagonal to land; Next(5) for land diagonal to ocean
 - 7590731853067264053  (   3):
   - Land 1024 D: Next(1-4) Next(3) for ocean diagonal to land; Next(5) for land diagonal to ocean
-  - Special 1024: Next(13) Next(15) for 1.7+ non-oceans (result of latter possibly not used)
+  - Special 1024: Next(13) Next(15) for 1.7+ non-oceans
   - Land 32: ?
 - 9672642253349399552  (2000):
   - Zoom 2048: Next(2) at (even, odd) or (odd, even); Next(4) at (odd, odd) if tie occurs
