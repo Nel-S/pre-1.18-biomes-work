@@ -121,6 +121,8 @@ void biomeEdgeLayer(int *const biomes, int *const tempBuffer, const Configuratio
 void riverInitLayer(int *const riversAndHills, uint64_t salt, const Configuration *const configuration);
 void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
 
+void addSunflowerLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
+
 #ifdef __cplusplus
 }
 #endif

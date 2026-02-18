@@ -155,9 +155,9 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 			int northwestValue = biomes[flatten(x - 1, z - 1, configuration)];
 			int centerValue = biomes[flatten(x, z, configuration)];
 			
+			uint64_t random = getChunkSeed(startSeed, x, z);
 			// If the center value is shallow ocean, and one of the four corner biomes isn't:
 			if (shallowOceanCheck(centerValue, configuration->version) && (!shallowOceanCheck(southwestValue, configuration->version) || !shallowOceanCheck(southeastValue, configuration->version) || !shallowOceanCheck(northwestValue, configuration->version) || !shallowOceanCheck(northeastValue, configuration->version))) {
-				uint64_t random = getChunkSeed(startSeed, x, z);
 				// For Beta 1.8, roll 2/3rd chance to preserve ocean, otherwise change to land
 				if (configuration->version == MC_B1_8) {
 					*entry = (quadraticNextInt(&random, 0, 3) == 2); // Last call, so start salt does not matter
@@ -187,19 +187,16 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 				*entry = centerValue;
 				continue;
 			}
-			// Otherwise if the center value isn't shallow ocean, one of the four corner biomes is shallow ocean, and a 1/5 chance occurs:
-			if (!shallowOceanCheck(centerValue, configuration->version) && (shallowOceanCheck(southwestValue, configuration->version) || shallowOceanCheck(southeastValue, configuration->version) || shallowOceanCheck(northwestValue, configuration->version) || shallowOceanCheck(northeastValue, configuration->version))) {
-				uint64_t random = getChunkSeed(startSeed, x, z);
-				// For Beta 1.8, roll 4/5th chance to preserve land, otherwise change to ocean
-				if (configuration->version == MC_B1_8) {
-					*entry = (quadraticNextInt(&random, 0, 5) != 4); // Last call, so start salt does not matter
+			// In Beta 1.8, if the center value is plains and one of the four corner biomes is not plains:
+			if (configuration->version == MC_B1_8 && (centerValue == plains) && (
+				(southwestValue != plains) || (southeastValue != plains) || (northwestValue != plains) || (northeastValue != plains)
+			)) {
+				// For Beta 1.8, roll 4/5th chance to preserve plains, otherwise change to ocean
+				*entry = (quadraticNextInt(&random, 0, 5) != 4); // Last call, so start salt does not matter
 					continue;
-				}
-				// Otherwise (1.0+), roll 4/5 chance to ignore rest
-				if (quadraticNextInt(&random, 0, 5)) { // Last call, so start salt does not matter
-					*entry = centerValue;
-					continue;
-				}
+			}
+			// In 1.0+, if the center value isn't shallow ocean, one of the four corner biomes is shallow ocean, and a 1/5 chance occurs:
+			if (configuration->version >= MC_1_0 && !shallowOceanCheck(centerValue, configuration->version) && (shallowOceanCheck(southwestValue, configuration->version) || shallowOceanCheck(southeastValue, configuration->version) || shallowOceanCheck(northwestValue, configuration->version) || shallowOceanCheck(northeastValue, configuration->version)) && !quadraticNextInt(&random, 0, 5)) { // Last call, so start salt does not matter
 				// Otherwise immediate change in 1.0-1.6
 				if (MC_1_0 <= configuration->version && configuration->version <= MC_1_6) {
 					*entry = (centerValue == snowy_tundra ? frozen_ocean : ocean);
@@ -724,6 +721,7 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 			int westValue = biomes[flatten(x - 1, z, configuration)];
 			int centerValue = biomes[flatten(x, z, configuration)];
 
+			// 1.7+ has two possible conditions under which it can mutate the replacement biome:
 			bool guaranteeMutation = false, mutateIfReplacementDiffers = false;
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			// 1.6- has 2/3rds chance of doing nothing
@@ -736,17 +734,17 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 				int noise = (riversAndHills[flatten(x, z, configuration)] - 2) % 29;
 				// 1/29 chance non-shallow-ocean biomes will later be mutated
 				if (!shallowOceanCheck(centerValue, configuration->version) && noise == 1) guaranteeMutation = true;
-				// Otherwise 2/3 + 27/29 chance of doing nothing
+				// Otherwise 2/3 + 28/29 chance of doing nothing
 				else if (quadraticNextInt(&random, startSalt, 3) && noise) {
 					*entry = centerValue;
 					continue;
 				}
-				// Otherwise fall-through and check replacements
+				// Otherwise consider mutation if noise == 0
 				else mutateIfReplacementDiffers = !noise;
 			}
 
 			int replacement = centerValue;
-			// If not already guaranteed, choose a potential replacement
+			// If mutation isn't already guaranteed, choose a potential replacement
 			if (!guaranteeMutation) {
 				switch (centerValue) {
 					case desert:
@@ -820,7 +818,7 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 				}
 			}
 
-			// If a mutation is guaranteed, or it's guaranteed if the replacement differs and the replacement, er, differs
+			// If a mutation is guaranteed, or if it's guaranteed if the replacement differs and the replacement, well, differs, mutate the replacement
 			if (guaranteeMutation || (mutateIfReplacementDiffers && centerValue != replacement)) {
 				switch (replacement) {
 					case plains:
@@ -851,10 +849,12 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 						replacement = modified_jungle_edge;
 						break;
 					case birch_forest:
+						// 1.9-1.10 accidentally overwrote birch forest hills' slot
 						if (configuration->version >= MC_1_9 && configuration->version <= MC_1_10) replacement = tall_birch_hills;
 						else replacement = tall_birch_forest;
 						break;
 					case birch_forest_hills:
+						// 1.9-1.10 accidentally had the slot overwritten by birch forests
 						if (configuration->version <= MC_1_8 || configuration->version >= MC_1_11) replacement = tall_birch_hills;
 						else replacement = centerValue;
 						break;
@@ -889,14 +889,16 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 						replacement = modified_badlands_plateau;
 						break;
 					default:
+						// If the replacement doesn't have a mutation, reset to the very original biome
 						replacement = centerValue;
 				}
 			}
+			// Guaranteed mutations are immediately replaced
 			if (guaranteeMutation) {
 				*entry = replacement;
 				continue;
 			}
-
+			// Otherwise if the replacement would be different, replace if all neighbors match in 1.6-, or 3+ of the neighbors are in the same category in 1.7+
 			if (centerValue != replacement) {
 				int similarNeighborsCount = (int)similarLayerCheck(northValue, centerValue, configuration->version) + (int)similarLayerCheck(eastValue, centerValue, configuration->version) + (int)similarLayerCheck(westValue, centerValue, configuration->version) + (int)similarLayerCheck(southValue, centerValue, configuration->version);
 				if (similarNeighborsCount >= (configuration->version <= MC_1_6 ? 4 : 3) ) {
@@ -910,4 +912,27 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
+
+// 1.7+
+// One-to-one
+void addSunflowerLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
+	// Initialization
+	// --------------
+	uint64_t layerSalt = getLayerSalt(salt);
+	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+
+	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
+		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &biomes[flatten(x, z, configuration)];
+			// Everything except plains are left alone
+			if (*entry != plains) continue;
+
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			// 1/57 chance to replace with sunflower plains
+			if (!quadraticNextInt(&random, 0, 57)) *entry = sunflower_plains; // Last call, so start salt does not matter
+		}
+	}
 }
