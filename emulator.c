@@ -44,6 +44,8 @@ const uint64_t SUPPORTED_LAYERS = (UINT64_C(1) << L_CONTINENT_4096)
 	| (UINT64_C(1) << L_SUNFLOWER_64)
 	| (UINT64_C(1) << L_ZOOM_32)
 	| (UINT64_C(1) << L_LAND_32)
+	| (UINT64_C(1) << L_SHORE_16)
+	| (UINT64_C(1) << L_ZOOM_16)
 ;
 
 int saveAsImage(const Configuration *const configuration, const int *const biomes, const char *filepath) {
@@ -440,6 +442,37 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		free(riversAndHills);
 		free(tempBuffer);
 		return 0;
+	}
+
+	if (configuration->version <= MC_1_0) {
+		// 1:32
+		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
+		shoreLayer(biomes, tempBuffer, configuration);
+		if (configuration->startingLayerID == L_SHORE_16) {
+			free(riversAndHills);
+			free(tempBuffer);
+			return 0;
+		}
+	}
+
+	// 1:16
+	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
+	zoomLayer(biomes, tempBuffer, false, 1001, configuration);
+	if (configuration->startingLayerID == L_ZOOM_16) {
+		free(riversAndHills);
+		free(tempBuffer);
+		return 0;
+	}
+
+	if (configuration->version >= MC_1_1) {
+		// 1:16
+		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
+		shoreLayer(biomes, tempBuffer, configuration);
+		if (configuration->startingLayerID == L_SHORE_16) {
+			free(riversAndHills);
+			free(tempBuffer);
+			return 0;
+		}
 	}
 
 	free(riversAndHills);

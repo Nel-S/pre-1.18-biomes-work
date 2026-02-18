@@ -94,6 +94,11 @@ static inline int quadraticNextInt(uint64_t *random, uint64_t salt, int bound) {
 	return value;
 }
 
+static inline bool oceanCheck(int biome, int version) {
+	if (version <= MC_1_6) return biome == ocean;
+	return isOceanic(biome);
+}
+
 static inline bool shallowOceanCheck(int biome, int version) {
 	if (version <= MC_1_6) return biome == ocean;
 	return isShallowOcean(biome);
@@ -122,6 +127,7 @@ void riverInitLayer(int *const riversAndHills, uint64_t salt, const Configuratio
 void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
 
 void addSunflowerLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
+void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
 
 #ifdef __cplusplus
 }

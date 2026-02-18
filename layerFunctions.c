@@ -936,3 +936,95 @@ void addSunflowerLayer(int *const biomes, uint64_t salt, const Configuration *co
 		}
 	}
 }
+
+// Beta 1.8 - 1.0; 1.1-1.6; 1.7+
+// Castle
+void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
+	
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 1; z <= configuration->maximumZ - 1; ++z) {
+		for (int64_t x = configuration->minimumX + 1; x <= configuration->maximumX - 1; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int northValue = biomes[flatten(x, z - 1, configuration)];
+			int eastValue = biomes[flatten(x + 1, z, configuration)];
+			int southValue = biomes[flatten(x, z + 1, configuration)];
+			int westValue = biomes[flatten(x - 1, z, configuration)];
+			int centerValue = biomes[flatten(x, z, configuration)];
+			
+			switch (centerValue) {
+				case mushroom_fields:
+					if (shallowOceanCheck(northValue, configuration->version) || shallowOceanCheck(eastValue, configuration->version) || shallowOceanCheck(southValue, configuration->version) || shallowOceanCheck(westValue, configuration->version)) *entry = mushroom_field_shore;
+					else *entry = centerValue;
+					continue;
+				case bamboo_jungle:
+				case bamboo_jungle_hills:
+				case jungle:
+				case jungle_hills:
+				case jungle_edge:
+				case modified_jungle:
+				case modified_jungle_edge:
+					if (configuration->version >= MC_1_7 && (
+						(getCategory(configuration->version, northValue) != jungle && northValue != forest && northValue != taiga && !isOceanic(northValue)) ||
+						(getCategory(configuration->version, eastValue) != jungle && eastValue != forest && eastValue != taiga && !isOceanic(eastValue)) ||
+						(getCategory(configuration->version, southValue) != jungle && southValue != forest && southValue != taiga && !isOceanic(southValue)) ||
+						(getCategory(configuration->version, westValue) != jungle && westValue != forest && westValue != taiga && !isOceanic(westValue))
+					)) {
+						*entry = jungle_edge;
+						continue;
+					}
+					break; // Jump to beach check at end
+				case mountains:
+					// 1.1-1.6 may change it
+					if (configuration->version >= MC_1_1 && configuration->version <= MC_1_6) {
+						if (northValue != mountains || eastValue != mountains || southValue != mountains || westValue != mountains) *entry = mountain_edge;
+						else *entry = centerValue;
+						continue;
+					}
+					// 1.0- and 1.7+ fall through
+					#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 202000L
+						[[fallthrough]];
+					#endif
+				case wooded_mountains:
+				case mountain_edge:
+					if (configuration->version >= MC_1_7 && (
+						isOceanic(northValue) || isOceanic(eastValue) || isOceanic(southValue) || isOceanic(westValue))
+					) *entry = stone_shore;
+					else *entry = centerValue;
+					continue;
+				case snowy_tundra:
+				case snowy_mountains:
+					if (configuration->version >= MC_1_1 && configuration->version <= MC_1_6) break; // Jump to beach check at end
+					// 1.0- and 1.7+ fall through
+					#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 202000L
+						[[fallthrough]];
+					#endif
+				case snowy_beach:
+				case frozen_river:
+				case ice_spikes:
+				case snowy_taiga:
+				case snowy_taiga_hills:
+				case snowy_taiga_mountains:
+					if (configuration->version >= MC_1_7 && (
+						oceanCheck(northValue, configuration->version) || oceanCheck(eastValue, configuration->version) || oceanCheck(southValue, configuration->version) || oceanCheck(westValue, configuration->version)
+					)) *entry = snowy_beach;
+					else *entry = centerValue;
+					continue;
+				case badlands:
+				case wooded_badlands_plateau:
+					if (!isOceanic(northValue) && !isOceanic(eastValue) && !isOceanic(southValue) && !isOceanic(westValue) && (
+						!isMesa(northValue) || !isMesa(eastValue) || !isMesa(southValue) || !isMesa(westValue)
+					)) *entry = desert;
+					else *entry = centerValue;
+					continue;
+			}
+			// Beach check
+			if (configuration->version >= MC_1_1 && !oceanCheck(centerValue, configuration->version) && centerValue != river && centerValue != swamp && (
+				oceanCheck(northValue, configuration->version) || oceanCheck(eastValue, configuration->version) || oceanCheck(southValue, configuration->version) || oceanCheck(westValue, configuration->version)
+			)) *entry = beach;
+			else *entry = centerValue;
+		}
+	}
+	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
