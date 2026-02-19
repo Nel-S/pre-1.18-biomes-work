@@ -702,7 +702,7 @@ void riverInitLayer(int *const riversAndHills, uint64_t salt, const Configuratio
 
 // 1.1-1.6 (riversAndHills unused); 1.7-1.8/1.11+; 1.9-1.10
 // Castle
-void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
+void regionHillsLayer(int *const biomes, const int *const hillsNoise, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
 	uint64_t layerSalt = getLayerSalt(salt);
@@ -731,7 +731,7 @@ void regionHillsLayer(int *const biomes, int *const riversAndHills, int *const t
 			}
 			// In 1.7+, sample HillsAndRiver noise
 			if (configuration->version >= MC_1_7) {
-				int noise = (riversAndHills[flatten(x, z, configuration)] - 2) % 29;
+				int noise = (hillsNoise[flatten(x, z, configuration)] - 2) % 29;
 				// 1/29 chance non-shallow-ocean biomes will later be mutated
 				if (!shallowOceanCheck(centerValue, configuration->version) && noise == 1) guaranteeMutation = true;
 				// Otherwise 2/3 + 28/29 chance of doing nothing
@@ -1024,6 +1024,76 @@ void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *c
 				oceanCheck(northValue, configuration->version) || oceanCheck(eastValue, configuration->version) || oceanCheck(southValue, configuration->version) || oceanCheck(westValue, configuration->version)
 			)) *entry = beach;
 			else *entry = centerValue;
+		}
+	}
+	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
+
+// 1.1-1.6
+// One-to-one
+void addSwampRiverLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
+	// Initialization
+	// --------------
+	uint64_t layerSalt = getLayerSalt(salt);
+	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+
+	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
+		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &biomes[flatten(x, z, configuration)];
+
+			// Swamps have 1/6th chance to be replaced with rivers
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			if (*entry == swamp && !quadraticNextInt(&random, 0, 6)) *entry = river;
+			// Jungles and jungle hills have 1/6th chance to be replaced with rivers
+			else if ((*entry == jungle || *entry == jungle_hills) && !quadraticNextInt(&random, 0, 8)) *entry = river;
+		}
+	}
+}
+
+// All version(?)
+// Castle
+void smoothLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
+	// Initialization
+	// --------------
+	uint64_t layerSalt = getLayerSalt(salt);
+	uint64_t startSeed = getStartSeed(configuration->worldseed, layerSalt);
+	
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 1; z <= configuration->maximumZ - 1; ++z) {
+		for (int64_t x = configuration->minimumX + 1; x <= configuration->maximumX - 1; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int northValue = biomes[flatten(x, z - 1, configuration)];
+			int eastValue = biomes[flatten(x + 1, z, configuration)];
+			int southValue = biomes[flatten(x, z + 1, configuration)];
+			int westValue = biomes[flatten(x - 1, z, configuration)];
+			int centerValue = biomes[flatten(x, z, configuration)];
+			
+			bool xAxisMatches = eastValue == westValue;
+			bool zAxisMatches = northValue == southValue;
+
+			// If neither x-axis nor z-axis are uniform, preserve original value
+			if (!xAxisMatches && !zAxisMatches) {
+				*entry = centerValue;
+				continue;
+			}
+			// If x-axis is uniform and z-axis isn't, replace with x-axis value
+			if (xAxisMatches && !zAxisMatches) {
+				*entry = westValue;
+				continue;
+			}
+			// If z-axis is uniform and x-axis isn't, replace with z-axis value
+			if (!xAxisMatches && zAxisMatches) {
+				*entry = northValue;
+				continue;
+			}
+			// If both x-axis and z-axis are uniform, replace with z-axis with 1/2 chance, otherwise x-axis
+			uint64_t random = getChunkSeed(startSeed, x, z);
+			if (quadraticNextInt(&random, 0, 2)) *entry = northValue;
+			else *entry = westValue;
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
