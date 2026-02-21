@@ -57,6 +57,11 @@ const uint64_t SUPPORTED_LAYERS = (UINT64_C(1) << L_CONTINENT_4096)
 	| (UINT64_C(1) << L_ZOOM_16_RIVER)
 	| (UINT64_C(1) << L_ZOOM_8_RIVER)
 	| (UINT64_C(1) << L_ZOOM_4_RIVER)
+	| (UINT64_C(1) << L_ZOOM_L_RIVER_A)
+	| (UINT64_C(1) << L_ZOOM_L_RIVER_B)
+	| (UINT64_C(1) << L_RIVER_4)
+	| (UINT64_C(1) << L_SMOOTH_4_RIVER)
+	| (UINT64_C(1) << L_RIVER_MIX_4)
 ;
 
 int saveAsImage(const Configuration *const configuration, const int *const biomes, const char *filepath) {
@@ -431,7 +436,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 	}
 
-	// 1:128, Large Biomes 1:512
+	// 1:128, 1.7- Large Biomes 1:512
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, 1000, configuration);
 	// 1.1-1.12 Zoom 128 Hills case already returned above
@@ -444,7 +449,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		return 0;
 	}
 
-	// 1:64, Large Biomes 1:256
+	// 1:64, 1.7- Large Biomes 1:256
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, 1001, configuration);
 	// 1.1-1.12 Zoom 64 Hills case already returned above
@@ -458,7 +463,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	if (configuration->version >= MC_1_1) {
-		// 1:64, Large Biomes 1:256
+		// 1:64, 1.7- Large Biomes 1:256
 		if (biomesRequiredMargin) {
 			if (*biomesRequiredMargin < *hillsNoiseRequiredMargin) *biomesRequiredMargin = *hillsNoiseRequiredMargin;
 			*biomesRequiredMargin += 1;
@@ -476,6 +481,10 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) {
 		free(hillsNoise);
 	}
+
+	// ======================================
+	// BIOMES II
+	// ======================================
 
 	// 1:64, Large Biomes 1:256
 	if (configuration->version >= MC_1_7) {
@@ -593,7 +602,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		return 0;
 	}
 
-	// 1:32, Large Biomes 1:128
+	// 1:32, 1.7- Large Biomes 1:128
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1002 : 1000, configuration);
 	if (configuration->startingLayerID == L_ZOOM_32_RIVER) {
@@ -604,7 +613,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		return 0;
 	}
 
-	// 1:16, Large Biomes 1:64
+	// 1:16, 1.7- Large Biomes 1:64
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1003 : 1001, configuration);
 	if (configuration->startingLayerID == L_ZOOM_16_RIVER) {
@@ -615,7 +624,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		return 0;
 	}
 
-	// 1:8, Large Biomes 1:32
+	// 1:8, 1.7- Large Biomes 1:32
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1004 : 1002, configuration);
 	if (configuration->startingLayerID == L_ZOOM_8_RIVER) {
@@ -626,7 +635,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		return 0;
 	}
 
-	// 1:4, Large Biomes 1:16
+	// 1:4, 1.7- Large Biomes 1:16
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1005 : 1003, configuration);
 	if (configuration->startingLayerID == L_ZOOM_4_RIVER) {
@@ -637,7 +646,66 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		return 0;
 	}
 
+	if (configuration->version <= MC_1_7 && configuration->largeBiomes) {
+		// 1:8
+		riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
+		zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1006 : 1004, configuration);
+		if (configuration->startingLayerID == L_ZOOM_L_RIVER_A) {
+			memcpy(biomes, riverNoise, configuration->width*configuration->height*sizeof(*riverNoise));
+			*biomesRequiredMargin = riverNoiseRequiredMargin;
+			free(riverNoise);
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:4
+		riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
+		zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1007 : 1005, configuration);
+		if (configuration->startingLayerID == L_ZOOM_L_RIVER_B) {
+			memcpy(biomes, riverNoise, configuration->width*configuration->height*sizeof(*riverNoise));
+			*biomesRequiredMargin = riverNoiseRequiredMargin;
+			free(riverNoise);
+			free(tempBuffer);
+			return 0;
+		}
+	}
+
+	// 1:4
+	riverNoiseRequiredMargin += 1;
+	riverLayer(riverNoise, tempBuffer, configuration);
+	if (configuration->startingLayerID == L_RIVER_4) {
+		memcpy(biomes, riverNoise, configuration->width*configuration->height*sizeof(*riverNoise));
+		*biomesRequiredMargin = riverNoiseRequiredMargin;
+		free(riverNoise);
+		free(tempBuffer);
+		return 0;
+	}
+
+	// 1:4
+	riverNoiseRequiredMargin += 1;
+	smoothLayer(riverNoise, tempBuffer, 1000, configuration);
+	if (configuration->startingLayerID == L_SMOOTH_4_RIVER) {
+		memcpy(biomes, riverNoise, configuration->width*configuration->height*sizeof(*riverNoise));
+		*biomesRequiredMargin = riverNoiseRequiredMargin;
+		free(riverNoise);
+		free(tempBuffer);
+		return 0;
+	}
+
+	// 1:4
+	if (biomesRequiredMargin && *biomesRequiredMargin < riverNoiseRequiredMargin) *biomesRequiredMargin = riverNoiseRequiredMargin;
+	riverMixerLayer(biomes, riverNoise, configuration);
+	if (configuration->startingLayerID == L_RIVER_MIX_4) {
+		free(riverNoise);
+		free(tempBuffer);
+		return 0;
+	}
+
+	// River noise is no longer used
 	free(riverNoise);
+
+
+
 	free(tempBuffer);
 	return 5;
 }

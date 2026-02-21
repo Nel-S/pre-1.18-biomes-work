@@ -123,13 +123,16 @@ void biomeInitLayer(int *const biomes, uint64_t salt, const Configuration *const
 void addBambooLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
 void biomeEdgeLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
 
-void riverInitLayer(int *const riversAndHills, uint64_t salt, const Configuration *const configuration);
+void riverInitLayer(int *const riverNoise, uint64_t salt, const Configuration *const configuration);
 void regionHillsLayer(int *const biomes, const int *const hillsNoise, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
 
 void addSunflowerLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
 void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration);
 void addSwampRiverLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
 void smoothLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration);
+
+void riverLayer(int *const riverNoise, int *const tempBuffer, const Configuration *const configuration);
+void riverMixerLayer(int *const biomes, const int *const riverNoise, const Configuration *const configuration);
 
 #ifdef __cplusplus
 }

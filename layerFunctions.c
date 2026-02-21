@@ -677,7 +677,7 @@ void biomeEdgeLayer(int *const biomes, int *const tempBuffer, const Configuratio
 
 // Beta 1.8 - 1.6; 1.7+
 // One-to-one
-void riverInitLayer(int *const riversAndHills, uint64_t salt, const Configuration *const configuration) {
+void riverInitLayer(int *const riverNoise, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
 	uint64_t layerSalt = getLayerSalt(salt);
@@ -687,7 +687,7 @@ void riverInitLayer(int *const riversAndHills, uint64_t salt, const Configuratio
 		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
 			// Sampling
 			// --------
-			int *const entry = &riversAndHills[flatten(x, z, configuration)];
+			int *const entry = &riverNoise[flatten(x, z, configuration)];
 			// Oceans are left alone
 			if (shallowOceanCheck(*entry, configuration->version)) continue;
 
@@ -700,7 +700,7 @@ void riverInitLayer(int *const riversAndHills, uint64_t salt, const Configuratio
 	}
 }
 
-// 1.1-1.6 (riversAndHills unused); 1.7-1.8/1.11+; 1.9-1.10
+// 1.1-1.6 (hillsNoise unused); 1.7-1.8/1.11+; 1.9-1.10
 // Castle
 void regionHillsLayer(int *const biomes, const int *const hillsNoise, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
@@ -1052,7 +1052,7 @@ void addSwampRiverLayer(int *const biomes, uint64_t salt, const Configuration *c
 	}
 }
 
-// All version(?)
+// All versions
 // Castle
 void smoothLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
@@ -1097,4 +1097,65 @@ void smoothLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const 
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
+
+// Beta 1.8-1.6; 1.7+
+// Castle
+void riverLayer(int *const riverNoise, int *const tempBuffer, const Configuration *const configuration) {
+
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 1; z <= configuration->maximumZ - 1; ++z) {
+		for (int64_t x = configuration->minimumX + 1; x <= configuration->maximumX - 1; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int northValue = riverNoise[flatten(x, z - 1, configuration)];
+			int eastValue = riverNoise[flatten(x + 1, z, configuration)];
+			int southValue = riverNoise[flatten(x, z + 1, configuration)];
+			int westValue = riverNoise[flatten(x - 1, z, configuration)];
+			int centerValue = riverNoise[flatten(x, z, configuration)];
+			
+			int centerParity = centerValue ? 2 + (centerValue & 1) : 0;
+			// In 1.6-, if the center does not match all of its orthagonal neighbors, or is nonzero, it is a potential river
+			if (configuration->version <= MC_1_6 && (
+				centerValue != northValue || centerValue != eastValue || centerValue != southValue || centerValue != westValue || !centerValue
+			)) *entry = river;
+			// In 1.7+, if the parity of the center does not match the parities of all of its orthagonal neighbors, it is a potential river
+			else if (configuration->version >= MC_1_7 && (
+				// centerParity != (westValue & 1) || centerParity != (northValue & 1) || centerParity != (eastValue & 1) || centerParity != (southValue & 1)
+				centerParity != (westValue ? 2 + (westValue & 1) : 0) ||
+				centerParity != (northValue ? 2 + (northValue & 1) : 0) ||
+				centerParity != (eastValue ? 2 + (eastValue & 1) : 0) ||
+				centerParity != (southValue ? 2 + (southValue & 1) : 0)
+			)) *entry = river;
+			// Otherwise it is land
+			else *entry = -1;
+		}
+	}
+	memmove(riverNoise, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
+
+// Beta 1.8-1.6; 1.7+
+// One-to-one
+void riverMixerLayer(int *const biomes, const int *const riverNoise, const Configuration *const configuration) {
+
+	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
+		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &biomes[flatten(x, z, configuration)];
+
+			if (oceanCheck(*entry, configuration->version) || *entry == mushroom_field_shore || riverNoise[flatten(x, z, configuration)] != river) continue;
+			switch (*entry) {
+				case snowy_tundra:
+					*entry = frozen_river;
+					continue;
+				case mushroom_fields:
+					*entry = mushroom_field_shore;
+					continue;
+				default:
+					*entry = river;
+			}
+		}
+	}
 }
