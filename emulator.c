@@ -62,6 +62,14 @@ const uint64_t SUPPORTED_LAYERS = (UINT64_C(1) << L_CONTINENT_4096)
 	| (UINT64_C(1) << L_RIVER_4)
 	| (UINT64_C(1) << L_SMOOTH_4_RIVER)
 	| (UINT64_C(1) << L_RIVER_MIX_4)
+	| (UINT64_C(1) << L_OCEAN_TEMP_256)
+	| (UINT64_C(1) << L_ZOOM_128_OCEAN)
+	| (UINT64_C(1) << L_ZOOM_64_OCEAN)
+	| (UINT64_C(1) << L_ZOOM_32_OCEAN)
+	| (UINT64_C(1) << L_ZOOM_16_OCEAN)
+	| (UINT64_C(1) << L_ZOOM_8_OCEAN)
+	| (UINT64_C(1) << L_ZOOM_4_OCEAN)
+	| (UINT64_C(1) << L_OCEAN_MIX_4)
 ;
 
 int saveAsImage(const Configuration *const configuration, const int *const biomes, const char *filepath) {
@@ -704,7 +712,106 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	// River noise is no longer used
 	free(riverNoise);
 
+	// =============================
+	// OCEAN VARIANTS
+	// =============================
 
+	if (configuration->version >= MC_1_13) {
+		// Create ocean noisemap
+		int *const oceanNoise = (int *const)calloc(configuration->width * configuration->height, sizeof(*oceanNoise));
+		int oceanNoiseRequiredMargin = 0;
+
+		// 1:256
+		oceanLayer(oceanNoise, configuration);
+		if (configuration->startingLayerID == L_OCEAN_TEMP_256) {
+			memcpy(biomes, oceanNoise, configuration->width*configuration->height*sizeof(*oceanNoise));
+			*biomesRequiredMargin = oceanNoiseRequiredMargin;
+			free(oceanNoise);
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:128
+		oceanNoiseRequiredMargin = ceil(oceanNoiseRequiredMargin/2.);
+		zoomLayer(oceanNoise, tempBuffer, false, 2001, configuration);
+		if (configuration->startingLayerID == L_ZOOM_128_OCEAN) {
+			memcpy(biomes, oceanNoise, configuration->width*configuration->height*sizeof(*oceanNoise));
+			*biomesRequiredMargin = oceanNoiseRequiredMargin;
+			free(oceanNoise);
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:64
+		oceanNoiseRequiredMargin = ceil(oceanNoiseRequiredMargin/2.);
+		zoomLayer(oceanNoise, tempBuffer, false, 2002, configuration);
+		if (configuration->startingLayerID == L_ZOOM_64_OCEAN) {
+			memcpy(biomes, oceanNoise, configuration->width*configuration->height*sizeof(*oceanNoise));
+			*biomesRequiredMargin = oceanNoiseRequiredMargin;
+			free(oceanNoise);
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:32
+		oceanNoiseRequiredMargin = ceil(oceanNoiseRequiredMargin/2.);
+		zoomLayer(oceanNoise, tempBuffer, false, 2003, configuration);
+		if (configuration->startingLayerID == L_ZOOM_32_OCEAN) {
+			memcpy(biomes, oceanNoise, configuration->width*configuration->height*sizeof(*oceanNoise));
+			*biomesRequiredMargin = oceanNoiseRequiredMargin;
+			free(oceanNoise);
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:16
+		oceanNoiseRequiredMargin = ceil(oceanNoiseRequiredMargin/2.);
+		zoomLayer(oceanNoise, tempBuffer, false, 2004, configuration);
+		if (configuration->startingLayerID == L_ZOOM_16_OCEAN) {
+			memcpy(biomes, oceanNoise, configuration->width*configuration->height*sizeof(*oceanNoise));
+			*biomesRequiredMargin = oceanNoiseRequiredMargin;
+			free(oceanNoise);
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:8
+		oceanNoiseRequiredMargin = ceil(oceanNoiseRequiredMargin/2.);
+		zoomLayer(oceanNoise, tempBuffer, false, 2005, configuration);
+		if (configuration->startingLayerID == L_ZOOM_8_OCEAN) {
+			memcpy(biomes, oceanNoise, configuration->width*configuration->height*sizeof(*oceanNoise));
+			*biomesRequiredMargin = oceanNoiseRequiredMargin;
+			free(oceanNoise);
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:4
+		oceanNoiseRequiredMargin = ceil(oceanNoiseRequiredMargin/2.);
+		zoomLayer(oceanNoise, tempBuffer, false, 2006, configuration);
+		if (configuration->startingLayerID == L_ZOOM_4_OCEAN) {
+			memcpy(biomes, oceanNoise, configuration->width*configuration->height*sizeof(*oceanNoise));
+			*biomesRequiredMargin = oceanNoiseRequiredMargin;
+			free(oceanNoise);
+			free(tempBuffer);
+			return 0;
+		}
+
+		// 1:4
+		if (biomesRequiredMargin) {
+			if (*biomesRequiredMargin < oceanNoiseRequiredMargin) *biomesRequiredMargin = oceanNoiseRequiredMargin;
+			*biomesRequiredMargin += 8;
+		}
+		oceanMixerLayer(biomes, oceanNoise, tempBuffer, configuration);
+		if (configuration->startingLayerID == L_OCEAN_MIX_4) {
+			free(oceanNoise);
+			free(tempBuffer);
+			return 0;
+		}
+
+		// Ocean noise is no longer used
+		free(oceanNoise);
+	}
 
 	free(tempBuffer);
 	return 5;

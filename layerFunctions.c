@@ -1159,3 +1159,85 @@ void riverMixerLayer(int *const biomes, const int *const riverNoise, const Confi
 		}
 	}
 }
+
+// 1.13+
+// One-to-one
+void oceanLayer(int *const oceans, const Configuration *const configuration) {
+	// Initialization
+	// --------------
+	uint64_t random;
+	setSeed(&random, configuration->worldseed);
+	PerlinNoise oceanNoise;
+	perlinInit(&oceanNoise, &random);
+
+	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
+		for (int64_t x = configuration->minimumX; x <= configuration->maximumX; ++x) {
+			// Sampling
+			// --------
+			int *const entry = &oceans[flatten(x, z, configuration)];
+
+			double sample = samplePerlin(&oceanNoise, x/8., z/8., 0., 0., 0.);
+			if (sample > 0.4) *entry = warm_ocean;
+			else if (sample > 0.2) *entry = lukewarm_ocean;
+			else if (sample >= -0.2) *entry = ocean;
+			else if (sample >= -0.4) *entry = cold_ocean;
+			else *entry = frozen_ocean;
+		}
+	}
+}
+
+// 1.13+
+// 8x8
+void oceanMixerLayer(int *const biomes, const int *const oceanNoise, int *const tempBuffer, const Configuration *const configuration) {
+
+	// TODO: Figure out how to support coordinates outside the desired region
+	for (int64_t z = configuration->minimumZ + 8; z <= configuration->maximumZ - 8; ++z) {
+		for (int64_t x = configuration->minimumX + 8; x <= configuration->maximumX - 8; ++x) {
+			int *const entry = &tempBuffer[flatten(x, z, configuration)];
+			int centerValue = biomes[flatten(x, z, configuration)];
+
+			// Non-oceanic biomes are ignored
+			if (!isOceanic(centerValue)) {
+				*entry = centerValue;
+				continue;
+			}
+			
+			int oceanSelection = oceanNoise[flatten(x, z, configuration)];
+			// If the sampled noise equates to a warm or frozen ocean...
+			if (oceanSelection == warm_ocean || oceanSelection == frozen_ocean) {
+				// ...and any of the 25 coordinates surrounding the current one, spaced 4 blocks apart, is a land biome...
+				for (int dz = -8; dz <= 8; dz += 4) {
+					for (int dx = -8; dx <= 8; dx += 4) {
+						int neighboringValue = biomes[flatten(x + dx, z + dz, configuration)];
+						if (isOceanic(neighboringValue)) continue;
+						// Moderate the ocean's temperature
+						if (oceanSelection == warm_ocean) *entry = lukewarm_ocean;
+						else *entry = cold_ocean;
+						goto L_next_coordinate;
+					}
+				}
+			}
+			// Otherwise if the biome is a deep ocean, and the sampled noise doesn't equate to a warm ocean, replace with corresponding deep ocean variant
+			if (centerValue == deep_ocean && oceanSelection != warm_ocean) {
+				switch (oceanSelection) {
+					case lukewarm_ocean:
+						*entry = deep_lukewarm_ocean;
+						continue;
+					case ocean:
+						*entry = deep_ocean;
+						continue;
+					case cold_ocean:
+						*entry = deep_cold_ocean;
+						continue;
+					case frozen_ocean:
+						*entry = deep_frozen_ocean;
+						continue;
+				}
+			}
+			// Otherwise set to original ocean selection
+			*entry = oceanSelection;
+			L_next_coordinate: continue;
+		}
+	}
+	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
+}
