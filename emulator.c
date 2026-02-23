@@ -9,6 +9,9 @@ const uint64_t WORLDSEEDS_TO_CHECK[] = {
 	8675309,
 	-246117,
 	111111111111111111,
+	0,
+	1,
+	2,
 };
 
 const uint64_t SUPPORTED_LAYERS = (UINT64_C(1) << L_CONTINENT_4096)
@@ -96,8 +99,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	int *const tempBuffer = (int *const)calloc(configuration->width * configuration->height, sizeof(*tempBuffer));
 
 	// 1:8192 for Beta 1.8, 1:4096 for 1.0+, Large Biomes 1:16384
-	// 0 = ocean, 1 = non-ocean
-	// Allows 0 -> 1
+	// 0 = Ocean, 1 = Warm/Plains
+	// Allows Ocean -> Warm/Plains
 	if (biomesRequiredMargin) *biomesRequiredMargin = 0;
 	islandLayer(biomes, 1, configuration);
 	if (configuration->startingLayerID == L_CONTINENT_4096) {
@@ -107,8 +110,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	// (Fuzzy)
 	// 1:4096 for Beta 1.8, 1:2048 for 1.0+, Large Biomes 1:8192
-	// 0 = ocean, 1 = non-ocean
-	// Allows 0 -> 1, 1 -> 0 (on coordinates odd on 1+ axes)
+	// 0 = Ocean, 1 = Warm/Plains
+	// Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
 	zoomLayer(biomes, tempBuffer, true, 2000, configuration);
 	if (configuration->startingLayerID == (configuration->version == MC_B1_8 ? L_ZOOM_4096 : L_ZOOM_2048)) {
@@ -117,8 +120,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:4096 for Beta 1.8, 1:2048 for 1.0+, Large Biomes 1:8192
-	// 0 = ocean, 1 = non-ocean
-	// Allows 0 -> 1, 1 -> 0
+	// 0 = Ocean, 1 = Warm/Plains
+	// Allows Ocean -> Warm/Plains, Warm/Plains -> Ocean
 	if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 	addIslandLayer(biomes, tempBuffer, 1, configuration);
 	if (configuration->startingLayerID == (configuration->version == MC_B1_8 ? L_LAND_4096 : L_LAND_2048)) {
@@ -127,8 +130,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:2048 for Beta 1.8, 1:1024 for 1.0+, Large Biomes 1:4096
-	// 0 = ocean, 1 = non-ocean
-	// Allows 0 -> 1, 1 -> 0 (on coordinates odd on 1+ axes)
+	// 0 = Ocean, 1 = Warm/Plains
+	// Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
 	zoomLayer(biomes, tempBuffer, false, 2001, configuration);
 	if (configuration->startingLayerID == (configuration->version == MC_B1_8 ? L_ZOOM_2048 : L_ZOOM_1024)) {
@@ -137,8 +140,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:2048 for Beta 1.8, 1:1024 for 1.0+, Large Biomes 1:4096
-	// 0 = ocean, 1 = non-ocean
-	// Allows 0 -> 1, 1 -> 0
+	// 0 = Ocean, 1 = Warm/Plains
+	// Allows Ocean -> Warm/Plains, Warm/Plains -> Ocean
 	if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 	addIslandLayer(biomes, tempBuffer, 2, configuration);
 	if (configuration->startingLayerID == (configuration->version == MC_B1_8 ? L_LAND_2048 : L_LAND_1024_A)) {
@@ -148,8 +151,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_7) {
 		// 1:1024, Large Biomes 1:4096
-		// 0 = ocean, 1 = non-ocean
-		// Allows 0 -> 1, 1 -> 0
+		// 0 = Ocean, 1 = Warm
+		// Allows Ocean -> Warm, Warm -> Ocean
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		addIslandLayer(biomes, tempBuffer, 50, configuration);
 		if (configuration->startingLayerID == L_LAND_1024_B) {
@@ -158,8 +161,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024, Large Biomes 1:4096
-		// 0 = ocean, 1 = non-ocean
-		// Allows 0 -> 1, 1 -> 0
+		// 0 = Ocean, 1 = Warm
+		// Allows Ocean -> Warm, Warm -> Ocean
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		addIslandLayer(biomes, tempBuffer, 70, configuration);
 		if (configuration->startingLayerID == L_LAND_1024_C) {
@@ -168,8 +171,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024, Large Biomes 1:4096
-		// 0 = ocean, 1 = non-ocean
-		// Allows 0 -> 1
+		// 0 = Ocean, 1 = Warm
+		// Allows Ocean -> Warm
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		removeTooMuchOceanLayer(biomes, tempBuffer, 2, configuration);
 		if (configuration->startingLayerID == L_ISLAND_1024) {
@@ -180,10 +183,10 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_0) {
 		// 1:1024, Large Biomes 1:4096
-		// 1.6-: 0 = ocean, 1 = plains, 12 = snowy tundra
-		// 		Allows 1 -> 12
-		// 1.7+: 0 = ocean, 1 = Warm, 3 = Cold, 4 = Freezing
-		// 		Allows 1 -> 3, 1 -> 4
+		// 1.6-: 0 = Ocean, 1 = Plains, 12 = Snowy Tundra
+		// 		Allows Plains -> Snowy Tundra
+		// 1.7+: 0 = Ocean, 1 = Warm, 3 = Cold, 4 = Freezing
+		// 		Allows Warm -> Cold, Warm -> Freezing
 		addSnowLayer(biomes, 2, configuration);
 		if (configuration->startingLayerID == L_SNOW_1024) {
 			free(tempBuffer);
@@ -193,8 +196,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_7) {
 		// 1:1024, Large Biomes 1:4096
-		// 0 = ocean, 1 = Warm, 3 = Cold, 4 = Freezing
-		// 		Allows 0 -> 1, 0 -> 3, 0 -> 4, 1 -> 0, 3 -> 0
+		// 0 = Ocean, 1 = Warm, 3 = Cold, 4 = Freezing
+		// 		Allows Ocean -> Warm, Ocean -> Cold, Ocean -> Freezing, Warm -> Ocean, Cold -> Ocean
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		addIslandLayer(biomes, tempBuffer, 3, configuration);
 		if (configuration->startingLayerID == L_LAND_1024_D) {
@@ -203,8 +206,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024, Large Biomes 1:4096
-		// 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing
-		// 		Allows 1 -> 2
+		// 0 = Ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing
+		// 		Allows Warm -> Lush
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		addEdgeLayerCoolWarm(biomes, tempBuffer, configuration);
 		if (configuration->startingLayerID == L_COOL_1024) {
@@ -213,8 +216,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024, Large Biomes 1:4096
-		// 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing
-		// 		Allows 4 -> 3
+		// 0 = Ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing
+		// 		Allows Freezing -> Cold
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		addEdgeLayerHeatIce(biomes, tempBuffer, configuration);
 		if (configuration->startingLayerID == L_HEAT_1024) {
@@ -223,12 +226,11 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:1024, Large Biomes 1:4096
-		// 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing,
-		// [257, 513, 769, 1025, 1281, 1537, 1793, 2049, 2305, 2561, 2817, 3073, 3329, 3585, 3841] = Warm Special,
-		// [258, 514, 770, 1026, 1282, 1538, 1794, 2050, 2306, 2562, 2818, 3074, 3330, 3586, 3842] = Lush Special,
-		// [259, 515, 771, 1027, 1283, 1539, 1795, 2051, 2307, 2563, 2819, 3075, 3331, 3587, 3843] = Cold Special,
-		// [260, 516, 772, 1028, 1284, 1540, 1796, 2052, 2308, 2564, 2820, 3076, 3332, 3588, 3844] = Freezing Special,
-		// 		Allows 1 -> [257, 513, 769, 1025, 1281, 1537, 1793, 2049, 2305, 2561, 2817, 3073, 3329, 3585, 3841], 2 -> [258, 514, 770, 1026, 1282, 1538, 1794, 2050, 2306, 2562, 2818, 3074, 3330, 3586, 3842], 3 -> [259, 515, 771, 1027, 1283, 1539, 1795, 2051, 2307, 2563, 2819, 3075, 3331, 3587, 3843], 4 -> [260, 516, 772, 1028, 1284, 1540, 1796, 2052, 2308, 2564, 2820, 3076, 3332, 3588, 3844]
+		// 0 = Ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing, [256*[1...15] + 1] = Warm Special,
+		// [256*[1...15] + 2] = Lush Special, [256*[1...15] + 3] = Cold Special,
+		// [256*[1...15] + 4] = Freezing Special
+		// 		Allows Warm -> Warm Special, Lush -> Lush Special, Cold -> Cold Special,
+		// 		Freezing -> Freezing Special
 		addEdgeLayerIntroduceSpecial(biomes, 3, configuration);
 		if (configuration->startingLayerID == L_SPECIAL_1024) {
 			free(tempBuffer);
@@ -237,15 +239,12 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:1024 for Beta 1.8, 1:512 for 1.0+, Large Biomes 1:2048
-	// Beta 1.8: 0 = ocean, 1 = plains
-	//		Allows 0 -> 1, 1 -> 0 (on coordinates odd on 1+ axes)
-	// 1.0-1.6: 0 = ocean, 1 = plains, 12 = snowy tundra
+	// Beta 1.8: 0 = Ocean, 1 = Plains
 	//		Allows anything to change to anything else (on coordinates odd on 1+ axes)
-	// 1.7+: 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing,
-	// [257, 513, 769, 1025, 1281, 1537, 1793, 2049, 2305, 2561, 2817, 3073, 3329, 3585, 3841] = Warm Special,
-	// [258, 514, 770, 1026, 1282, 1538, 1794, 2050, 2306, 2562, 2818, 3074, 3330, 3586, 3842] = Lush Special,
-	// [259, 515, 771, 1027, 1283, 1539, 1795, 2051, 2307, 2563, 2819, 3075, 3331, 3587, 3843] = Cold Special,
-	// [260, 516, 772, 1028, 1284, 1540, 1796, 2052, 2308, 2564, 2820, 3076, 3332, 3588, 3844] = Freezing Special,
+	// 1.0-1.6: 0 = Ocean, 1 = Plains, 12 = Snowy Tundra
+	//		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7+: 0 = Ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing, [256*[1...15] + 1] = Warm Special,
+	// [256*[1...15] + 2] = Lush Special, [256*[1...15] + 3] = Cold Special, [256*[1...15] + 4] = Freezing Special
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
 	zoomLayer(biomes, tempBuffer, false, 2002, configuration);
@@ -256,10 +255,11 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version <= MC_1_6) {
 		// 1:1024 for Beta 1.8, 1:512 for 1.0+, Large Biomes 1:2048
-		// Beta 1.8: 0 = ocean, 1 = plains
-		//		Allows 0 -> 1, 1 -> 0
-		// 1.0-1.6: 0 = ocean, 1 = plains, 10 = frozen ocean, 12 = snowy tundra
-		//		Allows 0 -> 1, 0 -> 10, 0 -> 12, 1 -> 0, 10 -> 12, 12 -> 10
+		// Beta 1.8: 0 = Ocean, 1 = Plains
+		//		Allows Ocean -> Plains, Plains -> Ocean
+		// 1.0-1.6: 0 = Ocean, 1 = Plains, 10 = Frozen Ocean, 12 = Snowy Tundra
+		//		Allows Ocean -> Plains, Ocean -> Frozen Ocean, Ocean -> Snowy Tundra, Plains -> Ocean,
+		// 		Frozen Ocean -> Ocean, Snowy Tundra -> Frozen Ocean
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		addIslandLayer(biomes, tempBuffer, 3, configuration);
 		if (configuration->startingLayerID == (configuration->version == MC_B1_8 ? L_LAND_1024_A : L_LAND_512)) {
@@ -269,15 +269,12 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:512 for Beta 1.8, 1:256 for 1.0+, Large Biomes 1:1024
-	// Beta 1.8: 0 = ocean, 1 = plains
-	//		Allows 0 -> 1, 1 -> 0 (on coordinates odd on 1+ axes)
-	// 1.0-1.6: 0 = ocean, 1 = plains, 10 = frozen ocean, 12 = snowy tundra
+	// Beta 1.8: 0 = Ocean, 1 = Plains
 	//		Allows anything to change to anything else (on coordinates odd on 1+ axes)
-	// 1.7+: 0 = ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing,
-	// [257, 513, 769, 1025, 1281, 1537, 1793, 2049, 2305, 2561, 2817, 3073, 3329, 3585, 3841] = Warm Special,
-	// [258, 514, 770, 1026, 1282, 1538, 1794, 2050, 2306, 2562, 2818, 3074, 3330, 3586, 3842] = Lush Special,
-	// [259, 515, 771, 1027, 1283, 1539, 1795, 2051, 2307, 2563, 2819, 3075, 3331, 3587, 3843] = Cold Special,
-	// [260, 516, 772, 1028, 1284, 1540, 1796, 2052, 2308, 2564, 2820, 3076, 3332, 3588, 3844] = Freezing Special,
+	// 1.0-1.6: 0 = Ocean, 1 = Plains, 10 = Frozen Ocean, 12 = Snowy Tundra
+	//		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7+: 0 = Ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing, [256*[1...15] + 1] = Warm Special,
+	// [256*[1...15] + 2] = Lush Special, [256*[1...15] + 3] = Cold Special, [256*[1...15] + 4] = Freezing Special
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
 	zoomLayer(biomes, tempBuffer, false, 2003, configuration);
@@ -288,8 +285,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version == MC_B1_8) {
 		// 1:512
-		// 0 = ocean, 1 = plains
-		//		Allows 0 -> 1, 1 -> 0
+		// 0 = Ocean, 1 = Plains
+		//		Allows Ocean -> Plains, Plains -> Ocean
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		addIslandLayer(biomes, tempBuffer, 3, configuration);
 		if (configuration->startingLayerID == L_LAND_512) {
@@ -298,8 +295,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:256
-		// 0 = ocean, 1 = plains
-		//		Allows 0 -> 1, 1 -> 0 (on coordinates odd on 1+ axes)
+		// 0 = Ocean, 1 = Plains
+		//		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 		if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
 		zoomLayer(biomes, tempBuffer, false, 2004, configuration);
 		if (configuration->startingLayerID == L_ZOOM_256) {
@@ -309,6 +306,17 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:256, Large Biomes 1:1024
+	// Beta 1.8: 0 = Ocean, 1 = Plains
+	//		Allows Ocean -> Plains, Plains -> Ocean
+	// 1.0-1.6: 0 = Ocean, 1 = Plains, 10 = Frozen Ocean, 12 = Snowy Tundra
+	//		Allows Ocean -> Plains, Ocean -> Frozen Ocean, Ocean -> Snowy Tundra, Plains -> Ocean,
+	// 		Frozen Ocean -> Ocean, Snowy Tundra -> Frozen Ocean
+	// 1.7+: 0 = Ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing, [256*[1...15] + 1] = Warm Special,
+	// [256*[1...15] + 2] = Lush Special, [256*[1...15] + 3] = Cold Special, [256*[1...15] + 4] = Freezing Special
+	//		Allows Ocean -> Warm, Ocean -> Lush, Ocean -> Cold, Ocean -> Freezing, Ocean -> Warm Special,
+	// 		Ocean -> Lush Special, Ocean -> Cold Special, Ocean -> Freezing Special, Warm -> Ocean,
+	// 		Lush -> Ocean, Cold -> Ocean, Warm Special -> Ocean, Lush Special -> Ocean, Cold Special -> Ocean,
+	// 		Freezing Special -> Ocean
 	if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 	addIslandLayer(biomes, tempBuffer, configuration->version == MC_B1_8 ? 3 : 4, configuration);
 	if (configuration->startingLayerID == L_LAND_256) {
@@ -318,6 +326,12 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_0) {
 		// 1:256, Large Biomes 1:1024
+		// 1.0-1.6: 0 = Ocean, 1 = Plains, 10 = Frozen Ocean, 12 = Snowy Tundra, 14 = Mushroom Fields
+		//		Allows Ocean -> Mushroom Fields
+		// 1.7+: 0 = Ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing, 14 = Mushroom Fields,
+		// [256*[1...15] + 1] = Warm Special, [256*[1...15] + 2] = Lush Special,
+		// [256*[1...15] + 3] = Cold Special, [256*[1...15] + 4] = Freezing Special
+		//		Allows Ocean -> Mushroom Fields
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		addMushroomIslandLayer(biomes, tempBuffer, 5, configuration);
 		if (configuration->startingLayerID == L_MUSHROOM_256) {
@@ -328,6 +342,10 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_7) {
 		// 1:256, Large Biomes 1:1024
+		// 0 = Ocean, 1 = Warm, 2 = Lush, 3 = Cold, 4 = Freezing, 14 = Mushroom Fields, 24 = Deep Ocean,
+		// [256*[1...15] + 1] = Warm Special, [256*[1...15] + 2] = Lush Special,
+		// [256*[1...15] + 3] = Cold Special, [256*[1...15] + 4] = Freezing Special
+		//		Allows Ocean -> Deep Ocean
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		addDeepOceanLayer(biomes, tempBuffer, configuration);
 		if (configuration->startingLayerID == L_DEEP_OCEAN_256) {
@@ -339,10 +357,34 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	// Copy current biomes layer to river noisemap, for generation later
 	int *const riverNoise = (int *const)calloc(configuration->width * configuration->height, sizeof(*riverNoise));
 	memcpy(riverNoise, biomes, configuration->width*configuration->height*sizeof(*biomes));
-	// 1:256, Large Biomes 1:1024
 	int riverNoiseRequiredMargin = *biomesRequiredMargin;
 
 	// 1:256, Large Biomes 1:1024
+	// Beta 1.8: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp
+	//		Allows Plains -> Desert, Plains -> Mountains, Plains -> Forest, Plains -> Taiga, Plains -> Swamp
+	// 1.0-1.1: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// {10 = Frozen Ocean}, 12 = Snowy Tundra, 14 = Mushroom Fields
+	//		Allows Plains -> Desert, Plains -> Mountains, Plains -> Forest, Plains -> Taiga, Plains -> Swamp,
+	// 		Frozen Ocean -> Snowy Tundra
+	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
+	// {10 = Frozen Ocean}, 12 = Snowy Tundra, 14 = Mushroom Fields
+	//		Allows Plains -> Desert, Plains -> Mountains, Plains -> Forest, Plains -> Taiga, Plains -> Swamp,
+	// 		Plains -> Jungle, Frozen Ocean -> Snowy Tundra
+	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
+	// {10 = Frozen Ocean}, 12 = Snowy Tundra, 14 = Mushroom Fields
+	//		Allows Plains -> Desert, Plains -> Mountains, Plains -> Forest, Plains -> Taiga, Plains -> Swamp,
+	// 		Plains -> Jungle, Frozen Ocean -> Taiga, Frozen Ocean -> Snowy Tundra, Snowy Tundra -> Taiga
+	// 1.7+: 0 = Ocean, 1 = Warm/Plains, 2 = Lush/Desert, 3 = Cold/Mountains, 4 = Freezing/Forest, 5 = Taiga,
+	// 6 = Swamp, 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
+	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 39 = Badlands Plateau, {[256*[1...15] + 1] = Warm Special}, {[256*[1...15] + 2] = Lush Special},
+	// {[256*[1...15] + 3] = Cold Special}, [256*[1...15] + 4] = Freezing Special}
+	//		Allows Warm -> Plains, Warm -> Desert, Warm -> Savanna, Warm Special -> Wooded Badlands Plateau,
+	// 		Warm Special -> Badlands Plateau, Lush -> Plains, Lush -> Mountains, Lush -> Forest, Lush -> Swamp,
+	// 		Lush -> Birch Forest, Lush -> Dark Forest, Lush Special -> Jungle, Cold -> Plains,
+	// 		Cold -> Mountains, Cold -> Forest, Cold -> Taiga, Cold Special -> Giant Tree Taiga,
+	// 		Freezing -> Snowy Tundra, Freezing -> Snowy Taiga, Freezing Special -> Snowy Tundra,
+	// 		Freezing Special -> Snowy Taiga
 	biomeInitLayer(biomes, 200, configuration);
 	if (configuration->startingLayerID == L_BIOME_256) {
 		free(riverNoise);
@@ -352,6 +394,11 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_14) {
 		// 1:256, Large Biomes 1:1024
+		// 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
+		// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+		// 39 = Badlands Plateau, 168 = Bamboo Jungle
+		//		Allows Jungle -> Bamboo Jungle
 		addBambooLayer(biomes, 1001, configuration);
 		if (configuration->startingLayerID == L_BAMBOO_256) {
 			free(riverNoise);
@@ -361,6 +408,27 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:128, Large Biomes 1:512
+	// Beta 1.8: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.0-1.1: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
+	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 39 = Badlands Plateau
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
+	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 39 = Badlands Plateau, 168 = Bamboo Jungle
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
 	zoomLayer(biomes, tempBuffer, false, 1000, configuration);
 	if (configuration->startingLayerID == L_ZOOM_128) {
@@ -370,6 +438,27 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:64, Large Biomes 1:256
+	// Beta 1.8: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.0-1.1: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
+	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 39 = Badlands Plateau
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
+	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 39 = Badlands Plateau, 168 = Bamboo Jungle
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
 	zoomLayer(biomes, tempBuffer, false, 1001, configuration);
 	if (configuration->startingLayerID == L_ZOOM_64) {
@@ -380,6 +469,16 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_7) {
 		// 1:64, Large Biomes 1:256
+		// 1.7-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 14 = Mushroom Fields, 21 = Jungle, 23 = Jungle Edge, 24 = Deep Ocean, 27 = Birch Forest,
+		// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 34 = Wooded Mountains, 35 = Savanna,
+		// 37 = Badlands, 38 = Wooded Badlands Plateau, 39 = Badlands Plateau
+		// 		Allows Desert -> Wooded Mountains, Swamp -> Plains, Swamp -> Jungle Edge, Giant Tree Taiga -> Taiga, Wooded Badlands Plateau -> Badlands, Badlands Plateau -> Badlands
+		// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 14 = Mushroom Fields, 21 = Jungle, 23 = Jungle Edge, 24 = Deep Ocean, 27 = Birch Forest,
+		// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 34 = Wooded Mountains, 35 = Savanna,
+		// 37 = Badlands, 38 = Wooded Badlands Plateau, 39 = Badlands Plateau, 168 = Bamboo Jungle
+		// 		Allows Desert -> Wooded Mountains, Swamp -> Plains, Swamp -> Jungle Edge, Giant Tree Taiga -> Taiga, Wooded Badlands Plateau -> Badlands, Badlands Plateau -> Badlands
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		biomeEdgeLayer(biomes, tempBuffer, configuration);
 		if (configuration->startingLayerID == L_BIOME_EDGE_64) {

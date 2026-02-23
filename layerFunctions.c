@@ -6,8 +6,8 @@ static inline int isAny4(int biomeID, int a, int b, int c, int d) {
 	return biomeID == a || biomeID == b || biomeID == c || biomeID == d;
 }
 
-// All versions
-// One-to-one
+// All versions. One-to-one.
+// (0, 0) is set to Warm/Plains. Every other coordinate is set to Warm/Plains with 1/10th chance, or remains Ocean otherwise.
 void islandLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -30,8 +30,13 @@ void islandLayer(int *const biomes, uint64_t salt, const Configuration *const co
 	}
 }
 
-// 1.1-1.12 1:64 and 1:128 Hills; all other versions/layers
-// Halves
+// 1.1-1.12 1:64 Hills and 1:128 Hills (saltless); all other versions/layers. Halves.
+// - (Even, even) coordinates are set to (even/2, even/2).
+// - (Even, odd) coordinates randomly choose between (even/2, odd//2) and (even/2, (odd + 1)//2).
+// - (Odd, even) coordinates waste a roll, then randomly choose between (odd//2, even/2) and ((odd + 1)//2, even/2).
+// - (Odd, odd) coordinates waste 2 rolls. Then
+// 		- if not fuzzy, and any two of (odd//2, odd//2), (odd//2, (odd + 1)//2), ((odd + 1)//2, odd//2), and ((odd + 1)//2, (odd + 1)//2) match while the other two don't, pick that value.
+// 		- otherwise randomly choose one between them.
 void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -71,24 +76,7 @@ void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t sa
 			int southeastValue = biomes[flatten((x + 1) >> 1, (z + 1) >> 1, configuration)];
 			// If not using fuzzy zooming, try to pick whichever value is in the majority
 			if (!fuzzy) {
-				// If 3 of the 4 points agree, pick the majority value
-				if (northeastValue == southwestValue && northeastValue == southeastValue) {
-					*entry = northeastValue;
-					continue;
-				}
-				if (northwestValue == northeastValue && northwestValue == southwestValue) {
-					*entry = northwestValue;
-					continue;
-				}
-				if (northwestValue == northeastValue && northwestValue == southeastValue) {
-					*entry = northwestValue;
-					continue;
-				}
-				if (northwestValue == southwestValue && northwestValue == southeastValue) {
-					*entry = northwestValue;
-					continue;
-				}
-				// If two adjacent points agree, and the opposite two disagree, pick the adjacent values
+				// If two points agree, and the other two disagree, pick the values in agreement
 				if (northwestValue == northeastValue && southwestValue != southeastValue) {
 					*entry = northwestValue;
 					continue;
@@ -134,8 +122,16 @@ void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t sa
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// Beta 1.8; 1.0-1.6; 1.7+
-// Bishop
+// Beta 1.8; 1.0-1.6; 1.7+. Bishop.
+//	- Beta 1.8:
+// 		- If the coordinate is Ocean, and any neighboring diagonal isn't, roll 1/3rd chance to replace with Plains.
+//		- If the coordinate is Plains, and any neighboring diagonal isn't, roll 1/5th chance to replace with Ocean.
+//	- 1.0-1.6:
+//		- If the coordinate is Ocean, and any neighboring diagonal isn't, randomly select a non-Ocean diagonal and roll 1/3rd chance to replace it. If the roll failed but the replacement would have been a Snowy Tundra, replace with Frozen Ocean.
+//		- If the coordinate is not Ocean, any neighboring diagonal is, and a 1/5th chance roll succeeds, replace with Frozen Ocean (if originally a Snowy Tundra) or Ocean otherwise.
+//	- 1.7+:
+//		- If the coordinate is shallow ocean, and any neighboring diagonal isn't, randomly select a non-shallow-ocean diagonal and roll 1/3rd chance to replace it. If the roll failed but the replacement would have been Freezing/Forest, replace with Freezing/Forest.
+//		- If the coordinate is not shallow ocean or Freezing/Forest, any neighboring diagonal is shallow ocean, and a 1/5th chance roll succeeds, replace with whichever of Northwest, Southwest, Northeast, and Southeast is first shallow ocean.
 void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -219,10 +215,8 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 					*entry = northeastValue;
 					continue;
 				}
-				if (shallowOceanCheck(southeastValue, configuration->version)) {
 					*entry = southeastValue;
 					continue;
-				}
 			}
 			// Otherwise keep the center value unchanged
 			*entry = centerValue;
@@ -232,8 +226,8 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// 1.7+
-// Castle
+// 1.7+. Castle.
+// If coordinate is Ocean surrounded orthagonally by Ocean, and a 1/2th chance succeeeds, replace with Warm.
 void removeTooMuchOceanLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -253,7 +247,7 @@ void removeTooMuchOceanLayer(int *const biomes, int *const tempBuffer, uint64_t 
 			int centerValue = biomes[flatten(x, z, configuration)];
 			
 			// If the coordinate is not ocean surrounded on all orthagonal sides by ocean, leave alone
-			if (!shallowOceanCheck(centerValue, configuration->version) || !shallowOceanCheck(northValue, configuration->version) || !shallowOceanCheck(eastValue, configuration->version) || !shallowOceanCheck(westValue, configuration->version) || !shallowOceanCheck(southValue, configuration->version)) {
+			if (centerValue != ocean || northValue != ocean || eastValue != ocean || westValue != ocean || southValue != ocean) {
 				*entry = centerValue;
 				continue;
 			}
@@ -266,8 +260,11 @@ void removeTooMuchOceanLayer(int *const biomes, int *const tempBuffer, uint64_t 
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// 1.0-1.6; 1.7+
-// One-to-one
+// 1.0-1.6; 1.7+. One-to-one.
+//	- 1.0-1.6:
+//		- If coordinate is not Ocean, and a 1/5th chance succeeds, replace with Snowy Tundra.
+//	- 1.7+:
+//		- If coordinate is not Ocean, roll a (1 + 1)/6th chance to replace with Freezing or Cold, respectively.
 void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -281,14 +278,13 @@ void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const c
 			int *const entry = &biomes[flatten(x, z, configuration)];
 
 			// Oceans are preserved
-			if (shallowOceanCheck(*entry, configuration->version)) continue;
+			if (*entry == ocean) continue;
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			if (configuration->version <= MC_1_6) {
 				// In 1.0-1.6, 1/5 chance is rolled
 				if (!quadraticNextInt(&random, 0, 5)) *entry = snowy_tundra; // Last call, so start salt does not matter
-				else *entry = plains;
 			} else {
-				// In 1.7+, 1/6 chance to set to Freezing, 1/6 chance to set to Cold; rest remain Warm
+				// In 1.7+, 1/6 chance to set to Freezing, 1/6 chance to set to Cold
 				switch (quadraticNextInt(&random, 0, 6)) { // Last call, so start salt does not matter
 					case 0:
 						*entry = Freezing;
@@ -296,17 +292,14 @@ void addSnowLayer(int *const biomes, uint64_t salt, const Configuration *const c
 					case 1:
 						*entry = Cold;
 						continue;
-					default:
-						*entry = Warm;
-						continue;
 				}
 			}
 		}
 	}			
 }
 
-// 1.7+
-// Castle
+// 1.7+. Castle.
+// If coordinate is Warm orthagonally bordered by any Cold or Freezing, replace with Lush.
 void addEdgeLayerCoolWarm(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
 
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -331,8 +324,8 @@ void addEdgeLayerCoolWarm(int *const biomes, int *const tempBuffer, const Config
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// 1.7+
-// Castle
+// 1.7+. Castle.
+// If coordinate is Freezing orthagonally bordered by any Warm or Lush, replace with Cold.
 void addEdgeLayerHeatIce(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
 
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -357,8 +350,8 @@ void addEdgeLayerHeatIce(int *const biomes, int *const tempBuffer, const Configu
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// 1.7+
-// One-to-one
+// 1.7+. One-to-one.
+// If coordinate is not Ocean and a 1/13 chance succeeds, mark as Special (with randomized 4-bit tag; 1/15th chance of each).
 void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -372,19 +365,19 @@ void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Config
 			// --------
 			int *const entry = &biomes[flatten(x, z, configuration)];
 			// Oceans are left alone
-			if (shallowOceanCheck(*entry, configuration->version)) continue;
+			if (*entry == ocean) continue;
 
 			// 12/13 chance of doing nothing
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			if (quadraticNextInt(&random, startSalt, 13)) continue;
 			
-			*entry |= (256*(1 + quadraticNextInt(&random, 0, 15))) & 0xf00; // Last call, so start salt does not matter
+			*entry |= (256*(1 + quadraticNextInt(&random, 0, 15))); // Last call, so start salt does not matter
 		}
 	}
 }
 
-// 1.0+
-// Bishop
+// 1.0+. Bishop.
+// If coordinate is Ocean surrounded diagonally by Ocean, roll 1/100th chance to replace with Mushroom Fields.
 void addMushroomIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -403,8 +396,8 @@ void addMushroomIslandLayer(int *const biomes, int *const tempBuffer, uint64_t s
 			int northwestValue = biomes[flatten(x - 1, z - 1, configuration)];
 			int centerValue = biomes[flatten(x, z, configuration)];
 			
-			// If the center value, or any of the immediate diagonals, are not shallow ocean, preserve center value
-			if (!shallowOceanCheck(centerValue, configuration->version) || !shallowOceanCheck(southwestValue, configuration->version) || !shallowOceanCheck(southeastValue, configuration->version) || !shallowOceanCheck(northwestValue, configuration->version) || !shallowOceanCheck(northeastValue, configuration->version)) {
+			// If the center value, or any of the immediate diagonals, are not Ocean, preserve center value
+			if (centerValue != ocean || southwestValue != ocean ||southeastValue != ocean || northwestValue != ocean || northeastValue != ocean) {
 				*entry = centerValue;
 				continue;
 			}
@@ -422,8 +415,8 @@ void addMushroomIslandLayer(int *const biomes, int *const tempBuffer, uint64_t s
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// 1.7+
-// Castle
+// 1.7+. Castle.
+// If coordinate is Ocean surrounded orthagonally by Ocean, replace with Deep Ocean.
 void addDeepOceanLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
 	
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -438,37 +431,39 @@ void addDeepOceanLayer(int *const biomes, int *const tempBuffer, const Configura
 			int westValue = biomes[flatten(x - 1, z, configuration)];
 			int centerValue = biomes[flatten(x, z, configuration)];
 			
-			// If the coordinate is not shallow ocean orthagonally bordered by shallow oceans on all sides, preserve its value
-			if (!shallowOceanCheck(centerValue, configuration->version) || !shallowOceanCheck(northValue, configuration->version) || !shallowOceanCheck(eastValue, configuration->version) || !shallowOceanCheck(westValue, configuration->version) || !shallowOceanCheck(southValue, configuration->version)) {
+			// If the coordinate is not Ocean orthagonally bordered by Oceans on all sides, preserve its value
+			if (centerValue != ocean || northValue != ocean || eastValue != ocean || westValue != ocean || southValue != ocean) {
 				*entry = centerValue;
 				continue;
 			}
 
 			// Otherwise replace ocean with deep equivalent
-			switch (centerValue) {
-				case warm_ocean:
-					*entry = deep_warm_ocean;
-					continue;
-				case lukewarm_ocean:
-					*entry = deep_lukewarm_ocean;
-					continue;
-				case cold_ocean:
-					*entry = deep_cold_ocean;
-					continue;
-				case frozen_ocean:
-					*entry = deep_frozen_ocean;
-					continue;
-				default:
 					*entry = deep_ocean;
-					continue;
-			}
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// Beta 1.8 - 1.1; 1.2; 1.3-1.6; 1.7+
-// One-to-one
+// Beta 1.8; 1.0-1.1; 1.2; 1.3-1.6; 1.7+. One-to-one.
+// - Beta 1.8:
+//		- Plains are (1+1+1+1+1+1)/6th replaced with Deserts, Forests, Mountains, Swamps, Plains, and Taigas, respectively.
+// - 1.0-1.1:
+//		- Plains are (1+1+1+1+1+1)/6th replaced with Deserts, Forests, Mountains, Swamps, Plains, and Taigas, respectively.
+//		- Frozen Oceans are replaced with Snowy Tundras.
+// - 1.2:
+//		- Plains are (1+1+1+1+1+1+1)/7th replaced with Deserts, Forests, Mountains, Swamps, Plains, Taigas, and Jungles, respectively.
+//		- Frozen Oceans are replaced with Snowy Tundras.
+// - 1.3-1.6:
+//		- Plains are (1+1+1+1+1+1+1)/7th replaced with Deserts, Forests, Mountains, Swamps, Plains, Taigas, and Jungles, respectively.
+//		- Frozen Oceans and Snowy Tundras are 1/7th replaced with Taigas, otherwise Snowy Tundras.
+// - 1.7+:
+//		- Warm is (3+2+1)/6th replaced with Deserts, Savannas, and Plains, respectively.
+//		- Warm Special is 1/3rd replaced with Badlands Plateau, otherwise Wooded Badlands Plateau.
+//		- Lush is (1+1+1+1+1+1)/6th replaced with Forests, Dark Forests, Mountains, Plains, Birch Forests, and Swamps, respectively.
+//		- Lush Special is replaced with Jungles.
+//		- Cold is (1+1+1+1)/4th replaced with Forests, Mountains, Taigas, and Plains.
+//		- Cold Special is replaced with Giant Tree Taigas.
+//		- Freezing and Freezing Special are 1/4th replaced by Snowy Taigas, otherwise Snowy Tundras.
 void biomeInitLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -480,9 +475,8 @@ void biomeInitLayer(int *const biomes, uint64_t salt, const Configuration *const
 			// Sampling
 			// --------
 			int *const entry = &biomes[flatten(x, z, configuration)];
-			// Normal oceans in 1.6-, all oceans in 1.7+, and mushroom fields are left alone
-			if (configuration->version <= MC_1_6 ? *entry == ocean : isOceanic(*entry)) continue;
-			if (*entry == mushroom_fields) continue;
+			// Oceans, Deep Oceans, and Mushroom Fields are left alone
+			if (*entry == ocean || *entry == deep_ocean || *entry == mushroom_fields) continue;
 			
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			// Depending on the biome temperature:
@@ -588,8 +582,8 @@ void biomeInitLayer(int *const biomes, uint64_t salt, const Configuration *const
 	}
 }
 
-// 1.14+
-// One-to-one
+// 1.14+. One-to-one.
+// If coordinate is Jungle, roll 1/10th chance of replacing with Bamboo Jungle.
 void addBambooLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -614,8 +608,12 @@ void addBambooLayer(int *const biomes, uint64_t salt, const Configuration *const
 	}
 }
 
-// 1.7+
-// Castle
+// 1.7+. Castle.
+// Coordinates that are a Badlands Plateau/Wooded Badlands Plateau not surrounded orthagonally by Badlands Plateaus/Wooded Badlands Plateaus are replaced with Badlands.
+// Coordinates that are a Giant Tree Taiga not surrounded orthagonally by Taigas, Snowy Taigas, or Giant Tree Taigas are replaced with Taigas.
+// Coordinates that are a Desert orthagonally bordering a Snowy Tundra are replaced with Wooded Mountains.
+// Coordinates that are a Swamp orthagonally bordering a Desert, Snowy Taiga, or Snowy Tundra are replaced with Plains.
+// Coordinates that are a Swamp orthagonally bordering a Jungle or Bamboo Jungle are replaced with Jungle Edge.
 void biomeEdgeLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
 	
 	// TODO: Figure out how to support coordinates outside the desired region
