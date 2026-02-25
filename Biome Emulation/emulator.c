@@ -1,8 +1,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include "cubiomes/generator.h"
-#include "cubiomes/util.h"
+#include "../cubiomes/generator.h"
+#include "../cubiomes/util.h"
 #include "layerFunctions.h"
 
 const uint64_t WORLDSEEDS_TO_CHECK[] = {

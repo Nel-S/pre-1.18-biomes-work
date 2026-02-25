@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "cubiomes/finders.h"
 #include "cubiomes/util.h"
-#include "layerFunctions.h"
+#include "util.h"
 #include "reversal.h"
 
 // Prints version- and generation-mode-dependent layer statistics to a file.
