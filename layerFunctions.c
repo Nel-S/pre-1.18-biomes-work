@@ -609,11 +609,11 @@ void addBambooLayer(int *const biomes, uint64_t salt, const Configuration *const
 }
 
 // 1.7+. Castle.
-// Coordinates that are a Badlands Plateau/Wooded Badlands Plateau not surrounded orthagonally by Badlands Plateaus/Wooded Badlands Plateaus are replaced with Badlands.
-// Coordinates that are a Giant Tree Taiga not surrounded orthagonally by Taigas, Snowy Taigas, or Giant Tree Taigas are replaced with Taigas.
-// Coordinates that are a Desert orthagonally bordering a Snowy Tundra are replaced with Wooded Mountains.
-// Coordinates that are a Swamp orthagonally bordering a Desert, Snowy Taiga, or Snowy Tundra are replaced with Plains.
-// Coordinates that are a Swamp orthagonally bordering a Jungle or Bamboo Jungle are replaced with Jungle Edge.
+// Badlands Plateau/Wooded Badlands Plateau not surrounded orthagonally by Badlands Plateaus/Wooded Badlands Plateaus is replaced with Badlands.
+// Giant Tree Taiga not surrounded orthagonally by Taigas, Snowy Taigas, or Giant Tree Taigas is replaced with Taigas.
+// Desert orthagonally bordering a Snowy Tundra is replaced with Wooded Mountains.
+// Swamp orthagonally bordering a Desert, Snowy Taiga, or Snowy Tundra is replaced with Plains.
+// Swamp orthagonally bordering a Jungle or Bamboo Jungle is replaced with Jungle Edge.
 void biomeEdgeLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
 	
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -675,6 +675,10 @@ void biomeEdgeLayer(int *const biomes, int *const tempBuffer, const Configuratio
 
 // Beta 1.8 - 1.6; 1.7+
 // One-to-one
+// - Beta 1.8 - 1.6:
+//		- Non-Ocean coordinates are replaced with either 2 or 3
+// - 1.7+:
+//		- Non-Ocean coordinates are replaced with values in the range [2...300001].
 void riverInitLayer(int *const riverNoise, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------

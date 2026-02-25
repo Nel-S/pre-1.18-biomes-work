@@ -3,10 +3,7 @@
 #include "cubiomes/finders.h"
 #include "cubiomes/util.h"
 #include "layerFunctions.h"
-
-// Coefficients used in mcStepSeed.
-const uint64_t A = UINT64_C(6364136223846793005);
-const uint64_t B = UINT64_C(1442695040888963407);
+#include "reversal.h"
 
 // Prints version- and generation-mode-dependent layer statistics to a file.
 bool printLayerStatistics(const char *const filepath) {
@@ -68,49 +65,13 @@ bool testMcStepSeed(uint64_t internalState, uint64_t salt) {
 	return true;
 }
 
-// Solves Ax^2 + Bx + C = 0 (mod 2^n) when A is even and B is odd.
-// Algorithm from S. M. Dehnavi et al (https://doi.org/10.7546/nntdm.2019.25.1.75-83).
-uint64_t solveWithEvenA(uint64_t evenA, uint64_t oddB, uint64_t c, size_t n) {
-	uint64_t output = 0;
-	for (size_t i = 0; i < n; ++i) {
-		if (c & 1) {
-			output |= UINT64_C(1) << i;
-			c = evenA/2 + oddB/2 + c/2 + 1;
-			oddB = 2*evenA + oddB;
-		} else c /= 2;
-		evenA *= 2;
-	}
-	return output;
-}
-
-// Returns the even solution for Ax^2 + Bx + C = 0 (mod 2^n) when A and B are odd, and C is even. (If C is also odd, no solution exists.)
-// Algorithm from S. M. Dehnavi et al (https://doi.org/10.7546/nntdm.2019.25.1.75-83).
-// TODO: Are any optimizations possible since A and B are fixed?
-uint64_t getEvenSolution(uint64_t oddA, uint64_t oddB, uint64_t evenC) {
-	return 2*solveWithEvenA(2*oddA, oddB, evenC/2, 63);
-}
-
-// Returns the odd solution for Ax^2 + Bx + C = 0 (mod 2^n) when A and B are odd, and C is even. (If C is also odd, no solution exists.)
-// Algorithm from S. M. Dehnavi et al (https://doi.org/10.7546/nntdm.2019.25.1.75-83).
-// TODO: Are any optimizations possible since A and B are fixed?
-uint64_t getOddSolution(uint64_t oddA, uint64_t oddB, uint64_t evenC) {
-	return 2*solveWithEvenA(2*oddA, 2*oddA + oddB, (oddA + oddB + evenC)/2, 63) + 1;
-}
-
-// Returns whichever of the two possible original states for mcStepSeed has the same parity as the salt/output. In the middle of sequential advancements, that is the only possible internal state.
-// For the very *first* mcStepSeed in the sequence, a second solution also exists that can be obtained via `possibility2 = -7379792620528906219LL - possibility1`.
-// WARNING: Output and Salt *must* have the same parity for this to work; otherwise no possible original states can exist.
-uint64_t reverseMcStepSeed(uint64_t output, uint64_t salt) {
-	return (salt & 1 ? getOddSolution : getEvenSolution)(A, B, salt - output);
-}
-
 bool testReverseMcStepSeed(uint64_t output, uint64_t salt) {
 	if ((output & 1) != (salt & 1)) {
 		printf("testReverseMcStepSeed(%" PRIu64 ", %" PRIu64 "): No solution exists.\n", output, salt);
 		return false;
 	}
-	uint64_t oddSolution = getOddSolution(A, B, salt - output);
-	uint64_t evenSolution = getEvenSolution(A, B, salt - output);
+	uint64_t oddSolution = reverseMcStepSeed(output, salt, 1);
+	uint64_t evenSolution = reverseMcStepSeed(output, salt, 0);
 	printf("Odd solution:  %20" PRIu64 " (Verification: %20" PRIu64 " = %20" PRIu64 ")\n", oddSolution, mcStepSeed(oddSolution, salt), output);
 	printf("Even solution: %20" PRIu64 " (Verification: %20" PRIu64 " = %20" PRIu64 ")\n", evenSolution, mcStepSeed(evenSolution, salt), output);
 	return true;
@@ -126,9 +87,9 @@ int main() {
 	// states[0] = state;
 	// for (size_t i = 0; i < (UINT64_C(1) << 3) - 1; ++i) {
 	// 	if ((LAYER_SALT & 1) == (states[i] & 1)) {
-	// 		states[2*i + 1] = getOddSolution(A, B, LAYER_SALT - states[i]);
+	// 		states[2*i + 1] = reverseMcStepSeed(states[i], LAYER_SALT, 1);
 	// 		printf("% 20" PRId64 " = % 20" PRId64 " <- (% 20" PRId64 ", % 20" PRId64 ")\n", states[i], mcStepSeed(states[2*i + 1], LAYER_SALT), states[2*i + 1], LAYER_SALT);
-	// 		states[2*i + 2] = getEvenSolution(A, B, LAYER_SALT - states[i]);
+	// 		states[2*i + 2] = reverseMcStepSeed(states[i], LAYER_SALT, 0);
 	// 		printf("% 20" PRId64 " = % 20" PRId64 " <- (% 20" PRId64 ", % 20" PRId64 ")\n", states[i], mcStepSeed(states[2*i + 2], LAYER_SALT), states[2*i + 2], LAYER_SALT);
 	// 	} else {
 	// 		states[2*i + 1] = !(LAYER_SALT & 1);
