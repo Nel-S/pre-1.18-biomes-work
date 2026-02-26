@@ -1,6 +1,6 @@
 #include "cubiomes/layers.h"
 
-// Maps a layer enum to its corresponding name string.
+// Maps a Cubiomes layer enum to its corresponding name string.
 static inline const char *layer2str(ptrdiff_t layer) {
 	switch (layer) {
 		case L_CONTINENT_4096: return "Continent 4096";
@@ -68,6 +68,7 @@ static inline const char *layer2str(ptrdiff_t layer) {
 	}
 }
 
+// Returns a pseudorandom integer in the range [0, bound - 1], while advancing the quadratic pseudorandom number generator.
 static inline int quadraticNextInt(uint64_t *random, uint64_t salt, int bound) {
 	int value = mcFirstInt(*random, bound);
 	*random = mcStepSeed(*random, salt);
