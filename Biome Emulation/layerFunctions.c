@@ -153,7 +153,7 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 			
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			// If the center value is shallow ocean, and one of the four corner biomes isn't:
-			if (shallowOceanCheck(centerValue, configuration->version) && (!shallowOceanCheck(southwestValue, configuration->version) || !shallowOceanCheck(southeastValue, configuration->version) || !shallowOceanCheck(northwestValue, configuration->version) || !shallowOceanCheck(northeastValue, configuration->version))) {
+			if (centerValue == ocean && (southwestValue != ocean || southeastValue != ocean || northwestValue != ocean || northeastValue != ocean)) {
 				// For Beta 1.8, roll 2/3rd chance to preserve ocean, otherwise change to land
 				if (configuration->version == MC_B1_8) {
 					*entry = (quadraticNextInt(&random, 0, 3) == 2); // Last call, so start salt does not matter
@@ -161,10 +161,10 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 				}
 				// Otherwise randomly choose a land corner to potentially replace it
 				int landBiomesFoundCount = 0, potentialReplacement = Warm;
-				if (!shallowOceanCheck(northwestValue, configuration->version) && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = northwestValue;
-				if (!shallowOceanCheck(northeastValue, configuration->version) && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = northeastValue;
-				if (!shallowOceanCheck(southwestValue, configuration->version) && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = southwestValue;
-				if (!shallowOceanCheck(southeastValue, configuration->version) && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = southeastValue;
+				if (northwestValue != ocean && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = northwestValue;
+				if (northeastValue != ocean && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = northeastValue;
+				if (southwestValue != ocean && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = southwestValue;
+				if (southeastValue != ocean && !quadraticNextInt(&random, startSalt, ++landBiomesFoundCount)) potentialReplacement = southeastValue;
 				// Roll a 1/3 chance to replace it
 				if (!quadraticNextInt(&random, 0, 3)) { // Last call, so start salt does not matter
 					*entry = potentialReplacement;
@@ -184,39 +184,22 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 				continue;
 			}
 			// In Beta 1.8, if the center value is plains and one of the four corner biomes is not plains:
-			if (configuration->version == MC_B1_8 && (centerValue == plains) && (
-				(southwestValue != plains) || (southeastValue != plains) || (northwestValue != plains) || (northeastValue != plains)
+			if (configuration->version == MC_B1_8 && centerValue == plains && (
+				southwestValue != plains || southeastValue != plains || northwestValue != plains || northeastValue != plains
 			)) {
 				// For Beta 1.8, roll 4/5th chance to preserve plains, otherwise change to ocean
 				*entry = (quadraticNextInt(&random, 0, 5) != 4); // Last call, so start salt does not matter
 					continue;
 			}
 			// In 1.0+, if the center value isn't shallow ocean, one of the four corner biomes is shallow ocean, and a 1/5 chance occurs:
-			if (configuration->version >= MC_1_0 && !shallowOceanCheck(centerValue, configuration->version) && (shallowOceanCheck(southwestValue, configuration->version) || shallowOceanCheck(southeastValue, configuration->version) || shallowOceanCheck(northwestValue, configuration->version) || shallowOceanCheck(northeastValue, configuration->version)) && !quadraticNextInt(&random, 0, 5)) { // Last call, so start salt does not matter
-				// Otherwise immediate change in 1.0-1.6
-				if (MC_1_0 <= configuration->version && configuration->version <= MC_1_6) {
-					*entry = (centerValue == snowy_tundra ? frozen_ocean : ocean);
-					continue;
-				}
-				// In 1.7+, freezing biomes are preserved
-				if (centerValue == Freezing) {
-					*entry = Freezing;
-					continue;
-				}
-				if (shallowOceanCheck(northwestValue, configuration->version)) {
-					*entry = northwestValue;
-					continue;
-				}
-				if (shallowOceanCheck(southwestValue, configuration->version)) {
-					*entry = southwestValue;
-					continue;
-				}
-				if (shallowOceanCheck(northeastValue, configuration->version)) {
-					*entry = northeastValue;
-					continue;
-				}
-					*entry = southeastValue;
-					continue;
+			if (configuration->version >= MC_1_0 && centerValue != ocean && (southwestValue == ocean || southeastValue == ocean || northwestValue == ocean || northeastValue == ocean) && !quadraticNextInt(&random, 0, 5)) { // Last call, so start salt does not matter
+				// 1.0-1.6 snowy tundras switch to frozen ocean
+				if (MC_1_0 <= configuration->version && configuration->version <= MC_1_6 && centerValue == snowy_tundra) *entry = frozen_ocean;
+				// 1.7+ freezing biomes are preserved
+				else if (MC_1_7 <= configuration->version && centerValue == Freezing) *entry = Freezing;
+				// Otherwise replace with ocean
+				else *entry = ocean;
+				continue;
 			}
 			// Otherwise keep the center value unchanged
 			*entry = centerValue;
@@ -371,6 +354,7 @@ void addEdgeLayerIntroduceSpecial(int *const biomes, uint64_t salt, const Config
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			if (quadraticNextInt(&random, startSalt, 13)) continue;
 			
+			// TODO: Why is the 4-bit tag necessary?
 			*entry |= (256*(1 + quadraticNextInt(&random, 0, 15))); // Last call, so start salt does not matter
 		}
 	}
@@ -438,7 +422,7 @@ void addDeepOceanLayer(int *const biomes, int *const tempBuffer, const Configura
 			}
 
 			// Otherwise replace ocean with deep equivalent
-					*entry = deep_ocean;
+			*entry = deep_ocean;
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
@@ -673,8 +657,7 @@ void biomeEdgeLayer(int *const biomes, int *const tempBuffer, const Configuratio
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// Beta 1.8 - 1.6; 1.7+
-// One-to-one
+// Beta 1.8 - 1.6; 1.7+. One-to-one.
 // - Beta 1.8 - 1.6:
 //		- Non-Ocean coordinates are replaced with either 2 or 3
 // - 1.7+:
@@ -691,7 +674,7 @@ void riverInitLayer(int *const riverNoise, uint64_t salt, const Configuration *c
 			// --------
 			int *const entry = &riverNoise[flatten(x, z, configuration)];
 			// Oceans are left alone
-			if (shallowOceanCheck(*entry, configuration->version)) continue;
+			if (*entry == ocean) continue;
 
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			// 1.6- rolls a 1/2 chance
@@ -702,8 +685,20 @@ void riverInitLayer(int *const riverNoise, uint64_t salt, const Configuration *c
 	}
 }
 
-// 1.1-1.6 (hillsNoise unused); 1.7-1.8/1.11+; 1.9-1.10
-// Castle
+// 1.1 (hillsNoise unused); 1.2-1.6 (hillsNoise unused); 1.7-1.8/1.11+; 1.9-1.10. Castle.
+// - 1.1:
+//		- Plains orthagonally surrounded by plains are replaced with forests if a 1/3rd chance succeeds.
+//		- Deserts orthagonally surrounded by deserts are replaced with desert hills if a 1/3rd chance succeeds.
+//		- Forests orthagonally surrounded by forests are replaced with wooded hills if a 1/3rd chance succeeds.
+//		- Taigas orthagonally surrounded by taigas are replaced with taiga hills if a 1/3rd chance succeeds.
+//		- Snowy tundras orthagonally surrounded by snowy tundras are replaced with snowy mountains if a 1/3rd chance succeeds.
+// - 1.2-1.6:
+//		- Plains orthagonally surrounded by plains are replaced with forests if a 1/3rd chance succeeds.
+//		- Deserts orthagonally surrounded by deserts are replaced with desert hills if a 1/3rd chance succeeds.
+//		- Forests orthagonally surrounded by forests are replaced with wooded hills if a 1/3rd chance succeeds.
+//		- Taigas orthagonally surrounded by taigas are replaced with taiga hills if a 1/3rd chance succeeds.
+//		- Snowy tundras orthagonally surrounded by snowy tundras are replaced with snowy mountains if a 1/3rd chance succeeds.
+//		- Jungles orthagonally surrounded by jungles are replaced with jungle hills if a 1/3rd chance succeeds.
 void regionHillsLayer(int *const biomes, const int *const hillsNoise, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -726,16 +721,20 @@ void regionHillsLayer(int *const biomes, const int *const hillsNoise, int *const
 			// 1.7+ has two possible conditions under which it can mutate the replacement biome:
 			bool guaranteeMutation = false, mutateIfReplacementDiffers = false;
 			uint64_t random = getChunkSeed(startSeed, x, z);
-			// 1.6- has 2/3rds chance of doing nothing
-			if (configuration->version <= MC_1_6 && quadraticNextInt(&random, 0, 3)) { // Last call (for 1.6-), so start salt does not matter
+			
+			// In 1.6-, nothing happens if any orthogonal neighbors differ from the center, or a
+			// 2/3rds chance succeeds
+			if (configuration->version <= MC_1_6 && (
+				northValue != centerValue || eastValue != centerValue || southValue != centerValue || westValue != centerValue || quadraticNextInt(&random, 0, 3)
+			)) { // Last call (for 1.6-), so start salt does not matter
 				*entry = centerValue;
 				continue;
 			}
-			// In 1.7+, sample HillsAndRiver noise
+			// In 1.7+, sample hills noise
 			if (configuration->version >= MC_1_7) {
 				int noise = (hillsNoise[flatten(x, z, configuration)] - 2) % 29;
 				// 1/29 chance non-shallow-ocean biomes will later be mutated
-				if (!shallowOceanCheck(centerValue, configuration->version) && noise == 1) guaranteeMutation = true;
+				if (centerValue != ocean && noise == 1) guaranteeMutation = true;
 				// Otherwise 2/3 + 28/29 chance of doing nothing
 				else if (quadraticNextInt(&random, startSalt, 3) && noise) {
 					*entry = centerValue;
@@ -743,181 +742,150 @@ void regionHillsLayer(int *const biomes, const int *const hillsNoise, int *const
 				}
 				// Otherwise consider mutation if noise == 0
 				else mutateIfReplacementDiffers = !noise;
-			}
 
-			int replacement = centerValue;
-			// If mutation isn't already guaranteed, choose a potential replacement
-			if (!guaranteeMutation) {
-				switch (centerValue) {
-					case desert:
-						replacement = desert_hills;
-						break;
-					case forest:
-						replacement = wooded_hills;
-						break;
-					case taiga:
-						replacement = taiga_hills;
-						break;
-					case plains:
-						// 1.7+ has 1/3 chance of replacing with wooded hills
-						if (configuration->version >= MC_1_7 && !quadraticNextInt(&random, startSalt, 3)) replacement = wooded_hills;
-						else replacement = forest;
-						break;
-					case snowy_tundra:
-						replacement = snowy_mountains;
-						break;
-					case jungle:
-						replacement = jungle_hills;
-						break;
-					case birch_forest:
-						replacement = birch_forest_hills;
-						break;
-					case dark_forest:
-						replacement = plains;
-						break;
-					case giant_tree_taiga:
-						replacement = giant_tree_taiga_hills;
-						break;
-					case snowy_taiga:
-						replacement = snowy_taiga_hills;
-						break;
-					case bamboo_jungle:
-						replacement = bamboo_jungle_hills;
-						break;
-					case ocean:
-						if (configuration->version >= MC_1_7) replacement = deep_ocean;
-						break;
-					case lukewarm_ocean:
-						replacement = deep_lukewarm_ocean;
-						break;
-					case cold_ocean:
-						replacement = deep_cold_ocean;
-						break;
-					case frozen_ocean:
-						if (configuration->version >= MC_1_7) replacement = deep_frozen_ocean;
-						break;
-					case mountains:
-						if (configuration->version >= MC_1_7) replacement = wooded_mountains;
-						break;
-					case savanna:
-						replacement = savanna_plateau;
-						break;
-					case badlands_plateau:
-					case wooded_badlands_plateau:
-						replacement = badlands;
-						break;
-					case deep_ocean:
-					case deep_lukewarm_ocean:
-					case deep_cold_ocean:
-					case deep_frozen_ocean:
-						// 2/3 chance of doing nothing
-						if (quadraticNextInt(&random, startSalt, 3)) break;
-						// 1/2 chance of replacing with plains
-						if (!quadraticNextInt(&random, startSalt, 2)) replacement = plains;
-						// Otherwise replace with forest
-						else replacement = forest;
-						break;
+				// If a mutation hasn't been guaranteed, and < 3 orthogonal neighbors are in the same
+				// biome category as the center, skip
+				if (!guaranteeMutation) {
+					int similarNeighborsCount = (int)areSimilar(configuration->version, northValue, centerValue) + (int)areSimilar(configuration->version, eastValue, centerValue) + (int)areSimilar(configuration->version, westValue, centerValue) + (int)areSimilar(configuration->version, southValue, centerValue);
+					if (similarNeighborsCount < 3) {
+						*entry = centerValue;
+						continue;
+					}
 				}
 			}
 
-			// If a mutation is guaranteed, or if it's guaranteed if the replacement differs and the replacement, well, differs, mutate the replacement
-			if (guaranteeMutation || (mutateIfReplacementDiffers && centerValue != replacement)) {
-				switch (replacement) {
-					case plains:
-						replacement = sunflower_plains;
-						break;
-					case desert:
-						replacement = desert_lakes;
-						break;
-					case mountains:
-						replacement = gravelly_mountains;
-						break;
-					case forest:
-						replacement = flower_forest;
-						break;
-					case taiga:
-						replacement = taiga_mountains;
-						break;
-					case swamp:
-						replacement = swamp_hills;
-						break;
-					case snowy_tundra:
-						replacement = ice_spikes;
-						break;
-					case jungle:
-						replacement = modified_jungle;
-						break;
-					case jungle_edge:
-						replacement = modified_jungle_edge;
-						break;
-					case birch_forest:
-						// 1.9-1.10 accidentally overwrote birch forest hills' slot
-						if (configuration->version >= MC_1_9 && configuration->version <= MC_1_10) replacement = tall_birch_hills;
-						else replacement = tall_birch_forest;
-						break;
-					case birch_forest_hills:
-						// 1.9-1.10 accidentally had the slot overwritten by birch forests
-						if (configuration->version <= MC_1_8 || configuration->version >= MC_1_11) replacement = tall_birch_hills;
-						else replacement = centerValue;
-						break;
-					case dark_forest:
-						replacement = dark_forest_hills;
-						break;
-					case snowy_taiga:
-						replacement = snowy_taiga_mountains;
-						break;
-					case giant_tree_taiga:
-						replacement = giant_spruce_taiga;
-						break;
-					case giant_tree_taiga_hills:
-						replacement = giant_spruce_taiga_hills;
-						break;
-					case wooded_mountains:
-						replacement = modified_gravelly_mountains;
-						break;
-					case savanna:
-						replacement = shattered_savanna;
-						break;
-					case savanna_plateau:
-						replacement = shattered_savanna_plateau;
-						break;
-					case badlands:
-						replacement = eroded_badlands;
-						break;
-					case wooded_badlands_plateau:
-						replacement = modified_wooded_badlands_plateau;
-						break;
-					case badlands_plateau:
-						replacement = modified_badlands_plateau;
-						break;
-					default:
-						// If the replacement doesn't have a mutation, reset to the very original biome
-						replacement = centerValue;
-				}
-			}
-			// Guaranteed mutations are immediately replaced
-			if (guaranteeMutation) {
-				*entry = replacement;
-				continue;
-			}
-			// Otherwise if the replacement would be different, replace if all neighbors match in 1.6-, or 3+ of the neighbors are in the same category in 1.7+
-			if (centerValue != replacement) {
-				int similarNeighborsCount = (int)similarLayerCheck(northValue, centerValue, configuration->version) + (int)similarLayerCheck(eastValue, centerValue, configuration->version) + (int)similarLayerCheck(westValue, centerValue, configuration->version) + (int)similarLayerCheck(southValue, centerValue, configuration->version);
-				if (similarNeighborsCount >= (configuration->version <= MC_1_6 ? 4 : 3) ) {
-					*entry = replacement;
+			switch (centerValue) {
+				case ocean:
+					if (configuration->version >= MC_1_7 && !guaranteeMutation && !mutateIfReplacementDiffers) *entry = deep_ocean;
+					else *entry = centerValue;
 					continue;
-				}
+				case plains:
+					if (guaranteeMutation) *entry = sunflower_plains;
+					else if (mutateIfReplacementDiffers) {
+						// 2/3rds chance of replacing with flower forest; otherwise keep the same
+						if (quadraticNextInt(&random, startSalt, 3)) *entry = flower_forest;
+						else *entry = centerValue;
+					// 1/3rd chance of replacing with wooded hills; otherwise replace with forest
+					} else if (configuration->version >= MC_1_7 && !quadraticNextInt(&random, startSalt, 3)) *entry = wooded_hills;
+					else *entry = forest;
+					continue;
+				case desert:
+					if (guaranteeMutation) *entry = desert_lakes;
+					else if (mutateIfReplacementDiffers) *entry = centerValue;
+					else *entry = desert_hills;
+					continue;
+				case mountains:
+					if (guaranteeMutation) *entry = gravelly_mountains;
+					else if (mutateIfReplacementDiffers) *entry = modified_gravelly_mountains;
+					else if (configuration->version >= MC_1_7) *entry = wooded_mountains;
+					else *entry = centerValue;
+					continue;
+				case forest:
+					if (guaranteeMutation) *entry = flower_forest;
+					else if (mutateIfReplacementDiffers) *entry = centerValue;
+					else *entry = wooded_hills;
+					continue;
+				case taiga:
+					if (guaranteeMutation) *entry = taiga_mountains;
+					else if (mutateIfReplacementDiffers) *entry = centerValue;
+					else *entry = taiga_hills;
+					continue;
+				case swamp:
+					if (guaranteeMutation) *entry = swamp_hills;
+					else *entry = centerValue;
+					continue;
+				case snowy_tundra:
+					if (guaranteeMutation) *entry = ice_spikes;
+					else if (mutateIfReplacementDiffers) *entry = centerValue;
+					else *entry = snowy_mountains;
+					continue;
+				case mushroom_fields:
+					*entry = centerValue;
+					continue;
+				case jungle:
+					if (guaranteeMutation) *entry = modified_jungle;
+					else if (mutateIfReplacementDiffers) *entry = centerValue;
+					else *entry = jungle_hills;
+					continue;
+				// 1.7+
+				case jungle_edge:
+					if (guaranteeMutation) *entry = modified_jungle_edge;
+					else *entry = centerValue;
+					continue;
+				case deep_ocean:
+					// If guaranteed to be mutated, or 2/3rd chance succeeds, keep the same
+					if (guaranteeMutation || quadraticNextInt(&random, startSalt, 3)) *entry = centerValue;
+					else if (mutateIfReplacementDiffers) {
+						// 1/2th chance of replacing with sunflower plains; otherwise replace with
+						// flower forest
+						if (!quadraticNextInt(&random, startSalt, 2)) *entry = sunflower_plains;
+						else *entry = flower_forest;
+					// 1/2th chance of replacing with plains; otherwise replace with forest
+					} else if (!quadraticNextInt(&random, startSalt, 2)) *entry = plains;
+					else *entry = forest;
+					continue;
+				case birch_forest:
+					if (guaranteeMutation) {
+						if (configuration->version <= MC_1_8 || configuration->version >= MC_1_11) *entry = tall_birch_forest;
+						else *entry = tall_birch_hills;
+					}
+					else if (mutateIfReplacementDiffers) {
+						if (configuration->version <= MC_1_8 || configuration->version >= MC_1_11) *entry = tall_birch_hills;
+						else *entry = centerValue;
+					}
+					else *entry = birch_forest_hills;
+					continue;
+				case dark_forest:
+					if (guaranteeMutation) *entry = dark_forest_hills;
+					else if (mutateIfReplacementDiffers) *entry = sunflower_plains;
+					else *entry = plains;
+					continue;
+				case snowy_taiga:
+					if (guaranteeMutation) *entry = snowy_taiga_mountains;
+					else if (mutateIfReplacementDiffers) *entry = centerValue;
+					else *entry = snowy_taiga_hills;
+					continue;
+				case giant_tree_taiga:
+					if (guaranteeMutation) *entry = giant_spruce_taiga;
+					else if (mutateIfReplacementDiffers) *entry = giant_spruce_taiga_hills;
+					else *entry = giant_tree_taiga_hills;
+					continue;
+				case wooded_mountains:
+					if (guaranteeMutation) *entry = modified_gravelly_mountains;
+					else *entry = centerValue;
+					continue;
+				case savanna:
+					if (guaranteeMutation) *entry = shattered_savanna;
+					else if (mutateIfReplacementDiffers) *entry = shattered_savanna_plateau;
+					else *entry = savanna_plateau;
+					continue;
+				case badlands:
+					if (guaranteeMutation) *entry = eroded_badlands;
+					else *entry = centerValue;
+					continue;
+				case wooded_badlands_plateau:
+					if (guaranteeMutation) *entry = modified_wooded_badlands_plateau;
+					else if (mutateIfReplacementDiffers) *entry = eroded_badlands;
+					else *entry = badlands;
+					continue;
+				case badlands_plateau:
+					if (guaranteeMutation) *entry = modified_badlands_plateau;
+					else if (mutateIfReplacementDiffers) *entry = eroded_badlands;
+					else *entry = badlands;
+					continue;
+				// 1.14+
+				case bamboo_jungle:
+					if (!guaranteeMutation && !mutateIfReplacementDiffers) *entry = bamboo_jungle_hills;
+					else *entry = centerValue;
+					continue;
 			}
-
-			// Otherwise, preserve the original value
-			*entry = centerValue;
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// 1.7+
-// One-to-one
+// 1.7+. One-to-one.
+// Plains have a 1/57th chance of being replaced with Sunflower Plains.
 void addSunflowerLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -957,7 +925,7 @@ void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *c
 			
 			switch (centerValue) {
 				case mushroom_fields:
-					if (shallowOceanCheck(northValue, configuration->version) || shallowOceanCheck(eastValue, configuration->version) || shallowOceanCheck(southValue, configuration->version) || shallowOceanCheck(westValue, configuration->version)) *entry = mushroom_field_shore;
+					if (northValue == ocean || eastValue == ocean || southValue == ocean || westValue == ocean) *entry = mushroom_field_shore;
 					else *entry = centerValue;
 					continue;
 				case bamboo_jungle:
@@ -968,10 +936,10 @@ void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *c
 				case modified_jungle:
 				case modified_jungle_edge:
 					if (configuration->version >= MC_1_7 && (
-						(getCategory(configuration->version, northValue) != jungle && northValue != forest && northValue != taiga && !isOceanic(northValue)) ||
-						(getCategory(configuration->version, eastValue) != jungle && eastValue != forest && eastValue != taiga && !isOceanic(eastValue)) ||
-						(getCategory(configuration->version, southValue) != jungle && southValue != forest && southValue != taiga && !isOceanic(southValue)) ||
-						(getCategory(configuration->version, westValue) != jungle && westValue != forest && westValue != taiga && !isOceanic(westValue))
+						(getCategory(configuration->version, northValue) != jungle && northValue != forest && northValue != taiga && northValue != ocean && northValue != deep_ocean) ||
+						(getCategory(configuration->version, eastValue) != jungle && eastValue != forest && eastValue != taiga && eastValue != ocean && eastValue != deep_ocean) ||
+						(getCategory(configuration->version, southValue) != jungle && southValue != forest && southValue != taiga && southValue != ocean && southValue != deep_ocean) ||
+						(getCategory(configuration->version, westValue) != jungle && westValue != forest && westValue != taiga && westValue != ocean && westValue != deep_ocean)
 					)) {
 						*entry = jungle_edge;
 						continue;
@@ -991,8 +959,8 @@ void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *c
 				case wooded_mountains:
 				case mountain_edge:
 					if (configuration->version >= MC_1_7 && (
-						isOceanic(northValue) || isOceanic(eastValue) || isOceanic(southValue) || isOceanic(westValue))
-					) *entry = stone_shore;
+						isAny4(ocean, northValue, eastValue, southValue, westValue) || isAny4(deep_ocean, northValue, eastValue, southValue, westValue)
+					)) *entry = stone_shore;
 					else *entry = centerValue;
 					continue;
 				case snowy_tundra:
@@ -1009,13 +977,13 @@ void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *c
 				case snowy_taiga_hills:
 				case snowy_taiga_mountains:
 					if (configuration->version >= MC_1_7 && (
-						oceanCheck(northValue, configuration->version) || oceanCheck(eastValue, configuration->version) || oceanCheck(southValue, configuration->version) || oceanCheck(westValue, configuration->version)
+						isAny4(ocean, northValue, eastValue, southValue, westValue) || isAny4(deep_ocean, northValue, eastValue, southValue, westValue)
 					)) *entry = snowy_beach;
 					else *entry = centerValue;
 					continue;
 				case badlands:
 				case wooded_badlands_plateau:
-					if (!isOceanic(northValue) && !isOceanic(eastValue) && !isOceanic(southValue) && !isOceanic(westValue) && (
+					if (!isAny4(ocean, northValue, eastValue, southValue, westValue) && !isAny4(deep_ocean, northValue, eastValue, southValue, westValue) && (
 						!isMesa(northValue) || !isMesa(eastValue) || !isMesa(southValue) || !isMesa(westValue)
 					)) *entry = desert;
 					else *entry = centerValue;
@@ -1048,7 +1016,7 @@ void addSwampRiverLayer(int *const biomes, uint64_t salt, const Configuration *c
 			// Swamps have 1/6th chance to be replaced with rivers
 			uint64_t random = getChunkSeed(startSeed, x, z);
 			if (*entry == swamp && !quadraticNextInt(&random, 0, 6)) *entry = river;
-			// Jungles and jungle hills have 1/6th chance to be replaced with rivers
+			// Jungles and jungle hills have 1/8th chance to be replaced with rivers
 			else if ((*entry == jungle || *entry == jungle_hills) && !quadraticNextInt(&random, 0, 8)) *entry = river;
 		}
 	}
@@ -1124,7 +1092,7 @@ void riverLayer(int *const riverNoise, int *const tempBuffer, const Configuratio
 			)) *entry = river;
 			// In 1.7+, if the parity of the center does not match the parities of all of its orthagonal neighbors, it is a potential river
 			else if (configuration->version >= MC_1_7 && (
-				// centerParity != (westValue & 1) || centerParity != (northValue & 1) || centerParity != (eastValue & 1) || centerParity != (southValue & 1)
+				// NOTE: The parities can't be replaced with ([...]Value & 3) because all land cases must be completely separate from ocean cases. As is, 4 mod 4 == 0 == ocean.
 				centerParity != (westValue ? 2 + (westValue & 1) : 0) ||
 				centerParity != (northValue ? 2 + (northValue & 1) : 0) ||
 				centerParity != (eastValue ? 2 + (eastValue & 1) : 0) ||
@@ -1147,7 +1115,7 @@ void riverMixerLayer(int *const biomes, const int *const riverNoise, const Confi
 			// --------
 			int *const entry = &biomes[flatten(x, z, configuration)];
 
-			if (oceanCheck(*entry, configuration->version) || *entry == mushroom_field_shore || riverNoise[flatten(x, z, configuration)] != river) continue;
+			if (*entry == ocean || *entry == deep_ocean || *entry == mushroom_field_shore || riverNoise[flatten(x, z, configuration)] != river) continue;
 			switch (*entry) {
 				case snowy_tundra:
 					*entry = frozen_river;
@@ -1199,7 +1167,7 @@ void oceanMixerLayer(int *const biomes, const int *const oceanNoise, int *const 
 			int centerValue = biomes[flatten(x, z, configuration)];
 
 			// Non-oceanic biomes are ignored
-			if (!isOceanic(centerValue)) {
+			if (centerValue != ocean && centerValue != deep_ocean) {
 				*entry = centerValue;
 				continue;
 			}
@@ -1211,7 +1179,7 @@ void oceanMixerLayer(int *const biomes, const int *const oceanNoise, int *const 
 				for (int dz = -8; dz <= 8; dz += 4) {
 					for (int dx = -8; dx <= 8; dx += 4) {
 						int neighboringValue = biomes[flatten(x + dx, z + dz, configuration)];
-						if (isOceanic(neighboringValue)) continue;
+						if (neighboringValue == ocean || neighboringValue == deep_ocean) continue;
 						// Moderate the ocean's temperature
 						if (oceanSelection == warm_ocean) *entry = lukewarm_ocean;
 						else *entry = cold_ocean;

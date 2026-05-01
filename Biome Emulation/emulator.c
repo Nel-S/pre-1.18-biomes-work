@@ -14,7 +14,8 @@ const uint64_t WORLDSEEDS_TO_CHECK[] = {
 	2,
 };
 
-const uint64_t SUPPORTED_LAYERS = (UINT64_C(1) << L_CONTINENT_4096)
+const uint64_t SUPPORTED_LAYERS =
+	  (UINT64_C(1) << L_CONTINENT_4096)
 	| (UINT64_C(1) << L_ZOOM_4096)
 	| (UINT64_C(1) << L_LAND_4096)
 	| (UINT64_C(1) << L_ZOOM_2048)
@@ -366,17 +367,17 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	// {10 = Frozen Ocean}, 12 = Snowy Tundra, 14 = Mushroom Fields
 	//		Allows Plains -> Desert, Plains -> Mountains, Plains -> Forest, Plains -> Taiga, Plains -> Swamp,
 	// 		Frozen Ocean -> Snowy Tundra
-	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
-	// {10 = Frozen Ocean}, 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// {10 = Frozen Ocean}, 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle
 	//		Allows Plains -> Desert, Plains -> Mountains, Plains -> Forest, Plains -> Taiga, Plains -> Swamp,
 	// 		Plains -> Jungle, Frozen Ocean -> Snowy Tundra
-	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
-	// {10 = Frozen Ocean}, 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// {10 = Frozen Ocean}, 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle
 	//		Allows Plains -> Desert, Plains -> Mountains, Plains -> Forest, Plains -> Taiga, Plains -> Swamp,
 	// 		Plains -> Jungle, Frozen Ocean -> Taiga, Frozen Ocean -> Snowy Tundra, Snowy Tundra -> Taiga
 	// 1.7+: 0 = Ocean, 1 = Warm/Plains, 2 = Lush/Desert, 3 = Cold/Mountains, 4 = Freezing/Forest, 5 = Taiga,
-	// 6 = Swamp, 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
-	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 6 = Swamp, 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 
+	// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
 	// 39 = Badlands Plateau, {[256*[1...15] + 1] = Warm Special}, {[256*[1...15] + 2] = Lush Special},
 	// {[256*[1...15] + 3] = Cold Special}, [256*[1...15] + 4] = Freezing Special}
 	//		Allows Warm -> Plains, Warm -> Desert, Warm -> Savanna, Warm Special -> Wooded Badlands Plateau,
@@ -395,9 +396,9 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	if (configuration->version >= MC_1_14) {
 		// 1:256, Large Biomes 1:1024
 		// 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
-		// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
-		// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
-		// 39 = Badlands Plateau, 168 = Bamboo Jungle
+		// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest,
+		// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna,
+		// 38 = Wooded Badlands Plateau, 39 = Badlands Plateau, 168 = Bamboo Jungle
 		//		Allows Jungle -> Bamboo Jungle
 		addBambooLayer(biomes, 1001, configuration);
 		if (configuration->startingLayerID == L_BAMBOO_256) {
@@ -413,20 +414,20 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	// 1.0-1.1: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
 	// 12 = Snowy Tundra, 14 = Mushroom Fields
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
-	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
-	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
-	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
-	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	// 1.7-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
-	// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
-	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest,
+	// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
 	// 39 = Badlands Plateau
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
-	// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
-	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest,
+	// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
 	// 39 = Badlands Plateau, 168 = Bamboo Jungle
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
@@ -443,20 +444,20 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	// 1.0-1.1: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
 	// 12 = Snowy Tundra, 14 = Mushroom Fields
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
-	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
-	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
-	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 21 = Jungle,
-	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	// 1.7-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
-	// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
-	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest,
+	// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
 	// 39 = Badlands Plateau
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
-	// 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest, 29 = Dark Forest,
-	// 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle, 24 = Deep Ocean, 27 = Birch Forest,
+	// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 35 = Savanna, 38 = Wooded Badlands Plateau,
 	// 39 = Badlands Plateau, 168 = Bamboo Jungle
 	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
@@ -470,15 +471,19 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	if (configuration->version >= MC_1_7) {
 		// 1:64, Large Biomes 1:256
 		// 1.7-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
-		// 14 = Mushroom Fields, 21 = Jungle, 23 = Jungle Edge, 24 = Deep Ocean, 27 = Birch Forest,
-		// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 34 = Wooded Mountains, 35 = Savanna,
-		// 37 = Badlands, 38 = Wooded Badlands Plateau, 39 = Badlands Plateau
-		// 		Allows Desert -> Wooded Mountains, Swamp -> Plains, Swamp -> Jungle Edge, Giant Tree Taiga -> Taiga, Wooded Badlands Plateau -> Badlands, Badlands Plateau -> Badlands
+		// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle, 23 = Jungle Edge, 24 = Deep Ocean,
+		// 27 = Birch Forest, 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga,
+		// 34 = Wooded Mountains, 35 = Savanna, 37 = Badlands, 38 = Wooded Badlands Plateau,
+		// 39 = Badlands Plateau
+		// 		Allows Desert -> Wooded Mountains, Swamp -> Plains, Swamp -> Jungle Edge,
+		// 		Giant Tree Taiga -> Taiga, Wooded Badlands Plateau -> Badlands, Badlands Plateau -> Badlands
 		// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
-		// 14 = Mushroom Fields, 21 = Jungle, 23 = Jungle Edge, 24 = Deep Ocean, 27 = Birch Forest,
-		// 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga, 34 = Wooded Mountains, 35 = Savanna,
-		// 37 = Badlands, 38 = Wooded Badlands Plateau, 39 = Badlands Plateau, 168 = Bamboo Jungle
-		// 		Allows Desert -> Wooded Mountains, Swamp -> Plains, Swamp -> Jungle Edge, Giant Tree Taiga -> Taiga, Wooded Badlands Plateau -> Badlands, Badlands Plateau -> Badlands
+		// 12 = Snowy Tundra, 14 = Mushroom Fields, 21 = Jungle, 23 = Jungle Edge, 24 = Deep Ocean,
+		// 27 = Birch Forest, 29 = Dark Forest, 30 = Snowy Taiga, 32 = Giant Tree Taiga,
+		// 34 = Wooded Mountains, 35 = Savanna, 37 = Badlands, 38 = Wooded Badlands Plateau,
+		// 39 = Badlands Plateau, 168 = Bamboo Jungle
+		// 		Allows Desert -> Wooded Mountains, Swamp -> Plains, Swamp -> Jungle Edge,
+		// 		Giant Tree Taiga -> Taiga, Wooded Badlands Plateau -> Badlands, Badlands Plateau -> Badlands
 		if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 		biomeEdgeLayer(biomes, tempBuffer, configuration);
 		if (configuration->startingLayerID == L_BIOME_EDGE_64) {
@@ -493,6 +498,10 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	// ------------------------------------
 
 	// 1:256, Large Biomes 1:1024
+	// Beta 1.8 - 1.6: 0 = Ocean, 2/3 = River Noise
+	// 		Allows all non-Ocean -> River Noise
+	// 1.7+: 0 = Ocean, [2...300001] = River Noise
+	// 		Allows all non-Ocean -> River Noise
 	riverInitLayer(riverNoise, 100, configuration);
 	if (configuration->startingLayerID == L_NOISE_256) {
 		memcpy(biomes, riverNoise, configuration->width*configuration->height*sizeof(*riverNoise));
@@ -505,7 +514,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	int *hillsNoise;
 	int *hillsNoiseRequiredMargin, _riverMarginCopy = riverNoiseRequiredMargin;
 	// Hills noise zoom's salt differs from river noise zoom's salt in 1.1-1.12, so a distinct copy must be made then. Otherwise, they are identical and we can reuse the same noisemap + margin counter.
-	if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) {
+	if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) { // (This would be 1.7-1.12 if not for Cubiomes)
 		// Copy current rivers layer to hills noisemap
 		hillsNoise = (int *)calloc(configuration->width * configuration->height, sizeof(*hillsNoise));
 		memcpy(hillsNoise, riverNoise, configuration->width*configuration->height*sizeof(*riverNoise));
@@ -515,8 +524,12 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		hillsNoiseRequiredMargin = &riverNoiseRequiredMargin;
 	}
 
-	if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) {
+	if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) { // (This would be 1.7-1.12 if not for Cubiomes)
 		// 1:128, Large Biomes 1:512
+		// 1.1-1.6: 0 = Ocean, 2/3 = Hills Noise
+		// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+		// 1.7-1.12: 0 = Ocean, [2...300001] = Hills Noise
+		// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 		*hillsNoiseRequiredMargin = ceil(*hillsNoiseRequiredMargin/2.);
 		// Worldseed-independent for 1.1-1.12
 		zoomLayer(hillsNoise, tempBuffer, false, 0, configuration);
@@ -530,6 +543,10 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:64, Large Biomes 1:256
+		// 1.1-1.6: 0 = Ocean, 2/3 = Hills Noise
+		// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+		// 1.7-1.12: 0 = Ocean, [2...300001] = Hills Noise
+		// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 		*hillsNoiseRequiredMargin = ceil(*hillsNoiseRequiredMargin/2.);
 		// Worldseed-independent for 1.1-1.12
 		zoomLayer(hillsNoise, tempBuffer, false, 0, configuration);
@@ -544,26 +561,42 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:128, 1.7- Large Biomes 1:512
+	// Beta 1.8 - 1.0: 0 = Ocean, 2/3 = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.1-1.6: 0 = Ocean, 2/3 = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7-1.12: 0 = Ocean, [2...300001] = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.13+: 0 = Ocean, [2...300001] = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, 1000, configuration);
 	// 1.1-1.12 Zoom 128 Hills case already returned above
 	if (configuration->startingLayerID == L_ZOOM_128_HILLS || configuration->startingLayerID == L_ZOOM_128_RIVER) {
 		memcpy(biomes, riverNoise, configuration->width*configuration->height*sizeof(*riverNoise));
 		*biomesRequiredMargin = riverNoiseRequiredMargin;
-		if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) free(hillsNoise);
+		if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) free(hillsNoise); // (This would be 1.7-1.12 if not for Cubiomes)
 		free(riverNoise);
 		free(tempBuffer);
 		return 0;
 	}
 
 	// 1:64, 1.7- Large Biomes 1:256
+	// Beta 1.8 - 1.0: 0 = Ocean, 2/3 = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.1-1.6: 0 = Ocean, 2/3 = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7-1.12: 0 = Ocean, [2...300001] = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.13+: 0 = Ocean, [2...300001] = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, 1001, configuration);
 	// 1.1-1.12 Zoom 64 Hills case already returned above
 	if (configuration->startingLayerID == L_ZOOM_64_HILLS || configuration->startingLayerID == L_ZOOM_64_RIVER) {
 		memcpy(biomes, riverNoise, configuration->width*configuration->height*sizeof(*riverNoise));
 		*biomesRequiredMargin = riverNoiseRequiredMargin;
-		if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) free(hillsNoise);
+		if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) free(hillsNoise); // (This would be 1.7-1.12 if not for Cubiomes)
 		free(riverNoise);
 		free(tempBuffer);
 		return 0;
@@ -571,13 +604,126 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version >= MC_1_1) {
 		// 1:64, 1.7- Large Biomes 1:256
+		// 1.1: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+		// 18 = Wooded Hills, 19 = Taiga Hills
+		// 		Allows Plains -> Forest, Desert -> Desert Hills, Forest -> Wooded Hills,
+		// 		Taiga -> Taiga Hills, Snowy Tundras -> Snowy Mountains
+		// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+		// 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills
+		// 		Allows Plains -> Forest, Desert -> Desert Hills, Forest -> Wooded Hills,
+		// 		Taiga -> Taiga Hills, Snowy Tundras -> Snowy Mountains, Jungle -> Jungle Hills
+		// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+		// 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills
+		// 		Allows Plains -> Forest, Desert -> Desert Hills, Forest -> Wooded Hills,
+		// 		Taiga -> Taiga Hills, Snowy Tundras -> Snowy Mountains, Jungle -> Jungle Hills
+		// 1.7-1.8, 1.11-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga,
+		// 6 = Swamp, 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+		// 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge,
+		// 24 = Deep Ocean, 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+		// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 
+		// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+		// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+		// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+		// 149 = Modified Jungle, 151 = Modified Jungle Edge, 155 = Tall Birch Forest,
+		// 156 = Tall Birch Hills, 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains,
+		// 160 = Giant Spruce Taiga, 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains,
+		// 163 = Shattered Savanna, 164 = Shattered Savanna Plateau, 165 = Eroded Badlands,
+		// 166 = Modified Wooded Badlands Plateau, 167 = Modified Badlands Plateau
+		// 		Allows Ocean -> Deep Ocean, Plains -> Forest, Plains -> Wooded Hills,
+		// 		Plains -> Sunflower Plains, Plains -> Flower Forest, Desert -> Desert Hills,
+		// 		Desert -> Desert Lakes, Mountains -> Wooded Mountains, Mountains -> Gravelly Mountains,
+		// 		Mountains -> Modified Gravelly Mountains, Forest -> Wooded Hills, Forest -> Flower Forest, 
+		// 		Taiga -> Taiga Hills, Taiga -> Taiga Mountains, Swamp -> Swamp Hills,
+		// 		Snowy Tundra -> Snowy Mountains, Snowy Tundra -> Ice Spikes, Jungle -> Jungle Hills,
+		// 		Jungle -> Modified Jungle, Jungle Edge -> Modified Jungle Edge, Deep Ocean -> Plains,
+		// 		Deep Ocean -> Forest, Deep Ocean -> Sunflower Plains, Deep Ocean -> Flower Forest,
+		// 		Birch Forest -> Birch Forest Hills, Birch Forest -> Tall Birch Forest,
+		// 		Birch Forest -> Tall Birch Hills, Dark Forest -> Plains, Dark Forest -> Sunflower Plains, 
+		// 		Dark Forest -> Dark Forest Hills, Snowy Taiga -> Snowy Taiga Hills,
+		// 		Snowy Taiga -> Snowy Taiga Mountains, Giant Tree Taiga -> Giant Tree Taiga Hills,
+		// 		Giant Tree Taiga -> Giant Spruce Taiga, Giant Tree Taiga -> Giant Spruce Taiga Hills,
+		// 		Wooded Mountains -> Modified Gravelly Mountains, Savanna -> Savanna Plateau,
+		// 		Savanna -> Shattered Savanna, Savanna -> Shattered Savanna Plateau,
+		// 		Badlands -> Eroded Badlands, Wooded Badlands Plateau -> Badlands,
+		// 		Wooded Badlands Plateau -> Eroded Badlands,
+		// 		Wooded Badlands Plateau -> Modified Wooded Badlands Plateau, Badlands Plateau -> Badlands,
+		// 		Badlands Plateau -> Eroded Badlands, Badlands Plateau -> Modified Badlands Plateau
+		// 1.9-1.10: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+		// 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge,
+		// 24 = Deep Ocean, 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+		// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 
+		// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+		// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+		// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+		// 149 = Modified Jungle, 151 = Modified Jungle Edge, 156 = Tall Birch Hills,
+		// 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains, 160 = Giant Spruce Taiga,
+		// 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains, 163 = Shattered Savanna,
+		// 164 = Shattered Savanna Plateau, 165 = Eroded Badlands, 166 = Modified Wooded Badlands Plateau,
+		// 167 = Modified Badlands Plateau
+		// 		Allows Ocean -> Deep Ocean, Plains -> Forest, Plains -> Wooded Hills,
+		// 		Plains -> Sunflower Plains, Plains -> Flower Forest, Desert -> Desert Hills,
+		// 		Desert -> Desert Lakes, Mountains -> Wooded Mountains, Mountains -> Gravelly Mountains,
+		// 		Mountains -> Modified Gravelly Mountains, Forest -> Wooded Hills, Forest -> Flower Forest, 
+		// 		Taiga -> Taiga Hills, Taiga -> Taiga Mountains, Swamp -> Swamp Hills,
+		// 		Snowy Tundra -> Snowy Mountains, Snowy Tundra -> Ice Spikes, Jungle -> Jungle Hills,
+		// 		Jungle -> Modified Jungle, Jungle Edge -> Modified Jungle Edge, Deep Ocean -> Plains,
+		// 		Deep Ocean -> Forest, Deep Ocean -> Sunflower Plains, Deep Ocean -> Flower Forest,
+		// 		Birch Forest -> Birch Forest Hills, Birch Forest -> Tall Birch Hills, Dark Forest -> Plains, 
+		// 		Dark Forest -> Sunflower Plains, Dark Forest -> Dark Forest Hills,
+		// 		Snowy Taiga -> Snowy Taiga Hills, Snowy Taiga -> Snowy Taiga Mountains,
+		// 		Giant Tree Taiga -> Giant Tree Taiga Hills, Giant Tree Taiga -> Giant Spruce Taiga,
+		// 		Giant Tree Taiga -> Giant Spruce Taiga Hills,
+		// 		Wooded Mountains -> Modified Gravelly Mountains, Savanna -> Savanna Plateau,
+		// 		Savanna -> Shattered Savanna, Savanna -> Shattered Savanna Plateau,
+		// 		Badlands -> Eroded Badlands, Wooded Badlands Plateau -> Badlands,
+		// 		Wooded Badlands Plateau -> Eroded Badlands,
+		// 		Wooded Badlands Plateau -> Modified Wooded Badlands Plateau, Badlands Plateau -> Badlands,
+		// 		Badlands Plateau -> Eroded Badlands, Badlands Plateau -> Modified Badlands Plateau
+		// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+		// 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge,
+		// 24 = Deep Ocean, 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+		// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 
+		// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+		// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+		// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+		// 149 = Modified Jungle, 151 = Modified Jungle Edge, 155 = Tall Birch Forest,
+		// 156 = Tall Birch Hills, 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains,
+		// 160 = Giant Spruce Taiga, 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains,
+		// 163 = Shattered Savanna, 164 = Shattered Savanna Plateau, 165 = Eroded Badlands,
+		// 166 = Modified Wooded Badlands Plateau, 167 = Modified Badlands Plateau, 168 = Bamboo Jungle,
+		// 169 = Bamboo Jungle Hills
+		// 		Allows Ocean -> Deep Ocean, Plains -> Forest, Plains -> Wooded Hills,
+		// 		Plains -> Sunflower Plains, Plains -> Flower Forest, Desert -> Desert Hills,
+		// 		Desert -> Desert Lakes, Mountains -> Wooded Mountains, Mountains -> Gravelly Mountains,
+		// 		Mountains -> Modified Gravelly Mountains, Forest -> Wooded Hills, Forest -> Flower Forest, 
+		// 		Taiga -> Taiga Hills, Taiga -> Taiga Mountains, Swamp -> Swamp Hills,
+		// 		Snowy Tundra -> Snowy Mountains, Snowy Tundra -> Ice Spikes, Jungle -> Jungle Hills,
+		// 		Jungle -> Modified Jungle, Jungle Edge -> Modified Jungle Edge, Deep Ocean -> Plains,
+		// 		Deep Ocean -> Forest, Deep Ocean -> Sunflower Plains, Deep Ocean -> Flower Forest,
+		// 		Birch Forest -> Birch Forest Hills, Birch Forest -> Tall Birch Forest,
+		// 		Birch Forest -> Tall Birch Hills, Dark Forest -> Plains, Dark Forest -> Sunflower Plains, 
+		// 		Dark Forest -> Dark Forest Hills, Snowy Taiga -> Snowy Taiga Hills,
+		// 		Snowy Taiga -> Snowy Taiga Mountains, Giant Tree Taiga -> Giant Tree Taiga Hills,
+		// 		Giant Tree Taiga -> Giant Spruce Taiga, Giant Tree Taiga -> Giant Spruce Taiga Hills,
+		// 		Wooded Mountains -> Modified Gravelly Mountains, Savanna -> Savanna Plateau,
+		// 		Savanna -> Shattered Savanna, Savanna -> Shattered Savanna Plateau,
+		// 		Badlands -> Eroded Badlands, Wooded Badlands Plateau -> Badlands,
+		// 		Wooded Badlands Plateau -> Eroded Badlands,
+		// 		Wooded Badlands Plateau -> Modified Wooded Badlands Plateau, Badlands Plateau -> Badlands,
+		// 		Badlands Plateau -> Eroded Badlands, Badlands Plateau -> Modified Badlands Plateau,
+		// 		Bamboo Jungle -> Bamboo Jungle Hills
 		if (biomesRequiredMargin) {
 			if (*biomesRequiredMargin < *hillsNoiseRequiredMargin) *biomesRequiredMargin = *hillsNoiseRequiredMargin;
 			*biomesRequiredMargin += 1;
 		}
 		regionHillsLayer(biomes, hillsNoise, tempBuffer, 1000, configuration);
 		if (configuration->startingLayerID == L_HILLS_64) {
-			if (configuration->version <= MC_1_12) free(hillsNoise);
+			if (configuration->version <= MC_1_12) free(hillsNoise); // (This would be 1.7-1.12 if not for Cubiomes)
 			free(riverNoise);
 			free(tempBuffer);
 			return 0;
@@ -585,7 +731,7 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// Hills noise is never used again (river noise is though)
-	if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) {
+	if (configuration->version >= MC_1_1 && configuration->version <= MC_1_12) { // (This would be 1.7-1.12 if not for Cubiomes)
 		free(hillsNoise);
 	}
 
@@ -595,6 +741,49 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	// 1:64, Large Biomes 1:256
 	if (configuration->version >= MC_1_7) {
+		// 1.7-1.8, 1.11-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga,
+		// 6 = Swamp, 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+		// 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge,
+		// 24 = Deep Ocean, 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+		// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 
+		// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+		// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+		// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+		// 149 = Modified Jungle, 151 = Modified Jungle Edge, 155 = Tall Birch Forest,
+		// 156 = Tall Birch Hills, 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains,
+		// 160 = Giant Spruce Taiga, 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains,
+		// 163 = Shattered Savanna, 164 = Shattered Savanna Plateau, 165 = Eroded Badlands,
+		// 166 = Modified Wooded Badlands Plateau, 167 = Modified Badlands Plateau
+		// 		Allows Plains -> Sunflower Plains
+		// 1.9-1.10: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+		// 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge,
+		// 24 = Deep Ocean, 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+		// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 
+		// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+		// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+		// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+		// 149 = Modified Jungle, 151 = Modified Jungle Edge, 156 = Tall Birch Hills,
+		// 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains, 160 = Giant Spruce Taiga,
+		// 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains, 163 = Shattered Savanna,
+		// 164 = Shattered Savanna Plateau, 165 = Eroded Badlands, 166 = Modified Wooded Badlands Plateau,
+		// 167 = Modified Badlands Plateau
+		// 		Allows Plains -> Sunflower Plains
+		// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+		// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+		// 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge,
+		// 24 = Deep Ocean, 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+		// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 
+		// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+		// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+		// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+		// 149 = Modified Jungle, 151 = Modified Jungle Edge, 155 = Tall Birch Forest,
+		// 156 = Tall Birch Hills, 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains,
+		// 160 = Giant Spruce Taiga, 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains,
+		// 163 = Shattered Savanna, 164 = Shattered Savanna Plateau, 165 = Eroded Badlands,
+		// 166 = Modified Wooded Badlands Plateau, 167 = Modified Badlands Plateau, 168 = Bamboo Jungle,
+		// 169 = Bamboo Jungle Hills
+		// 		Allows Plains -> Sunflower Plains
 		addSunflowerLayer(biomes, 1001, configuration);
 		if (configuration->startingLayerID == L_SUNFLOWER_64) {
 			free(riverNoise);
@@ -604,6 +793,64 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:32, Large Biomes 1:128
+	// Beta 1.8: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.0: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 14 = Mushroom Fields
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.1: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills, 18 = Wooded Hills, 
+	// 19 = Taiga Hills
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills, 18 = Wooded Hills,
+	// 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills, 18 = Wooded Hills, 
+	// 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7-1.8, 1.11-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga,
+	// 6 = Swamp, 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills,
+	// 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge,
+	// 24 = Deep Ocean, 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+	// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 
+	// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+	// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+	// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+	// 149 = Modified Jungle, 151 = Modified Jungle Edge, 155 = Tall Birch Forest, 156 = Tall Birch Hills, 
+	// 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains, 160 = Giant Spruce Taiga,
+	// 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains, 163 = Shattered Savanna,
+	// 164 = Shattered Savanna Plateau, 165 = Eroded Badlands, 166 = Modified Wooded Badlands Plateau,
+	// 167 = Modified Badlands Plateau
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.9-1.10: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills, 18 = Wooded Hills, 
+	// 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge, 24 = Deep Ocean,
+	// 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+	// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 
+	// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+	// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+	// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+	// 149 = Modified Jungle, 151 = Modified Jungle Edge, 156 = Tall Birch Hills, 157 = Dark Forest Hills, 
+	// 158 = Snowy Taiga Mountains, 160 = Giant Spruce Taiga, 161 = Giant Spruce Taiga Hills,
+	// 162 = Modified Gravelly Mountains, 163 = Shattered Savanna, 164 = Shattered Savanna Plateau,
+	// 165 = Eroded Badlands, 166 = Modified Wooded Badlands Plateau, 167 = Modified Badlands Plateau
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 17 = Desert Hills, 18 = Wooded Hills,
+	// 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge, 24 = Deep Ocean,
+	// 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+	// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 
+	// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+	// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+	// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+	// 149 = Modified Jungle, 151 = Modified Jungle Edge, 155 = Tall Birch Forest, 156 = Tall Birch Hills,
+	// 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains, 160 = Giant Spruce Taiga,
+	// 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains, 163 = Shattered Savanna,
+	// 164 = Shattered Savanna Plateau, 165 = Eroded Badlands, 166 = Modified Wooded Badlands Plateau,
+	// 167 = Modified Badlands Plateau, 168 = Bamboo Jungle, 169 = Bamboo Jungle Hills
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	if (biomesRequiredMargin) *biomesRequiredMargin = ceil(*biomesRequiredMargin/2.);
 	zoomLayer(biomes, tempBuffer, false, 1000, configuration);
 	if (configuration->startingLayerID == L_ZOOM_32) {
@@ -941,7 +1188,9 @@ int main() {
 		0,
 		0,
 		false,
-		-100, -100, 100, 100, 201, 201,
+		// -100, -100, 100, 100, 201, 201,
+		// -7, -7, 7, 7, 15, 15,
+		-240, -240, 239, 239, 15*32, 15*32,
 		0
 	};
 
@@ -949,6 +1198,7 @@ int main() {
 	// For each worldseed to check:
 	for (size_t i = 0; i < sizeof(WORLDSEEDS_TO_CHECK)/sizeof(*WORLDSEEDS_TO_CHECK); ++i) {
 		configuration.worldseed = WORLDSEEDS_TO_CHECK[i];
+	// for (configuration.worldseed = 0; configuration.worldseed <= 200; ++configuration.worldseed) {
 		printf("Checking worldseed %" PRId64 "...\n", configuration.worldseed);
 		// For each version:
 		for (int version = MC_B1_8; version <= MC_1_17; ++version) {

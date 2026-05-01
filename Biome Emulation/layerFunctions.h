@@ -21,18 +21,7 @@ static inline int64_t flatten(int x, int z, const Configuration *const configura
 }
 
 static inline bool oceanCheck(int biome, int version) {
-	if (version <= MC_1_6) return biome == ocean;
-	return isOceanic(biome);
-}
-
-static inline bool shallowOceanCheck(int biome, int version) {
-	if (version <= MC_1_6) return biome == ocean;
-	return isShallowOcean(biome);
-}
-
-static inline bool similarLayerCheck(int biome1, int biome2, int version) {
-	if (version <= MC_1_6) return biome1 == biome2;
-	return areSimilar(version, biome1, biome2);
+	return biome == ocean || (version >= MC_1_7 && biome == deep_ocean);
 }
 
 // Biomes I
