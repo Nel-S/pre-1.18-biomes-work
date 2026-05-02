@@ -130,8 +130,8 @@ void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t sa
 //		- If the coordinate is Ocean, and any neighboring diagonal isn't, randomly select a non-Ocean diagonal and roll 1/3rd chance to replace it. If the roll failed but the replacement would have been a Snowy Tundra, replace with Frozen Ocean.
 //		- If the coordinate is not Ocean, any neighboring diagonal is, and a 1/5th chance roll succeeds, replace with Frozen Ocean (if originally a Snowy Tundra) or Ocean otherwise.
 //	- 1.7+:
-//		- If the coordinate is shallow ocean, and any neighboring diagonal isn't, randomly select a non-shallow-ocean diagonal and roll 1/3rd chance to replace it. If the roll failed but the replacement would have been Freezing/Forest, replace with Freezing/Forest.
-//		- If the coordinate is not shallow ocean or Freezing/Forest, any neighboring diagonal is shallow ocean, and a 1/5th chance roll succeeds, replace with whichever of Northwest, Southwest, Northeast, and Southeast is first shallow ocean.
+//		- If the coordinate is ocean, and any neighboring diagonal isn't, randomly select a non-Ocean diagonal and roll 1/3rd chance to replace it. If the roll failed but the replacement would have been Freezing/Forest, replace with Freezing/Forest.
+//		- If the coordinate is not Ocean or Freezing/Forest, any neighboring diagonal is Ocean, and a 1/5th chance roll succeeds, replace with Ocean.
 void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -152,7 +152,7 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 			int centerValue = biomes[flatten(x, z, configuration)];
 			
 			uint64_t random = getChunkSeed(startSeed, x, z);
-			// If the center value is shallow ocean, and one of the four corner biomes isn't:
+			// If the center value is Ocean, and one of the four corner biomes isn't:
 			if (centerValue == ocean && (southwestValue != ocean || southeastValue != ocean || northwestValue != ocean || northeastValue != ocean)) {
 				// For Beta 1.8, roll 2/3rd chance to preserve ocean, otherwise change to land
 				if (configuration->version == MC_B1_8) {
@@ -191,7 +191,7 @@ void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, con
 				*entry = (quadraticNextInt(&random, 0, 5) != 4); // Last call, so start salt does not matter
 					continue;
 			}
-			// In 1.0+, if the center value isn't shallow ocean, one of the four corner biomes is shallow ocean, and a 1/5 chance occurs:
+			// In 1.0+, if the center value isn't Ocean, one of the four corner biomes is Ocean, and a 1/5 chance occurs:
 			if (configuration->version >= MC_1_0 && centerValue != ocean && (southwestValue == ocean || southeastValue == ocean || northwestValue == ocean || northeastValue == ocean) && !quadraticNextInt(&random, 0, 5)) { // Last call, so start salt does not matter
 				// 1.0-1.6 snowy tundras switch to frozen ocean
 				if (MC_1_0 <= configuration->version && configuration->version <= MC_1_6 && centerValue == snowy_tundra) *entry = frozen_ocean;
@@ -907,8 +907,42 @@ void addSunflowerLayer(int *const biomes, uint64_t salt, const Configuration *co
 	}
 }
 
-// Beta 1.8 - 1.0; 1.1-1.6; 1.7+
-// Castle
+// 1.0; 1.1-1.6; 1.7-1.13; 1.14+. Castle.
+// - 1.0:
+// 		- Mushroom Fields orthagonally bordered by Ocean are replaced with Mushroom Field Shore.
+// - 1.1-1.6:
+//		- Mountains orthagonally bordered by non-Mountains are replaced with Mountain Edge.
+// 		- Mushroom Fields orthagonally bordered by Ocean are replaced with Mushroom Field Shore.
+//		- All other biomes except Oceans and Swamps, if bordered by Ocean or Deep Ocean, are replaced with
+// 			Beach.
+// - 1.7-1.13:
+//		- Mountains and Wooded Mountains orthagonally bordered by Ocean or Deep Ocean are replaced with Stone
+// 			Shore.
+//		- Snowy Tundras, Snowy Mountains, Ice Spikes, Snowy Taigas, Snowy Taiga Hills, and Snowy Taiga
+// 			Mountains orthagonally bordered by Ocean or Deep Ocean are replaced with Snowy Beach.
+// 		- Mushroom Fields orthagonally bordered by Ocean are replaced with Mushroom Field Shore.
+//		- Jungles, Jungle Hills, Jungle Edges, Modified Jungles, and Modified Jungle Edges orthagonally
+// 			bordered by anything other than a Jungle-Category biome, Forest, Taiga, Ocean, or Deep Ocean are
+// 			replaced with Jungle Edge. Those otherwise bordered by an Ocean or Deep Ocean are replaced with
+// 			Beach.
+//		- Badlands and Wooded Badlands Plateaus not orthagonally bordered by Ocean, Deep Ocean, or
+// 			Mesa-category biomes are replaced with Deserts.
+//		- All other biomes except Oceans, Deep Oceans, and Swamps, if bordered by Ocean or Deep Ocean,
+// 			are replaced with Beach.
+// - 1.14+:
+//		- Mountains and Wooded Mountains orthagonally bordered by Ocean or Deep Ocean are replaced with Stone
+// 			Shore.
+//		- Snowy Tundras, Snowy Mountains, Ice Spikes, Snowy Taigas, Snowy Taiga Hills, and Snowy Taiga
+// 			Mountains orthagonally bordered by Ocean or Deep Ocean are replaced with Snowy Beach.
+// 		- Mushroom Fields orthagonally bordered by Ocean are replaced with Mushroom Field Shore.
+//		- Jungles, Jungle Hills, Jungle Edges, Modified Jungles, Modified Jungle Edges, Bamboo Jungles, and
+// 			Bamboo Jungle Hills orthagonally bordered by anything other than a Jungle-Category biome, Forest, 
+// 			Taiga, Ocean, or Deep Ocean are replaced with Jungle Edge. Those otherwise bordered by an Ocean
+// 			or Deep Ocean are replaced with Beach.
+//		- Badlands and Wooded Badlands Plateaus not orthagonally bordered by Ocean, Deep Ocean, or
+// 			Mesa-category biomes are replaced with Deserts.
+//		- All other biomes except Oceans, Deep Oceans, and Swamps, if bordered by Ocean or Deep Ocean,
+// 			are replaced with Beach.
 void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *const configuration) {
 	
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -923,11 +957,29 @@ void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *c
 			int westValue = biomes[flatten(x - 1, z, configuration)];
 			int centerValue = biomes[flatten(x, z, configuration)];
 			
+			// Mushroom fields orthagonally bordering ocean become mushroom fields shores
+			if (centerValue == mushroom_fields) {
+				if (isAny4(ocean, northValue, eastValue, southValue, westValue)) *entry = mushroom_field_shore;
+				else *entry = centerValue;
+				continue;
+			}
+			// Everything else in 1.0 is preserved
+			if (configuration->version == MC_1_0) {
+				*entry = centerValue;
+				continue;
+			}
+
+			// Special cases:
 			switch (centerValue) {
-				case mushroom_fields:
-					if (northValue == ocean || eastValue == ocean || southValue == ocean || westValue == ocean) *entry = mushroom_field_shore;
-					else *entry = centerValue;
-					continue;
+				case mountains:
+					// 1.1-1.6 mountains
+					if (configuration->version <= MC_1_6) {
+						if (northValue != mountains || eastValue != mountains || southValue != mountains || westValue != mountains) *entry = mountain_edge;
+						else *entry = centerValue;
+						continue;
+					}
+					break; // Continue to beach addition
+				// 1.7+ Jungle-category biomes
 				case bamboo_jungle:
 				case bamboo_jungle_hills:
 				case jungle:
@@ -944,43 +996,8 @@ void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *c
 						*entry = jungle_edge;
 						continue;
 					}
-					break; // Jump to beach check at end
-				case mountains:
-					// 1.1-1.6 may change it
-					if (configuration->version >= MC_1_1 && configuration->version <= MC_1_6) {
-						if (northValue != mountains || eastValue != mountains || southValue != mountains || westValue != mountains) *entry = mountain_edge;
-						else *entry = centerValue;
-						continue;
-					}
-					// 1.0- and 1.7+ fall through
-					#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 202000L
-						[[fallthrough]];
-					#endif
-				case wooded_mountains:
-				case mountain_edge:
-					if (configuration->version >= MC_1_7 && (
-						isAny4(ocean, northValue, eastValue, southValue, westValue) || isAny4(deep_ocean, northValue, eastValue, southValue, westValue)
-					)) *entry = stone_shore;
-					else *entry = centerValue;
-					continue;
-				case snowy_tundra:
-				case snowy_mountains:
-					if (configuration->version >= MC_1_1 && configuration->version <= MC_1_6) break; // Jump to beach check at end
-					// 1.0- and 1.7+ fall through
-					#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 202000L
-						[[fallthrough]];
-					#endif
-				case snowy_beach:
-				case frozen_river:
-				case ice_spikes:
-				case snowy_taiga:
-				case snowy_taiga_hills:
-				case snowy_taiga_mountains:
-					if (configuration->version >= MC_1_7 && (
-						isAny4(ocean, northValue, eastValue, southValue, westValue) || isAny4(deep_ocean, northValue, eastValue, southValue, westValue)
-					)) *entry = snowy_beach;
-					else *entry = centerValue;
-					continue;
+					break; // Continue to beach addition
+				// 1.7+ Badlands/Wooded Badlands Plateaus
 				case badlands:
 				case wooded_badlands_plateau:
 					if (!isAny4(ocean, northValue, eastValue, southValue, westValue) && !isAny4(deep_ocean, northValue, eastValue, southValue, westValue) && (
@@ -989,18 +1006,53 @@ void shoreLayer(int *const biomes, int *const tempBuffer, const Configuration *c
 					else *entry = centerValue;
 					continue;
 			}
-			// Beach check
-			if (configuration->version >= MC_1_1 && !oceanCheck(centerValue, configuration->version) && centerValue != river && centerValue != swamp && (
-				oceanCheck(northValue, configuration->version) || oceanCheck(eastValue, configuration->version) || oceanCheck(southValue, configuration->version) || oceanCheck(westValue, configuration->version)
-			)) *entry = beach;
-			else *entry = centerValue;
+
+			// In all other cases, if any neighbors are oceans or deep oceans:
+			if (isAny4(ocean, northValue, eastValue, southValue, westValue) || isAny4(deep_ocean, northValue, eastValue, southValue, westValue)) {
+				switch (centerValue) {
+					// Preserved
+					case ocean:
+					case deep_ocean:
+					case swamp:
+						*entry = centerValue;
+						break;
+
+					// Replaced with Stone Shores
+					case mountains:
+					case wooded_mountains:
+						*entry = stone_shore;
+						break;
+
+					// Replaced with Beaches in 1.1-1.6, or Snowy Beaches in 1.7+
+					case snowy_tundra:
+					case snowy_mountains:
+						*entry = (configuration->version <= MC_1_6 ? beach : snowy_beach);
+						break;
+
+					// Replaced with Snowy Beaches
+					case snowy_taiga:
+					case snowy_taiga_hills:
+					case ice_spikes:
+					case snowy_taiga_mountains:
+						*entry = snowy_beach;
+						break;
+
+					// Replaced with Beaches
+					default:
+						*entry = beach;
+				}
+			} else *entry = centerValue;
 		}
 	}
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// 1.1-1.6
-// One-to-one
+// 1.1; 1.2-1.6. One-to-one.
+// - 1.1:
+//		- Swamps have a 1/6th chance of being replaced with rivers.
+// - 1.2-1.6:
+//		- Swamps have a 1/6th chance of being replaced with rivers.
+//		- Jungles and Jungle Hills have a 1/8th chance of being replaced with rivers.
 void addSwampRiverLayer(int *const biomes, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -1022,8 +1074,7 @@ void addSwampRiverLayer(int *const biomes, uint64_t salt, const Configuration *c
 	}
 }
 
-// All versions
-// Castle
+// All versions. Castle.
 void smoothLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -1069,8 +1120,7 @@ void smoothLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const 
 	memmove(biomes, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// Beta 1.8-1.6; 1.7+
-// Castle
+// Beta 1.8-1.6; 1.7+. Castle.
 void riverLayer(int *const riverNoise, int *const tempBuffer, const Configuration *const configuration) {
 
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -1105,8 +1155,7 @@ void riverLayer(int *const riverNoise, int *const tempBuffer, const Configuratio
 	memmove(riverNoise, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// Beta 1.8-1.6; 1.7+
-// One-to-one
+// Beta 1.8-1.6; 1.7+. One-to-one.
 void riverMixerLayer(int *const biomes, const int *const riverNoise, const Configuration *const configuration) {
 
 	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
@@ -1130,8 +1179,7 @@ void riverMixerLayer(int *const biomes, const int *const riverNoise, const Confi
 	}
 }
 
-// 1.13+
-// One-to-one
+// 1.13+. One-to-one.
 void oceanLayer(int *const oceans, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -1156,8 +1204,7 @@ void oceanLayer(int *const oceans, const Configuration *const configuration) {
 	}
 }
 
-// 1.13+
-// 8x8
+// 1.13+. 8x8.
 void oceanMixerLayer(int *const biomes, const int *const oceanNoise, int *const tempBuffer, const Configuration *const configuration) {
 
 	// TODO: Figure out how to support coordinates outside the desired region

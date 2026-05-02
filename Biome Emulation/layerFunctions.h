@@ -20,10 +20,6 @@ static inline int64_t flatten(int x, int z, const Configuration *const configura
 	return (z - configuration->minimumZ)*(int64_t)configuration->width + (x - configuration->minimumX);
 }
 
-static inline bool oceanCheck(int biome, int version) {
-	return biome == ocean || (version >= MC_1_7 && biome == deep_ocean);
-}
-
 // Biomes I
 void islandLayer(int *const biomes, uint64_t salt, const Configuration *const configuration);
 void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t salt, const Configuration *const configuration);
