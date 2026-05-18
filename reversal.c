@@ -3,33 +3,31 @@
 static const uint64_t A = UINT64_C(6364136223846793005);
 static const uint64_t B = UINT64_C(1442695040888963407);
 
-// Solves Ax^2 + Bx + C = 0 (mod 2^n) when A is even and B is odd.
-// Algorithm from S. M. Dehnavi et al (https://doi.org/10.7546/nntdm.2019.25.1.75-83).
-static inline uint64_t solveWithEvenA(uint64_t evenA, uint64_t oddB, uint64_t c, size_t n) {
-	uint64_t output = 0;
-	for (size_t i = 0; i < n; ++i) {
-		if (c & 1) {
-			output |= UINT64_C(1) << i;
-			c = evenA/2 + oddB/2 + c/2 + 1;
-			oddB = 2*evenA + oddB;
-		} else c /= 2;
-		evenA *= 2;
+// Solves Ax^2 + Bx + C = 0 (mod 2^64).
+// Contributed by Andrew (https://github.com/Gaider10/)
+static inline uint64_t rev_quad(uint64_t a, uint64_t b, uint64_t c, bool oddSolution) {
+	uint64_t x = oddSolution;
+	uint64_t df_inv = 1;
+	for (int i = 1; i < 64; i *= 2) {
+		uint64_t f = a * x * x + b * x + c;
+		uint64_t df = 2 * a * x + b;
+		df_inv += df_inv - df * df_inv * df_inv;
+		uint64_t dx = -f * df_inv;
+		x += dx;
 	}
-	return output;
+	return x;
 }
 
 // Returns the even solution for Ax^2 + Bx + C = 0 (mod 2^n) when A and B are odd, and C is even. (If C is also odd, no solution exists.)
-// Algorithm from S. M. Dehnavi et al (https://doi.org/10.7546/nntdm.2019.25.1.75-83).
 // TODO: Are any optimizations possible since A and B are fixed?
 static inline uint64_t getEvenSolution(uint64_t oddA, uint64_t oddB, uint64_t evenC) {
-	return 2*solveWithEvenA(2*oddA, oddB, evenC/2, 63);
+	return rev_quad(oddA, oddB, evenC, false);
 }
 
 // Returns the odd solution for Ax^2 + Bx + C = 0 (mod 2^n) when A and B are odd, and C is even. (If C is also odd, no solution exists.)
-// Algorithm from S. M. Dehnavi et al (https://doi.org/10.7546/nntdm.2019.25.1.75-83).
 // TODO: Are any optimizations possible since A and B are fixed?
 static inline uint64_t getOddSolution(uint64_t oddA, uint64_t oddB, uint64_t evenC) {
-	return 2*solveWithEvenA(2*oddA, 2*oddA + oddB, (oddA + oddB + evenC)/2, 63) + 1;
+	return rev_quad(oddA, oddB, evenC, true);
 }
 
 

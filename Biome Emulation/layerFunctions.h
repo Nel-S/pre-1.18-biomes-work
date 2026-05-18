@@ -1,5 +1,5 @@
-#ifndef LAYERUTIL_H
-#define LAYERUTIL_H
+#ifndef P18BR_LAYERFUNCTIONS_H
+#define P18BR_LAYERFUNCTIONS_H
 
 #include <stdbool.h>
 #include "../util.h"

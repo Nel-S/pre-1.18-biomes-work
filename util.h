@@ -1,3 +1,6 @@
+#ifndef P18BR_UTIL_H
+#define P18BR_UTIL_H
+
 #include "cubiomes/layers.h"
 
 // Maps a Cubiomes layer enum to its corresponding name string.
@@ -74,3 +77,5 @@ static inline int quadraticNextInt(uint64_t *random, uint64_t salt, int bound) {
 	*random = mcStepSeed(*random, salt);
 	return value;
 }
+
+#endif

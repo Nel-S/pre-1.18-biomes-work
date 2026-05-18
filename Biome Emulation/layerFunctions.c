@@ -130,7 +130,7 @@ void zoomLayer(int *const biomes, int *const tempBuffer, bool fuzzy, uint64_t sa
 //		- If the coordinate is Ocean, and any neighboring diagonal isn't, randomly select a non-Ocean diagonal and roll 1/3rd chance to replace it. If the roll failed but the replacement would have been a Snowy Tundra, replace with Frozen Ocean.
 //		- If the coordinate is not Ocean, any neighboring diagonal is, and a 1/5th chance roll succeeds, replace with Frozen Ocean (if originally a Snowy Tundra) or Ocean otherwise.
 //	- 1.7+:
-//		- If the coordinate is ocean, and any neighboring diagonal isn't, randomly select a non-Ocean diagonal and roll 1/3rd chance to replace it. If the roll failed but the replacement would have been Freezing/Forest, replace with Freezing/Forest.
+//		- If the coordinate is Ocean, and any neighboring diagonal isn't, randomly select a non-Ocean diagonal and roll 1/3rd chance to replace it. If the roll failed but the replacement would have been Freezing/Forest, replace with Freezing/Forest.
 //		- If the coordinate is not Ocean or Freezing/Forest, any neighboring diagonal is Ocean, and a 1/5th chance roll succeeds, replace with Ocean.
 void addIslandLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
@@ -699,6 +699,12 @@ void riverInitLayer(int *const riverNoise, uint64_t salt, const Configuration *c
 //		- Taigas orthagonally surrounded by taigas are replaced with taiga hills if a 1/3rd chance succeeds.
 //		- Snowy tundras orthagonally surrounded by snowy tundras are replaced with snowy mountains if a 1/3rd chance succeeds.
 //		- Jungles orthagonally surrounded by jungles are replaced with jungle hills if a 1/3rd chance succeeds.
+// - 1.7-1.8/1.11-1.13:
+//		- [Unfinished]
+// - 1.9-1.10:
+//		- [Unfinished]
+// - 1.14+
+//		- [Unfinished]
 void regionHillsLayer(int *const biomes, const int *const hillsNoise, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -756,7 +762,7 @@ void regionHillsLayer(int *const biomes, const int *const hillsNoise, int *const
 
 			switch (centerValue) {
 				case ocean:
-					if (configuration->version >= MC_1_7 && !guaranteeMutation && !mutateIfReplacementDiffers) *entry = deep_ocean;
+					if (configuration->version >= MC_1_7 && !mutateIfReplacementDiffers) *entry = deep_ocean;
 					else *entry = centerValue;
 					continue;
 				case plains:
@@ -1075,6 +1081,13 @@ void addSwampRiverLayer(int *const biomes, uint64_t salt, const Configuration *c
 }
 
 // All versions. Castle.
+// Biomes with matching North/South neighbors, but differing West/East neighbors, are replaced with their
+//  	North/South neighbors.
+// Biomes with matching West/East neighbors, but differing North/South neighbors, are replaced with their
+//  	West/East neighbors.
+// Biomes with matching North/South neighbors and matching West/East neighbors have a 1/2th chance of 
+// 		being replaced with their North/South neighbors; otherwise they are replaced with their West/East 
+// 		neighbors.
 void smoothLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const Configuration *const configuration) {
 	// Initialization
 	// --------------
@@ -1136,7 +1149,7 @@ void riverLayer(int *const riverNoise, int *const tempBuffer, const Configuratio
 			int centerValue = riverNoise[flatten(x, z, configuration)];
 			
 			int centerParity = centerValue ? 2 + (centerValue & 1) : 0;
-			// In 1.6-, if the center does not match all of its orthagonal neighbors, or is nonzero, it is a potential river
+			// In 1.6-, if the center does not match any one of its orthagonal neighbors, or is zero, it is a potential river
 			if (configuration->version <= MC_1_6 && (
 				centerValue != northValue || centerValue != eastValue || centerValue != southValue || centerValue != westValue || !centerValue
 			)) *entry = river;

@@ -1,5 +1,12 @@
+#ifndef P18BR_REVERSAL_H
+#define P18BR_REVERSAL_H
+
 #include <stdbool.h>
 #include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // Returns whichever of the two possible original states for mcStepSeed has the same parity as the previous salt in the sequence. In the middle of sequential advancements, that is the only possible internal state.
 // For the very *first* mcStepSeed in the sequence, a second solution also exists that can be obtained via `possibility2 = -7379792620528906219LL - possibility1` (or `getShadow()` in Cubiomes).
@@ -30,3 +37,9 @@ uint64_t startSeedToWorldseed(uint64_t startSeed, uint64_t layerSalt, bool retur
 // The two possible worldseeds have different parities and can be switched between via `returnOddWorldseed` (or can be converted between each other using `getShadow()` in Cubiomes).
 // WARNING: startSeed *must* be even for this to work; otherwise no possible original worldseeds can exist.
 uint64_t chunkSeedToWorldseed(uint64_t chunkSeed, int32_t tileX, int32_t tileZ, uint64_t layerSalt, bool returnOddWorldseed);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

@@ -5,6 +5,6 @@ This repository contains files related to
 - utilizing such knowledge to find worlds with desired biome configurations, and
 - ideally, filtering or recovering worldseeds using biome coordinates.
 
-All work in this repository should be treated as a work in progress whose structure, API, etc. may change without prior notice.
+This repository uses [semantic versioning](https://semver.org/).
 
 This is not an official Minecraft product, and not affiliated with Mojang A.B. or Microsoft Corporation.
