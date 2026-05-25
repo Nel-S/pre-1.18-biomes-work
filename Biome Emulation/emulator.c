@@ -99,6 +99,10 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	int *const tempBuffer = (int *const)calloc(configuration->width * configuration->height, sizeof(*tempBuffer));
 
+	// ------------------------------------
+	// BIOMES I
+	// ------------------------------------
+
 	// 1:8192 for Beta 1.8, 1:4096 for 1.0+, Large Biomes 1:16384
 	// 0 = Ocean, 1 = Warm/Plains
 	// Allows Ocean -> Warm/Plains
@@ -735,9 +739,9 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		free(hillsNoise);
 	}
 
-	// ======================================
+	// ------------------------------------
 	// BIOMES II
-	// ======================================
+	// ------------------------------------
 
 	// 1:64, Large Biomes 1:256
 	if (configuration->version >= MC_1_7) {
@@ -1543,6 +1547,70 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:4
+	// Beta 1.8: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.0: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 10 = Frozen Ocean, 12 = Snowy Tundra, 14 = Mushroom Fields, 15 = Mushroom Field Shore
+	// 		Allows anything to change to anything else
+	// 1.1: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 7 = River,
+	// 10 = Frozen Ocean, 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields,
+	// 15 = Mushroom Field Shore, 16 = Beach, 17 = Desert Hills, 18 = Wooded Hills, 19 = Taiga Hills,
+	// 20 = Mountain Edge
+	// 		Allows anything to change to anything else
+	// 1.2: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp, 7 = River,
+	// 10 = Frozen Ocean, 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields,
+	// 15 = Mushroom Field Shore, 16 = Beach, 17 = Desert Hills, 18 = Wooded Hills, 19 = Taiga Hills,
+	// 20 = Mountain Edge, 21 = Jungle, 22 = Jungle Hills
+	// 		Allows anything to change to anything else
+	// 1.3-1.6: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 7 = River, 10 = Frozen Ocean, 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields,
+	// 15 = Mushroom Field Shore, 16 = Beach, 17 = Desert Hills, 18 = Wooded Hills, 19 = Taiga Hills,
+	// 20 = Mountain Edge, 21 = Jungle, 22 = Jungle Hills
+	// 		Allows anything to change to anything else
+	// 1.7-1.8, 1.11-1.13: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga,
+	// 6 = Swamp, 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields,
+	// 15 = Mushroom Field Shore, 16 = Beach, 17 = Desert Hills, 18 = Wooded Hills, 19 = Taiga Hills,
+	// 21 = Jungle, 22 = Jungle Hills, 23 = Jungle Edge, 24 = Deep Ocean, 25 = Stone Shore,
+	// 26 = Snowy Beach, 27 = Birch Forest, 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga,
+	// 31 = Snowy Taiga Hills, 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains,
+	// 35 = Savanna, 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau,
+	// 39 = Badlands Plateau, 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains,
+	// 132 = Flower Forest, 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes,
+	// 149 = Modified Jungle, 151 = Modified Jungle Edge, 155 = Tall Birch Forest, 156 = Tall Birch Hills,
+	// 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains, 160 = Giant Spruce Taiga,
+	// 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains, 163 = Shattered Savanna,
+	// 164 = Shattered Savanna Plateau, 165 = Eroded Badlands, 166 = Modified Wooded Badlands Plateau,
+	// 167 = Modified Badlands Plateau
+	// 		Allows anything to change to anything else
+	// 1.9-1.10: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 15 = Mushroom Field Shore,
+	// 16 = Beach, 17 = Desert Hills, 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills,
+	// 23 = Jungle Edge, 24 = Deep Ocean, 25 = Stone Shore, 26 = Snowy Beach, 27 = Birch Forest,
+	// 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga, 31 = Snowy Taiga Hills,
+	// 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 35 = Savanna,
+	// 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau, 39 = Badlands Plateau,
+	// 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains, 132 = Flower Forest,
+	// 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes, 149 = Modified Jungle,
+	// 151 = Modified Jungle Edge, 156 = Tall Birch Hills, 157 = Dark Forest Hills,
+	// 158 = Snowy Taiga Mountains, 160 = Giant Spruce Taiga, 161 = Giant Spruce Taiga Hills,
+	// 162 = Modified Gravelly Mountains, 163 = Shattered Savanna, 164 = Shattered Savanna Plateau,
+	// 165 = Eroded Badlands, 166 = Modified Wooded Badlands Plateau, 167 = Modified Badlands Plateau
+	// 		Allows anything to change to anything else
+	// 1.14+: 0 = Ocean, 1 = Plains, 2 = Desert, 3 = Mountains, 4 = Forest, 5 = Taiga, 6 = Swamp,
+	// 12 = Snowy Tundra, 13 = Snowy Mountains, 14 = Mushroom Fields, 15 = Mushroom Field Shore,
+	// 16 = Beach, 17 = Desert Hills, 18 = Wooded Hills, 19 = Taiga Hills, 21 = Jungle, 22 = Jungle Hills,
+	// 23 = Jungle Edge, 24 = Deep Ocean, 25 = Stone Shore, 26 = Snowy Beach, 27 = Birch Forest,
+	// 28 = Birch Forest Hills, 29 = Dark Forest, 30 = Snowy Taiga, 31 = Snowy Taiga Hills,
+	// 32 = Giant Tree Taiga, 33 = Giant Tree Taiga Hills, 34 = Wooded Mountains, 35 = Savanna,
+	// 36 = Savanna Plateau, 37 = Badlands, 38 = Wooded Badlands Plateau, 39 = Badlands Plateau,
+	// 129 = Sunflower Plains, 130 = Desert Lakes, 131 = Gravelly Mountains, 132 = Flower Forest,
+	// 133 = Taiga Mountains, 134 = Swamp Hills, 140 = Ice Spikes, 149 = Modified Jungle,
+	// 151 = Modified Jungle Edge, 155 = Tall Birch Forest, 156 = Tall Birch Hills,
+	// 157 = Dark Forest Hills, 158 = Snowy Taiga Mountains, 160 = Giant Spruce Taiga,
+	// 161 = Giant Spruce Taiga Hills, 162 = Modified Gravelly Mountains, 163 = Shattered Savanna,
+	// 164 = Shattered Savanna Plateau, 165 = Eroded Badlands, 166 = Modified Wooded Badlands Plateau,
+	// 167 = Modified Badlands Plateau, 168 = Bamboo Jungle, 169 = Bamboo Jungle Hills
+	// 		Allows anything to change to anything else
 	if (biomesRequiredMargin) *biomesRequiredMargin += 1;
 	smoothLayer(biomes, tempBuffer, 1000, configuration);
 	if (configuration->startingLayerID == L_SMOOTH_4) {
@@ -1551,7 +1619,19 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		return 0;
 	}
 
+	// ------------------------------------
+	// RIVERS II
+	// ------------------------------------
+
 	// 1:32, 1.7- Large Biomes 1:128
+	// Beta 1.8 - 1.0: 0 = Ocean, 2/3 = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.1-1.6: 0 = Ocean, 2/3 = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7-1.12: 0 = Ocean, [2...300001] = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.13+: 0 = Ocean, [2...300001] = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1002 : 1000, configuration);
 	if (configuration->startingLayerID == L_ZOOM_32_RIVER) {
@@ -1563,6 +1643,14 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:16, 1.7- Large Biomes 1:64
+	// Beta 1.8 - 1.0: 0 = Ocean, 2/3 = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.1-1.6: 0 = Ocean, 2/3 = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7-1.12: 0 = Ocean, [2...300001] = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.13+: 0 = Ocean, [2...300001] = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1003 : 1001, configuration);
 	if (configuration->startingLayerID == L_ZOOM_16_RIVER) {
@@ -1574,6 +1662,14 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:8, 1.7- Large Biomes 1:32
+	// Beta 1.8 - 1.0: 0 = Ocean, 2/3 = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.1-1.6: 0 = Ocean, 2/3 = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7-1.12: 0 = Ocean, [2...300001] = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.13+: 0 = Ocean, [2...300001] = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1004 : 1002, configuration);
 	if (configuration->startingLayerID == L_ZOOM_8_RIVER) {
@@ -1585,6 +1681,14 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	}
 
 	// 1:4, 1.7- Large Biomes 1:16
+	// Beta 1.8 - 1.0: 0 = Ocean, 2/3 = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.1-1.6: 0 = Ocean, 2/3 = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.7-1.12: 0 = Ocean, [2...300001] = River Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
+	// 1.13+: 0 = Ocean, [2...300001] = River/Hills Noise
+	// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 	riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 	zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1005 : 1003, configuration);
 	if (configuration->startingLayerID == L_ZOOM_4_RIVER) {
@@ -1597,6 +1701,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 
 	if (configuration->version <= MC_1_7 && configuration->largeBiomes) {
 		// 1:8
+		// 1.3-1.6: 0 = Ocean, 2/3 = River Noise
+		// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 		riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 		zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1006 : 1004, configuration);
 		if (configuration->startingLayerID == L_ZOOM_L_RIVER_A) {
@@ -1608,6 +1714,8 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 		}
 
 		// 1:4
+		// 1.3-1.6: 0 = Ocean, 2/3 = River Noise
+		// 		Allows anything to change to anything else (on coordinates odd on 1+ axes)
 		riverNoiseRequiredMargin = ceil(riverNoiseRequiredMargin/2.);
 		zoomLayer(riverNoise, tempBuffer, false, configuration->version <= MC_1_6 ? 1007 : 1005, configuration);
 		if (configuration->startingLayerID == L_ZOOM_L_RIVER_B) {
@@ -1653,9 +1761,9 @@ int emulateBiomes(const Configuration *const configuration, int *const biomes, s
 	// River noise is no longer used
 	free(riverNoise);
 
-	// =============================
+	// ------------------------------------
 	// OCEAN VARIANTS
-	// =============================
+	// ------------------------------------
 
 	if (configuration->version >= MC_1_13) {
 		// Create ocean noisemap

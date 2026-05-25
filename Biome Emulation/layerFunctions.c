@@ -919,8 +919,7 @@ void addSunflowerLayer(int *const biomes, uint64_t salt, const Configuration *co
 // - 1.1-1.6:
 //		- Mountains orthagonally bordered by non-Mountains are replaced with Mountain Edge.
 // 		- Mushroom Fields orthagonally bordered by Ocean are replaced with Mushroom Field Shore.
-//		- All other biomes except Oceans and Swamps, if bordered by Ocean or Deep Ocean, are replaced with
-// 			Beach.
+//		- All other biomes except Oceans and Swamps, if bordered by Ocean, are replaced with Beach.
 // - 1.7-1.13:
 //		- Mountains and Wooded Mountains orthagonally bordered by Ocean or Deep Ocean are replaced with Stone
 // 			Shore.
@@ -1134,6 +1133,8 @@ void smoothLayer(int *const biomes, int *const tempBuffer, uint64_t salt, const 
 }
 
 // Beta 1.8-1.6; 1.7+. Castle.
+// - Beta 1.8 - 1.6: Oceans, or tiles with parities not matching an orthagonal neighbor, are set to potential rivers.
+// - 1.7+: Tiles with parities not matching an orthagonal neighbor are set to potential neighbors.
 void riverLayer(int *const riverNoise, int *const tempBuffer, const Configuration *const configuration) {
 
 	// TODO: Figure out how to support coordinates outside the desired region
@@ -1149,18 +1150,15 @@ void riverLayer(int *const riverNoise, int *const tempBuffer, const Configuratio
 			int centerValue = riverNoise[flatten(x, z, configuration)];
 			
 			int centerParity = centerValue ? 2 + (centerValue & 1) : 0;
-			// In 1.6-, if the center does not match any one of its orthagonal neighbors, or is zero, it is a potential river
-			if (configuration->version <= MC_1_6 && (
-				centerValue != northValue || centerValue != eastValue || centerValue != southValue || centerValue != westValue || !centerValue
-			)) *entry = river;
-			// In 1.7+, if the parity of the center does not match the parities of all of its orthagonal neighbors, it is a potential river
-			else if (configuration->version >= MC_1_7 && (
-				// NOTE: The parities can't be replaced with ([...]Value & 3) because all land cases must be completely separate from ocean cases. As is, 4 mod 4 == 0 == ocean.
+			// If the center's parity does not match any one of its orthagonal neighbors' parities, it is a potential river.
+			// Oceans in 1.6- are also set to potential rivers.
+			if ((
+				// NOTE: The parities can't be replaced with ([...]Value & 3) because all land cases must be completely separate from Ocean cases. As is, 4 mod 4 == 0 == Ocean.
 				centerParity != (westValue ? 2 + (westValue & 1) : 0) ||
 				centerParity != (northValue ? 2 + (northValue & 1) : 0) ||
 				centerParity != (eastValue ? 2 + (eastValue & 1) : 0) ||
 				centerParity != (southValue ? 2 + (southValue & 1) : 0)
-			)) *entry = river;
+			) || (configuration->version <= MC_1_6 && !centerValue)) *entry = river;
 			// Otherwise it is land
 			else *entry = -1;
 		}
@@ -1168,7 +1166,13 @@ void riverLayer(int *const riverNoise, int *const tempBuffer, const Configuratio
 	memmove(riverNoise, tempBuffer, configuration->width*configuration->height*sizeof(*tempBuffer));
 }
 
-// Beta 1.8-1.6; 1.7+. One-to-one.
+// Beta 1.8; 1.0+. One-to-one.
+// - Beta 1.8:
+// 		- Non-Oceans whose river noise indicate a potential river are replaced with River.
+// - 1.0+:
+// 		- Mushroom Fields whose river noise indicate a potential river are replaced with Mushroom Fields Shore.
+// 		- Snowy Tundras whose river noise indicate a potential river are replaced with Frozen River.
+// 		- Remaining Non-Oceans/Deep Oceans whose river noise indicate a potential river are replaced with River.
 void riverMixerLayer(int *const biomes, const int *const riverNoise, const Configuration *const configuration) {
 
 	for (int64_t z = configuration->minimumZ; z <= configuration->maximumZ; ++z) {
